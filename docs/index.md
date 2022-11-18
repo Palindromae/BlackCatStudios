@@ -1,4 +1,4 @@
-# Welcome to MkDocs
+# Team BlackCatStudios Project
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 

@@ -3,4 +3,6 @@ theme:
     name: material
     palette:
         scheme: default
+    features:
+        - navigation.tabs
 
