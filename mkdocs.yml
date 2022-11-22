@@ -1,8 +1,0 @@
-site_name: BlackCatStudios
-theme:
-    name: material
-    palette:
-        scheme: default
-    features:
-        - navigation.tabs
-
