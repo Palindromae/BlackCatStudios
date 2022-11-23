@@ -3,14 +3,19 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackScripts.BasicCharacterController;
+import com.mygdx.game.BlackScripts.ItemFactory;
+import com.mygdx.game.CoreData.Items.Items;
+import jdk.javadoc.internal.doclets.formats.html.markup.Script;
 
 public class MyGdxGame extends ApplicationAdapter {
 	private OrthographicCamera camera;
@@ -18,8 +23,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObjectHandler gameObjectHandler;
 
 	BlackScriptManager ScriptManager;
-
+	FixedTimeController fixedTime;
 	GameObject obj;
+	GameObject obj2;
 
 	BatchDrawer batch;
 	
@@ -40,6 +46,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new BatchDrawer();
 		gameObjectHandler = new GameObjectHandler(batch);
 
+		fixedTime = new FixedTimeController();
 
 
 		texture = new BTexture("badlogic.jpg",null,600);
@@ -48,13 +55,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		obj = new GameObject(rect,texture);
-		gameObjectHandler.Instantiate(obj);
+		obj2 = new GameObject(rect,texture);
+		//	gameObjectHandler.Instantiate(obj);
 
 
-		Quaternion rotation = new Quaternion();
-		rotation.set(new Vector3(0,1,0),10);
-
-		obj.tranform.rotation = rotation;
 
 
 
@@ -78,11 +82,30 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		obj.AppendScript(characterController);
 
+		ItemFactory factory = new ItemFactory();
+		ScriptManager.tryAppendLooseScript(factory);
+
+
+		ItemFactory.factory.implementItems();
+
+		System.out.println(factory.produceItem(Items.Lettuce).name);
 
 	}
 
 	@Override
 	public void render () {
+
+		if(fixedTime.doTimeStep()){
+			//the time step is within accumilator
+
+			while (fixedTime.accumulator> fixedTime.dt){
+				ScriptManager.RunFixedUpdate((float)fixedTime.dt);
+				fixedTime.accumulator-= fixedTime.dt;
+			}
+		}
+
+
+
 
 		//RUN UPDATE FIRST
 		ScriptManager.RunUpdate();

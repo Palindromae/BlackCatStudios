@@ -21,6 +21,10 @@ public class BasicCharacterController extends BlackScripts {
     public void Update(float dt) {
         super.Update(dt);
 
+
+    }
+
+    public void FixedUpdate(float dt){
         System.out.println("aaha");
 
         if(Gdx.input.isTouched()){
@@ -35,9 +39,11 @@ public class BasicCharacterController extends BlackScripts {
 
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) gameObject.tranform.position.x -= 200 * dt;
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)) gameObject.tranform.position.z += 200 * dt;
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) gameObject.tranform.position.z -= 200 * dt;
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) gameObject.tranform.position.x += 200 * dt;
-        //if(Gdx.input.isKeyPressed(Input.Keys.Q)) ;
-        gameObject.tranform.rotateAroundAxis(new Vector3(0,1,0),10 * dt);
+        if(Gdx.input.isKeyPressed(Input.Keys.Q)) ;
+          gameObject.tranform.rotateAroundAxis(new Vector3(0,1,0),10 * dt);
         if (gameObject.tranform.position.x < 0) gameObject.tranform.position.x = 0;
         if (gameObject.tranform.position.x > 800 -64) gameObject.tranform.position.x = 800 - 64;
     }

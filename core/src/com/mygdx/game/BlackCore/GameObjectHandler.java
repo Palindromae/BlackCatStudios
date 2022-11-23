@@ -31,6 +31,7 @@ public class GameObjectHandler {
    public void Instantiate(GameObject object){
       object.SetUID(pickUID());
      GameObjectsHeld.put(object.getUID(),object);
+     drawer.ZOrderedObjects.add(object);
 
    }
 
