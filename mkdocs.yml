@@ -5,4 +5,13 @@ theme:
         scheme: default
     features:
         - navigation.tabs
-
+nav:
+    - Home: index.md
+    - Weekly Updates: updates.md
+markdown_extensions:
+    - def_list
+    - pymdownx.tasklist:
+        custom_checkbox: true
+    - attr_list
+    - md_in_html
+    
