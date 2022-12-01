@@ -30,4 +30,5 @@ plugins:
           - custom-skip-class-name
         auto_caption: false
         caption_position: bottom
+    - search
     
