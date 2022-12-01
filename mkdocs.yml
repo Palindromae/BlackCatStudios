@@ -2,9 +2,11 @@ site_name: BlackCatStudios
 theme:
     name: material
     palette:
-        scheme: default
+        scheme: slate
+        primary: blue grey
     features:
         - navigation.tabs
+    logo: img/blackCat.png
 nav:
     - Home: index.md
     - Weekly Updates: updates.md
@@ -14,4 +16,18 @@ markdown_extensions:
         custom_checkbox: true
     - attr_list
     - md_in_html
+plugins:
+    - glightbox:
+        touchNavigation: false
+        loop: false
+        effect: zoom
+        slide_effect: slide
+        width: 80%
+        height: auto
+        zoomable: true
+        draggable: false
+        skip_classes:
+          - custom-skip-class-name
+        auto_caption: false
+        caption_position: bottom
     
