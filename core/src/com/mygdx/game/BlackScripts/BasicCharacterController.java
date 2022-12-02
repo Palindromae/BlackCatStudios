@@ -25,7 +25,6 @@ public class BasicCharacterController extends BlackScripts {
     }
 
     public void FixedUpdate(float dt){
-        System.out.println("aaha");
 
         if(Gdx.input.isTouched()){
             Vector3 touchpos = new Vector3();
@@ -35,7 +34,6 @@ public class BasicCharacterController extends BlackScripts {
 
 
         }
-
 
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) gameObject.tranform.position.x -= 200 * dt;

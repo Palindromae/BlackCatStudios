@@ -35,7 +35,17 @@ public class GameObject implements Comparator<GameObject> {
         return _UID;
 
     }
+/*
+    public void assignToPhysics(some data, enum dynamic or static)
+    {
+        this.physicssettings = somedata;
+        physicsmaster.addthis(this,data);
 
+    }
+    octree
+
+
+    */
     public void SetUID(int UID){
         if(_UID != null){
             //THIS SHOULDNT HAPPEN
