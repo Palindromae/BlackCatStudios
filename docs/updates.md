@@ -27,8 +27,8 @@ Azzam Amirul Bahri not present
 * Discuss and finalise team structure
 
 All team members present
-<hr>
 
+<hr>
 
 <h2>Week 2 Progress Update </h2>
 <h3>November 23rd</h3>
@@ -57,4 +57,23 @@ All team members present
 	- Jack Hinton started the implementation of the recipe system building off the previous item factory system
 	- Felix started work on the pathfinding system for movement.
 All team members present
+
+<hr>
+
+<h2>Week 3 Progress Update </h2>
+<h3> November 30th </h3>
+- Decide who is assigned to each deliverable and allocate portions of each so that everyone’s mark-goal is reached.
+- User/ System Requirements Group
+	- Jack Vickers, Azzam Amirul Bahri and Hubert Solecki added more functional and non-functional requirements to the requirements document.
+All team members present.
+
+<h3> December 1st </h3>
+- User/ System Requirements Group
+	- Jack Vickers, Hubert Solecki, and Azzam Amirul Bahri continued working on the requirements document. 
+	- More functional and non-functional requirements have been added and an explanation of how requirements were elicited has been written. 
+	- A general use case has been added by Azzam as well as an accompanying UML diagram.
+- Dev group
+	- Sam Toner, Felix Seanor, and Jack Hinton continued to  work on the implementation of the game. 
+All team members present
+
 <hr>
