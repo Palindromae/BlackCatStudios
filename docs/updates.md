@@ -73,7 +73,9 @@ All team members present.
 	- More functional and non-functional requirements have been added and an explanation of how requirements were elicited has been written. 
 	- A general use case has been added by Azzam as well as an accompanying UML diagram.
 - Dev group
-	- Sam Toner, Felix Seanor, and Jack Hinton continued to  work on the implementation of the game. 
+	- Sam Toner, Felix Seanor, and Jack Hinton continued to  work on the implementation of the game.
+- Website
+		- Jack Vickers changed the colour scheme of the website
 All team members present
 
 <hr>
