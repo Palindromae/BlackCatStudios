@@ -29,12 +29,7 @@ public class ItemFactory extends BlackScripts {
     public void implementItems(){
 
 
-        addNewItem(Items.Lettuce, new Supplier<ItemAbs>() {
-            @Override
-            public ItemAbs get() {
-                return new ItemLettuce();
-            }
-        });
+        addNewItem(Items.Lettuce, () -> new ItemLettuce());
 
 
     }

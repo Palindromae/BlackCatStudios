@@ -52,7 +52,7 @@ public class BatchDrawer {
                     object.texture.width, object.texture.height,
                     object.tranform.scale.x, object.tranform.scale.z, object.tranform.rotation.getYaw());
 
-            System.out.println(object.tranform.rotation);
+           // System.out.println(object.tranform.rotation);
 
         }
 

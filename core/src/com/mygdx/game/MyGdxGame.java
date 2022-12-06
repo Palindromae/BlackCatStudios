@@ -7,15 +7,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.dongbat.jbump.Grid;
 import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
+import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.BasicCharacterController;
+import com.mygdx.game.BlackScripts.GridWorld;
 import com.mygdx.game.BlackScripts.ItemFactory;
 import com.mygdx.game.CoreData.Items.Items;
 import jdk.javadoc.internal.doclets.formats.html.markup.Script;
+
+import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter {
 	private OrthographicCamera camera;
@@ -88,7 +94,27 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		ItemFactory.factory.implementItems();
 
-		System.out.println(factory.produceItem(Items.Lettuce).name);
+		//System.out.println(factory.produceItem(Items.Lettuce).name);
+
+		GridSettings gridsets = new GridSettings();
+		gridsets.scaleOfGrid = .25f;
+		gridsets.XSizeOfFloor = 10;
+		gridsets.ZSizeOfFloor = 10;
+
+		GridPartition gPart = new GridPartition(gridsets);
+
+		PathfindingConfig config = new PathfindingConfig();
+		config.DiagonalCost = 1;
+		config.StepCost = 1;
+		config.DiagonalCost = 1;
+		config.PathMutliplier = 1;
+		config.maxIterations = 200;
+		List<Vector2> a = gPart.pathfindFrom(0,0,3,3,config);
+		System.out.println(a.size());
+		for (Vector2 v2: a
+			 ) {
+			System.out.print(a);
+		}
 
 	}
 
