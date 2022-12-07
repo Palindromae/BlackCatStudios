@@ -4,16 +4,17 @@ import com.mygdx.game.BlackCore.ItemAbs;
 
 import static java.lang.Math.min;
 
-//
-public class TimeStep extends  Step{
+// Step for cooking/cutting/baking etc..
+public class TimeStep extends Step{
     @Override
-    public boolean timeStep(ItemAbs item, float dt) {
+    public boolean timeStep(ItemAbs item, float dt, boolean Interacted) {
 
-        //if(MaxProgressed and some time limit reach){}
+        item.cookingProgress = min(item.cookingProgress + dt,item.MaxProgress);
+        if(item.cookingProgress==item.MaxProgress){
+            item.cookingProgress=0;
+            return true;
+        }
 
-        item.cookingProgress = min(item.cookingProgress + dt,MaxProgress);
-
-
-    return item.cookingProgress == MaxProgress;
+        return false;
     }
 }

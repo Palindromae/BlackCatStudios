@@ -1,19 +1,21 @@
 package com.mygdx.game.CoreData.Items;
 
 import com.mygdx.game.BlackCore.ItemAbs;
+import com.mygdx.game.BlackScripts.ItemFactory;
 
-public class WorkStation {
+public abstract class WorkStation {
+
     public ItemAbs Item = null;
+    public ItemFactory factory = ItemFactory.factory;
+    public static RecipeDict Recipes;
+    public Recipe currentRecipe = null;
+    public int i = 0;
 
     //Give workstation an item
-    public void giveItem(ItemAbs Item){
-        this.Item = Item;
-    }
+    public abstract boolean giveItem(ItemAbs Item);
 
     //Take item from workstation
-    public ItemAbs takeItem(){
-        ItemAbs returnItem = Item;
-        Item = null;
-        return returnItem;
-    }
+    public abstract ItemAbs takeItem();
+
+
 }
