@@ -20,7 +20,8 @@ public class WSCounter extends WorkStation{
         return returnItem;
     }
 
-    public void update(){
+    @Override
+    public void FixedUpdate(float dt){
 
     }
 

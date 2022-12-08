@@ -8,10 +8,9 @@ import java.util.Arrays;
 public class WSChopBoard extends WorkStation{
 
     boolean Interacted = false;
-    static float dt = 1;
     boolean ready;
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
-            Arrays.asList(Items.Lettuce));
+            Arrays.asList(Items.Lettuce, Items.Tomato, Items.Onion, Items.Mince));
 
     @Override
     public boolean giveItem(ItemAbs Item){
@@ -38,23 +37,23 @@ public class WSChopBoard extends WorkStation{
     }
 
     public boolean interact() {
-        if (currentRecipe != null) {
-            Interacted = true;
-            return true;
-        }
-        return false;
+        if (currentRecipe == null)
+            return false;
+        Interacted = true;
+        return true;
     }
 
-    public void Cut(){
+    public void Cut(float dt){
         ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
         if(ready){
             Item = factory.produceItem(currentRecipe.endItem);
         }
     }
 
-    public void update(){
+    @Override
+    public void FixedUpdate(float dt){
         if(Interacted & currentRecipe!=null){
-            Cut();
+            Cut(dt);
         }
         Interacted = false;
     }

@@ -8,7 +8,6 @@ import java.util.Arrays;
 public class WSHob extends WorkStation{
 
     boolean Interacted = false;
-    static float dt = 1; //placeholder value
     boolean ready;
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
             Arrays.asList(Items.RawPatty, Items.Buns));
@@ -38,14 +37,14 @@ public class WSHob extends WorkStation{
     }
 
     public boolean interact(){
-        if(currentRecipe!=null){
-            Interacted = true;
-            return true;
-            }
-        return false;
+        if(currentRecipe==null)
+            return false;
+
+        Interacted = true;
+        return true;
     }
 
-    public void Cook(){
+    public void Cook(float dt){
         ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
         if(ready & Item.cookingProgress==0){
             i++;
@@ -53,6 +52,7 @@ public class WSHob extends WorkStation{
                 Item = factory.produceItem(currentRecipe.endItem);
                 checkItem();
             }
+            return;
         }
         //if(ready){    if an InteractionStep is met and cookingprogress reaches max burn food
         //  burn()
@@ -60,11 +60,11 @@ public class WSHob extends WorkStation{
     }
 
     // public void burn(){}
+    @Override
+    public void FixedUpdate(float dt){
+        if(currentRecipe != null)
+            Cook(dt);
 
-    public void update(){
-        if(currentRecipe != null) {
-            Cook();
-        }
         Interacted = false;
     }
 }
