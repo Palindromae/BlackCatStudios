@@ -8,10 +8,16 @@ public enum Items {
     CutTomato,
     Onion,
     CutOnion,
+    LetTomSalad,
+    LetOnSalad,
+    TomOnSalad,
+    FullSalad,
     Mince,
     RawPatty,
     CookedPatty,
     Buns,
     ToastedBuns,
-    Cheese
+    Cheese,
+    Burger,
+    CheeseBurger
 }
