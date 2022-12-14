@@ -4,9 +4,20 @@ import com.mygdx.game.BlackCore.ItemAbs;
 
 import static java.lang.Math.min;
 
-// Step for when an interaction in a recipe is necessary
+/**
+ * A step for timed interactions when cooking an item
+ */
+
 public class InteractionStep extends Step {
 
+    /**
+     * Checks if user has interacted with workstation, if true cookingProgress is reset and returns true
+     * else cookingProgress is increased and returns false.
+     * @param item
+     * @param dt time constant
+     * @param Interacted
+     * @return boolean
+     */
     @Override
     public boolean timeStep(ItemAbs item, float dt, boolean Interacted) {
         if(Interacted){

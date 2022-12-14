@@ -4,6 +4,9 @@ import com.mygdx.game.BlackCore.BlackScripts;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackScripts.ItemFactory;
 
+/**
+ * Abstract class for all Workstations.
+ */
 public abstract class WorkStation extends BlackScripts {
 
     public ItemAbs Item = null;

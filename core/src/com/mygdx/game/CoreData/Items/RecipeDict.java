@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-// Dictionary for all recipes in the game
+/**
+ * Dictionary for all recipes in the game
+ */
+
 public class RecipeDict {
     public Map<Items, Recipe> RecipeMap = new HashMap<>();
 
@@ -18,7 +21,7 @@ public class RecipeDict {
         RecipeMap.put(Items.Lettuce, new Recipe(Items.CutLettuce, steps));
 
         //Tomato -> CutTomato
-        RecipeMap.put(Items.CutTomato, new Recipe(Items.CutTomato, steps));
+        RecipeMap.put(Items.Tomato, new Recipe(Items.CutTomato, steps));
 
         //Onion -> CutOnion
         RecipeMap.put(Items.Onion, new Recipe(Items.CutOnion, steps));
