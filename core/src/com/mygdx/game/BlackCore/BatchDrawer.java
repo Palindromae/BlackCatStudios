@@ -12,6 +12,9 @@ public class BatchDrawer {
 
     List<GameObject> ZOrderedObjects;
 
+
+    public static float yAxisToZConversionRation = .02f;
+
     public BatchDrawer(){
 
         batch = new SpriteBatch();
@@ -46,11 +49,11 @@ public class BatchDrawer {
             //make gamescale with window width - look at sams code
 
 
-
-            batch.draw(object.texture.texture, object.tranform.position.x, object.tranform.position.z,
+            //Y axis is transformed to z axis TODO think about adding a drop shadow to objects
+            batch.draw(object.texture.texture, object.tranform.position.x, object.tranform.position.z + object.tranform.position.y * yAxisToZConversionRation,
                     object.tranform.position.x + object.texture.textureOrigin.x, object.tranform.position.z + object.texture.textureOrigin.z,
                     object.texture.width, object.texture.height,
-                    object.tranform.scale.x, object.tranform.scale.z, object.tranform.rotation.getYaw());
+                    object.tranform.scale.x, object.tranform.scale.z+ object.tranform.scale.y * yAxisToZConversionRation, object.tranform.rotation.getYaw());
 
            // System.out.println(object.tranform.rotation);
 

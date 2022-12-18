@@ -16,6 +16,7 @@ import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.BasicCharacterController;
+import com.mygdx.game.BlackScripts.CustomerManager;
 import com.mygdx.game.BlackScripts.GridWorld;
 import com.mygdx.game.BlackScripts.ItemFactory;
 import com.mygdx.game.CoreData.Items.Items;
@@ -29,11 +30,15 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObjectHandler gameObjectHandler;
 
 	BlackScriptManager ScriptManager;
+
+
 	FixedTimeController fixedTime;
 	GameObject obj;
 	GameObject obj2;
 
 	BatchDrawer batch;
+
+	CustomerManager customerManager;
 	
 	@Override
 	public void create () {
@@ -115,6 +120,10 @@ public class MyGdxGame extends ApplicationAdapter {
 			 ) {
 			System.out.print(a);
 		}
+
+		customerManager = new CustomerManager(texture);
+
+		ScriptManager.tryAppendLooseScript(customerManager);
 
 	}
 
