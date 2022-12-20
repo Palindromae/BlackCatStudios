@@ -121,7 +121,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			System.out.print(a);
 		}
 
-		customerManager = new CustomerManager(texture);
+		customerManager = new CustomerManager();
+		CustomerManager.customermanager.setCustomerTexture(texture);
 
 		ScriptManager.tryAppendLooseScript(customerManager);
 
