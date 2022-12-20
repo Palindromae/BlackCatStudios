@@ -20,7 +20,7 @@ public class WSCounter extends WorkStation{
     @Override
     public ItemAbs takeItem(){
         returnItem = Item;
-        Item = null;
+        deleteItem();
         return returnItem;
     }
 

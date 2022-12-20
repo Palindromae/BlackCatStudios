@@ -19,7 +19,7 @@ public class WSServingCounter extends WorkStation{
     @Override
     public ItemAbs takeItem(){
         returnItem = Item;
-        Item = null;
+        deleteItem();
         return returnItem;
     }
 
@@ -28,9 +28,10 @@ public class WSServingCounter extends WorkStation{
             return false;
         answer = CustomerManager.customermanager.IsFoodInOrder(Item);
         if(answer)
-            Item = null;
+            deleteItem();
         return answer;
     }
+
 
     @Override
     public void FixedUpdate(float dt){

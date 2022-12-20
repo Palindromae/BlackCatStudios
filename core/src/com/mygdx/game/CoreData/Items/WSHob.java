@@ -28,7 +28,7 @@ public class WSHob extends WorkStation{
     @Override
     public ItemAbs takeItem(){
         returnItem = Item;
-        Item = null;
+        deleteItem();
         currentRecipe = null;
         return returnItem;
     }

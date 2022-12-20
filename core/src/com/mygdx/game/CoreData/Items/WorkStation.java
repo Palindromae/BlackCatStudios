@@ -24,5 +24,8 @@ public abstract class WorkStation extends BlackScripts {
     //Take item from workstation
     public abstract ItemAbs takeItem();
 
+    public void deleteItem(){
+        Item = null;
 
+    }
 }
