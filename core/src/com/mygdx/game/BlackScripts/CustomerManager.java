@@ -8,7 +8,7 @@ import com.mygdx.game.CoreData.Items.Items;
 import java.util.*;
 
 public class CustomerManager extends BlackScripts {
-
+public static CustomerManager customermanager;
 Vector3 spawningLocation;
 BTexture customerTexture;
 
@@ -32,9 +32,16 @@ enum RandomisationStyle{
     }
 
 
-    public CustomerManager(BTexture customerTexture){
-    this.customerTexture = customerTexture;
+    public CustomerManager(){
+        if (customermanager != null)
+            return;
+        customermanager = this;
     }
+
+    public void setCustomerTexture(BTexture customerTexture) {
+        this.customerTexture = customerTexture;
+    }
+
     public void invokeNewCustomer(){
         int count = rand.nextInt(minGroupSize,maxGroupSize+1);
         Customers customerGroup = new Customers(spawningLocation, count, CreateRandomOrder(count,RandomisationStyle.LimitedRandom),customerTexture);
