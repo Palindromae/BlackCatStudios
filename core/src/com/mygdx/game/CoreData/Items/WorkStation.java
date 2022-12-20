@@ -12,8 +12,8 @@ public abstract class WorkStation extends BlackScripts {
     public ItemAbs Item = null;
     public ItemAbs returnItem;
     public ItemFactory factory = ItemFactory.factory;
-    public static RecipeDict Recipes;
-    public static CombinationDict combinations;
+    public static RecipeDict Recipes = new RecipeDict();
+    public static CombinationDict combinations = new CombinationDict();
     public Recipe currentRecipe = null;
     public int i = 0;
     public float workstationSpeed;
