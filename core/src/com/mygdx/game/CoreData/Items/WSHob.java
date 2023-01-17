@@ -59,6 +59,7 @@ public class WSHob extends WorkStation{
             i++;
             if(i==currentRecipe.RecipeSteps.size()){
                 Item = factory.produceItem(currentRecipe.endItem);
+                i = 0;
                 checkItem();
             }
             return;

@@ -5,7 +5,11 @@ import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.CoreData.Items.Items;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 
 public class CustomerManager extends BlackScripts {
 public static CustomerManager customermanager;
@@ -43,7 +47,7 @@ enum RandomisationStyle{
     }
 
     public void invokeNewCustomer(){
-        int count = rand.nextInt(minGroupSize,maxGroupSize+1);
+        int count = rand.ints(1,minGroupSize,maxGroupSize+1).sum();
         Customers customerGroup = new Customers(spawningLocation, count, CreateRandomOrder(count,RandomisationStyle.LimitedRandom),customerTexture);
     }
 
