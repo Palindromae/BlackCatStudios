@@ -8,7 +8,7 @@ import java.util.Date;
 public class FixedTimeController {
 
     double t = 0;
-    public final double dt = 1/60.0d; //this is the frame rate of physics could be 60 not sure what it should be rn
+    public final double dt = 1/120.0d; //this is the frame rate of physics could be 60 not sure what it should be rn
 
     double currentTime;
    public double accumulator;

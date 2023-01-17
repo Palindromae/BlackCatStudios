@@ -38,23 +38,6 @@ public class CollisionDetection {
         staticColliders.add(object);
     }
 
-    /*
-    List<GameObject> staticCollision(List<GameObject> dynamicObjects, List<GameObject> staticObjects){
-        List<GameObject> collisions = new LinkedList<GameObject>();
-        for (int i = 0; i < dynamicObjects.size(); i++){
-            Shape2D dynamicShape = dynamicObjects.get(i).shape;
-            if (dynamicObjects.get(i).getColliderState() == false) continue;
-            for (int j = 0; i<staticObjects.size(); j++){
-                Shape2D staticShape = staticObjects.get(j).shape;
-                if (dynamicObjects.get(j).getColliderState() == false) continue;
-                if(collider(dynamicShape, staticShape)){
-                    collisions.add(staticObjects.get(j));
-                }
-            }
-        }
-        return collisions;
-    }
-*/
     List<GameObject> staticCollision(GameObject MovedObject, List<GameObject> staticObjects){
         List<GameObject> collisions = new LinkedList<GameObject>();
             Shape2D dynamicShape = MovedObject.shape;

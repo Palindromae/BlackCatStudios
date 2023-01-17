@@ -11,7 +11,7 @@ import java.util.List;
 public class GameObject implements Comparator<GameObject> {
     public Shape2D shape;
     BTexture texture;
-    public Transform tranform;
+    public Transform transform;
     public boolean colliderState;
 
     List<BlackScripts> blackScripts;
@@ -24,7 +24,7 @@ public class GameObject implements Comparator<GameObject> {
 
         this.shape = shape;
         this.texture = texture;
-        tranform = new Transform();
+        transform = new Transform();
         blackScripts = new LinkedList<>();
 
         GameObjectHandler.instantiator.Instantiate(this);
@@ -91,9 +91,9 @@ public class GameObject implements Comparator<GameObject> {
 
     @Override
     public int compare(GameObject o1, GameObject o2) {
-        if(o1.tranform.position.z == o2.tranform.position.z)
+        if(o1.transform.position.z == o2.transform.position.z)
             return 0;
 
-        return (o1.tranform.position.z > o2.tranform.position.z) ? -1 : 1;
+        return (o1.transform.position.z > o2.transform.position.z) ? -1 : 1;
     }
 }

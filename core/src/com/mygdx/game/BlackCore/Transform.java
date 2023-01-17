@@ -19,11 +19,16 @@ public class Transform {
 
 
     public void updatePastPos(){
-        pastPos = position;
+        pastPos.x = position.x;
+        pastPos.y = position.y;
+        pastPos.z = position.z;
     }
 
     public void moveToPast(){
-        position = pastPos;
+        position.x = pastPos.x;
+        position.y = pastPos.y;
+        position.z = pastPos.z;
+
     }
 
     public boolean hasMoved(){

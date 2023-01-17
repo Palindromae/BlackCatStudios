@@ -1,6 +1,5 @@
 package com.mygdx.game.BlackCore;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
@@ -11,6 +10,9 @@ public class BatchDrawer {
     public SpriteBatch batch;
 
     List<GameObject> ZOrderedObjects;
+
+
+    public static float yAxisToZConversionRation = .02f;
 
     public BatchDrawer(){
 
@@ -46,12 +48,13 @@ public class BatchDrawer {
             //make gamescale with window width - look at sams code
 
 
-
-            batch.draw(object.texture.texture, object.tranform.position.x, object.tranform.position.z,
-                    object.tranform.position.x + object.texture.textureOrigin.x, object.tranform.position.z + object.texture.textureOrigin.z,
+            //Y axis is transformed to z axis TODO think about adding a drop shadow to objects
+            batch.draw(object.texture.texture, object.transform.position.x, object.transform.position.z + object.transform.position.y * yAxisToZConversionRation,
+                    object.transform.position.x + object.texture.textureOrigin.x, object.transform.position.z + object.texture.textureOrigin.z,
                     object.texture.width, object.texture.height,
-                    object.tranform.scale.x, object.tranform.scale.z, object.tranform.rotation.getYaw());
+                    object.transform.scale.x, object.transform.scale.z+ object.transform.scale.y * yAxisToZConversionRation, object.transform.rotation.getYaw());
 
+           // System.out.println(object.tranform.rotation);
 
         }
 

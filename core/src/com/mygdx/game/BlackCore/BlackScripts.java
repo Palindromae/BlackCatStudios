@@ -1,5 +1,7 @@
 package com.mygdx.game.BlackCore;
 
+import com.badlogic.gdx.Game;
+
 public abstract class BlackScripts {
 
     public Boolean isActive = true;
@@ -10,6 +12,10 @@ public abstract class BlackScripts {
 
     //dt is the frame rate gotten from Gdx.graphics.getDeltaTime()
 
+
+    public GameObject getGameObject(){
+        return gameObject;
+    }
 
     protected void StartUpMethodSequence(){
         if(isActive)
