@@ -14,7 +14,6 @@ public class BasicCharacterController extends BlackScripts {
     @Override
     public void Awake() {
         super.Awake();
-        System.out.println("AAAA");
     }
 
     @Override
@@ -25,7 +24,6 @@ public class BasicCharacterController extends BlackScripts {
     }
 
     public void FixedUpdate(float dt){
-        System.out.println("aaha");
 
         if(Gdx.input.isTouched()){
             Vector3 touchpos = new Vector3();
@@ -36,12 +34,19 @@ public class BasicCharacterController extends BlackScripts {
 
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            gameObject.tranform.position.x -= 200 * dt;
 
-
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) gameObject.tranform.position.x -= 200 * dt;
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) gameObject.tranform.position.z += 200 * dt;
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) gameObject.tranform.position.z -= 200 * dt;
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) gameObject.tranform.position.x += 200 * dt;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            gameObject.tranform.position.z += 200 * dt;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            gameObject.tranform.position.z -= 200 * dt;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            gameObject.tranform.position.x += 200 * dt;
+        }
         if(Gdx.input.isKeyPressed(Input.Keys.Q))
           gameObject.tranform.rotateAroundAxis(new Vector3(0,1,0),10 * dt);
         if (gameObject.tranform.position.x < 0) gameObject.tranform.position.x = 0;

@@ -35,7 +35,9 @@ public abstract class BlackScripts {
     //This gets called at a guaranteed frame rate (Not sure if this is needed since FPS is capped at 60fps)
     //But Ill probaby implement this for movement to prevent non determantism
     //dt is a fixed time step e.g. 1/60 or 1/30
-    public void FixedUpdate(float dt){
 
-    }
+
+    public void FixedUpdate(float dt){
+        
+    };
 }

@@ -7,18 +7,37 @@ public class Transform {
     public Vector3 position;
     public Quaternion rotation;
     public Vector3 scale;
+    Vector3 pastPos;
 
     public Transform(){
         position = new Vector3(0,0,0);
         rotation = new Quaternion(0,0,0,1);
         scale    = new Vector3(1,1,1);
+        pastPos = new Vector3(0,0,0);;
 
     }
 
-    public Transform(Vector3 pos, Quaternion rotation, Vector3 scale){
+
+    public void updatePastPos(){
+        pastPos = position;
+    }
+
+    public void moveToPast(){
+        position = pastPos;
+    }
+
+    public boolean hasMoved(){
+        System.out.println(pastPos);
+        System.out.println(position);
+        return position != pastPos;
+        //return true;
+    }
+
+    public Transform(Vector3 pos, Quaternion rotation, Vector3 scale, Vector3 pastPos){
         this.position = pos;
         this.rotation = rotation;
         this.scale = scale;
+        this.pastPos = pastPos;
     }
 
     public void rotateEuler(float x, float y, float z){

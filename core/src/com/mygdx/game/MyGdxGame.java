@@ -13,7 +13,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackScripts.BasicCharacterController;
+import com.mygdx.game.BlackScripts.CollisionDetection;
 import com.mygdx.game.BlackScripts.ItemFactory;
+import com.mygdx.game.BlackScripts.PhysicsSuperController;
 import com.mygdx.game.CoreData.Items.Items;
 import jdk.javadoc.internal.doclets.formats.html.markup.Script;
 
@@ -24,13 +26,18 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	BlackScriptManager ScriptManager;
 	FixedTimeController fixedTime;
+	CollisionDetection collisionDetection;
+	PhysicsSuperController physicsController;
 	GameObject obj;
 	GameObject obj2;
+	GameObject obj3;
 
 	BatchDrawer batch;
 	
 	@Override
 	public void create () {
+		collisionDetection = new CollisionDetection();
+		physicsController = new PhysicsSuperController();
 		batch = new BatchDrawer();
 		try {
 			ScriptManager = new BlackScriptManager(); // this exception shouldnt happen but just incase
@@ -40,8 +47,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		Rectangle rect = new Rectangle();
 		rect.x = 800/2 - 64/2;
 		rect.y = 20;
-		rect.width = 64;
-		rect.height = 64;
+		rect.width = 30;
+		rect.height = 30;
 
 		batch = new BatchDrawer();
 		gameObjectHandler = new GameObjectHandler(batch);
@@ -49,13 +56,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		fixedTime = new FixedTimeController();
 
 
-		texture = new BTexture("badlogic.jpg",null,600);
+
+
+		texture = new BTexture("badlogic.jpg",200,600);
 		texture.setWrap(Texture.TextureWrap.MirroredRepeat);
 
 
 
-		obj = new GameObject(rect,texture);
-		obj2 = new GameObject(rect,texture);
+		obj = new GameObject(new Rectangle(800/2 - 64/2,20,200,600),texture);
+		obj2 = new GameObject(new Rectangle(800/2 - 64/2,20,200,600),texture);
+		obj.addDynamicCollider();
+		obj2.addDynamicCollider();
+
+
+
 		//	gameObjectHandler.Instantiate(obj);
 
 
@@ -75,6 +89,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		BlackScriptTest testScript = new BlackScriptTest();
 
 		ScriptManager.tryAppendLooseScript(testScript);
+		ScriptManager.tryAppendLooseScript(physicsController);
 
 
 		BasicCharacterController characterController = new BasicCharacterController();
