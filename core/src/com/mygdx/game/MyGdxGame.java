@@ -16,9 +16,11 @@ import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.BasicCharacterController;
+import com.mygdx.game.BlackScripts.CollisionDetection;
 import com.mygdx.game.BlackScripts.CustomerManager;
 import com.mygdx.game.BlackScripts.GridWorld;
 import com.mygdx.game.BlackScripts.ItemFactory;
+import com.mygdx.game.BlackScripts.PhysicsSuperController;
 import com.mygdx.game.CoreData.Items.Items;
 import jdk.javadoc.internal.doclets.formats.html.markup.Script;
 
@@ -30,29 +32,29 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObjectHandler gameObjectHandler;
 
 	BlackScriptManager ScriptManager;
-
-
 	FixedTimeController fixedTime;
+	CollisionDetection collisionDetection;
+	PhysicsSuperController physicsController;
 	GameObject obj;
 	GameObject obj2;
+	GameObject obj3;
 
 	BatchDrawer batch;
 
 	CustomerManager customerManager;
-	
+
 	@Override
 	public void create () {
+		collisionDetection = new CollisionDetection();
+		physicsController = new PhysicsSuperController();
 		batch = new BatchDrawer();
 		try {
 			ScriptManager = new BlackScriptManager(); // this exception shouldnt happen but just incase
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		Rectangle rect = new Rectangle();
-		rect.x = 800/2 - 64/2;
-		rect.y = 20;
-		rect.width = 64;
-		rect.height = 64;
+
+
 
 		batch = new BatchDrawer();
 		gameObjectHandler = new GameObjectHandler(batch);
@@ -65,8 +67,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-		obj = new GameObject(rect,texture);
-		obj2 = new GameObject(rect,texture);
+		obj = new GameObject(new Rectangle(800/2 - 64/2,20,200,600),texture);
+		obj2 = new GameObject(new Rectangle(800/2 - 64/2,20,200,600),texture);
+		obj2.transform.position = new Vector3(700,0,0);
+		obj.addDynamicCollider();
+		obj2.addDynamicCollider();
+
+
+
 		//	gameObjectHandler.Instantiate(obj);
 
 
@@ -86,6 +94,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		BlackScriptTest testScript = new BlackScriptTest();
 
 		ScriptManager.tryAppendLooseScript(testScript);
+		ScriptManager.tryAppendLooseScript(physicsController);
 
 
 		BasicCharacterController characterController = new BasicCharacterController();

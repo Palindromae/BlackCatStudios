@@ -61,7 +61,7 @@ public class MasterChef extends BlackScripts {
             camera.unproject(touchpos);
 
             //turn this into grid positions and set a pathfind
-            Vector3 pv3 = chefs[currentlySelectedChef].controller.getGameObject().tranform.position;
+            Vector3 pv3 = chefs[currentlySelectedChef].controller.getGameObject().transform.position;
             List<Vector2> paths = KitchenPartition.pathfindFromWorldCoord(pv3.x,pv3.z,touchpos.x,touchpos.z,pathfindingConfig);
 
             chefs[currentlySelectedChef].controller.updatePath(paths);
