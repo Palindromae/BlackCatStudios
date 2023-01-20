@@ -58,11 +58,19 @@ public class SoundFrame {
     }
 
 
-    public void muteSound(){
+    public void muteSound()
+    {
         volume = 0.0f;
     }
 
-    public void unMuteSound(){
+    public void unMuteSound()
+    {
+
         volume = 1.0f;
+    }
+
+    public void setVolume(float VolToSet)
+    {
+        volume = VolToSet;
     }
 }

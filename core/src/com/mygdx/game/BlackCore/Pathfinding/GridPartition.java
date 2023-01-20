@@ -19,8 +19,11 @@ public class GridPartition {
         xSize = (int)(settings.XSizeOfFloor / settings.scaleOfGrid);
         zSize = (int)(settings.ZSizeOfFloor / settings.scaleOfGrid);
 
-
+        sizeOfGridSpaces = settings.scaleOfGrid;
         gridSpaces = new occupationID[xSize * zSize];
+
+        for (int i = 0; i < gridSpaces.length;i++)
+            gridSpaces[i] = occupationID.Open;
 
         gridsWorldPosition_BOTTOMLEFT = new Vector2(0,0);
     }
@@ -52,7 +55,7 @@ public class GridPartition {
 
         PriorityQueue<FoundPositions> sortedList = new PriorityQueue<>();
 
-        FoundPositions found = new FoundPositions(x, y, 0, euclideanDistanceIndex(x,y,to_X,to_Y));
+        FoundPositions found = new FoundPositions(x, y, 0, DistanceIndex(x,y,to_X,to_Y));
 
         found.parent = found;
 
@@ -76,13 +79,14 @@ public class GridPartition {
             nX = found.x + 1;
             nY = found.y;
             newIndex = transformToLinearSpace(nX, nY);
-            if(withinBounds(nX,nY)) { //prevent it going outside grid
+            if(withinBounds(nX,nY)&& gridSpaces[newIndex] == occupationID.Open) { //prevent it going outside grid
                 if (overridePosition(beenLocations, newIndex, found.pathCost + config.StepCost)) { // if positiion already exits see if this path is better (lower cost)
-                    beenLocations.get(newIndex).alter(euclideanDistanceIndex(nX, nY, to_X, to_Y), found.pathCost + config.StepCost, found);
+                    beenLocations.get(newIndex).alter(DistanceIndex(nX, nY, to_X, to_Y), found.pathCost + config.StepCost, found);
                 } else if (!beenLocations.containsKey(newIndex)) { // if it doesnt exist then we should create a new location
-                    newPosition = createNewPosition(found, nX, nY, to_X, to_Y, config.StepCost);
+                    newPosition = createNewPosition(found, nX, nY, to_X, to_Y, config.StepCost, config.DistanceCost);
                     newPosition.parent = found;
                     sortedList.add(newPosition);
+                    beenLocations.put(newIndex,newPosition);
 
 
                 }
@@ -90,42 +94,47 @@ public class GridPartition {
             nX = found.x - 1;
             nY = found.y;
             newIndex = transformToLinearSpace(nX, nY);
-            if(withinBounds(nX,nY)) {
+            if(withinBounds(nX,nY)&& gridSpaces[newIndex] == occupationID.Open) {
 
                 if (overridePosition(beenLocations, newIndex, found.pathCost + config.StepCost)) {
-                    beenLocations.get(newIndex).alter(euclideanDistanceIndex(nX, nY, to_X, to_Y), found.pathCost + config.StepCost, found);
+                    beenLocations.get(newIndex).alter(DistanceIndex(nX, nY, to_X, to_Y), found.pathCost + config.StepCost, found);
                 } else if (!beenLocations.containsKey(newIndex)) {
-                    newPosition = createNewPosition(found, nX, nY, to_X, to_Y, config.StepCost);
+                    newPosition = createNewPosition(found, nX, nY, to_X, to_Y, config.StepCost, config.DistanceCost);
                     newPosition.parent = found;
                     sortedList.add(newPosition);
+                    beenLocations.put(newIndex,newPosition);
+
                 }
             }
 
             nX = found.x;
             nY = found.y + 1;
             newIndex = transformToLinearSpace(nX, nY);
-            if(withinBounds(nX,nY)) {
+            if(withinBounds(nX,nY)&& gridSpaces[newIndex] == occupationID.Open) {
 
                 if (overridePosition(beenLocations, newIndex, found.pathCost + config.StepCost)) {
-                    beenLocations.get(newIndex).alter(euclideanDistanceIndex(nX, nY, to_X, to_Y), found.pathCost + config.StepCost, found);
+                    beenLocations.get(newIndex).alter(DistanceIndex(nX, nY, to_X, to_Y), found.pathCost + config.StepCost, found);
                 } else if (!beenLocations.containsKey(newIndex)) {
-                    newPosition = createNewPosition(found, nX, nY, to_X, to_Y, config.StepCost);
+                    newPosition = createNewPosition(found, nX, nY, to_X, to_Y, config.StepCost, config.DistanceCost);
                     newPosition.parent = found;
                     sortedList.add(newPosition);
+                    beenLocations.put(newIndex,newPosition);
                 }
             }
 
             nX = found.x;
             nY = found.y - 1;
             newIndex = transformToLinearSpace(nX, nY);
-            if(withinBounds(nX,nY)) {
+            if(withinBounds(nX,nY) && gridSpaces[newIndex] == occupationID.Open) {
 
                 if (overridePosition(beenLocations, newIndex, found.pathCost + config.StepCost)) {
-                    beenLocations.get(newIndex).alter(euclideanDistanceIndex(nX, nY, to_X, to_Y), found.pathCost + config.StepCost, found);
+                    beenLocations.get(newIndex).alter(DistanceIndex(nX, nY, to_X, to_Y), found.pathCost + config.StepCost, found);
                 } else if (!beenLocations.containsKey(newIndex)) {
-                    newPosition = createNewPosition(found, nX, nY, to_X, to_Y, config.StepCost);
+                    newPosition = createNewPosition(found, nX, nY, to_X, to_Y, config.StepCost, config.DistanceCost);
                     newPosition.parent = found;
                     sortedList.add(newPosition);
+                    beenLocations.put(newIndex,newPosition);
+
                 }
             }
 
@@ -137,7 +146,7 @@ public class GridPartition {
         List l_steps = new LinkedList<Vector2>();
 
         do{
-            l_steps.add(new Vector2(found.x,found.y).add(gridsWorldPosition_BOTTOMLEFT)); //this makes the positions world relative
+            l_steps.add(new Vector2(found.x,found.y).add(gridsWorldPosition_BOTTOMLEFT).scl(sizeOfGridSpaces)); //this makes the positions world relative
             found = found.parent;
         } while (found.x != found.parent.x || found.y != found.parent.y);
 
@@ -150,36 +159,56 @@ public class GridPartition {
     }
     //this needs to be updated on physics steps for objects with collisions]
     //x y coords need to be translated from world space to grid space first, -1 means either off grid or not relevant
+
+
+    public void update_entity_on_grid_from_world(int past_x, int past_y, int current_x, int current_y)
+    {
+            update_entity_on_grid(
+                    translateToLocal(past_x,gridsWorldPosition_BOTTOMLEFT.x),
+                    translateToLocal(past_y,gridsWorldPosition_BOTTOMLEFT.y),
+                    translateToLocal(current_x,gridsWorldPosition_BOTTOMLEFT.x),
+                    translateToLocal(current_y,gridsWorldPosition_BOTTOMLEFT.y)
+            );
+    }
     public void update_entity_on_grid(int past_x, int past_y, int current_x, int current_y){
 
-        if(gridSpaces[transformToLinearSpace(past_x,past_y)] == occupationID.Blocked )
-            return; //this is an error state Im not sure what to do here
+       // if(gridSpaces[transformToLinearSpace(current_x,current_y)] == occupationID.Blocked )
+      //      return; //this is an error state Im not sure what to do here
 
         if(past_x != -1 && past_y != -1)
             gridSpaces[transformToLinearSpace(past_x,past_y)] = occupationID.Open;
 
-        if(current_x != -1 && current_y != -1){
-            if(gridSpaces[transformToLinearSpace(current_x,current_y)] == occupationID.Blocked)
-                return; //this is an error state idk what to do here currently
+        if(current_x != -1 && current_y != -1)
             gridSpaces[transformToLinearSpace(current_x, current_y)] = occupationID.Blocked;
-
-        }
     }
 
-    private FoundPositions createNewPosition(FoundPositions pre, int x, int y, int gx, int gy, float stepSize){
-        return new FoundPositions(x, y, pre.pathCost + stepSize,euclideanDistanceIndex(x,y,gx,gy));
+    private FoundPositions createNewPosition(FoundPositions pre, int x, int y, int gx, int gy, float stepSize,float distScale){
+        return new FoundPositions(x, y, pre.pathCost + stepSize,distScale*DistanceIndex(x,y,gx,gy));
     }
     private boolean overridePosition(HashMap<Integer,FoundPositions> map, int t, float p){
-        return map.containsKey(t) && map.get(t).score() > p;
+        return map.containsKey(t) && map.get(t).pathCost > p;
     }
 
-
+    private float DistanceIndex(int ix, int iy, int jx, int jy){
+        return  euclideanDistanceIndex(ix,iy,jx,jy);
+    }
 
     private float euclideanDistanceIndex(int ix, int iy, int jx, int jy){
 
+        double a  = ix - jx;
+        a = a*a;
+        double b = iy - jy;
+        b = b*b;
+        a += b;
+        a = Math.sqrt(a);
 
-        return (float) Math.sqrt((Math.pow((ix - jx),2) + Math.pow((iy - jy),2)));
+        return (float)a;
+       // return (float) Math.sqrt((Math.pow((float)(),2.0f) + Math.pow((float)(iy - jy),2.0f)));
 
+    }
+
+    private float manhattenDistanceIndex(int ix, int iy, int jx, int jy){
+        return Math.abs((ix-jx)) + Math.abs(iy - jy);
     }
 
 
