@@ -19,6 +19,7 @@ public class FoundPositions implements Comparable<FoundPositions> {
     public float score(){
         return heuristics + pathCost;
     }
+
     public FoundPositions(int x, int y, float pathCost, float heuristics){
         this.x = x;
         this.y = y;

@@ -2,12 +2,16 @@ package com.mygdx.game.BlackCore;
 
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
 
 public class Transform {
+    //Becareful with the Y axis, works as a layer system due to the limited rendering system, any object with y1>y2 for o1 o2, will be rendered before o2
     public Vector3 position;
     public Quaternion rotation;
     public Vector3 scale;
     Vector3 pastPos;
+
+    public GridPartition gridPartition;
 
     public Transform(){
         position = new Vector3(0,0,0);
@@ -25,10 +29,15 @@ public class Transform {
     }
 
     public void moveToPast(){
-        position.x = pastPos.x;
-        position.y = pastPos.y;
-        position.z = pastPos.z;
+       UpdatePosition(pastPos);
 
+    }
+
+    public void UpdatePosition(Vector3 a){
+
+        gridPartition.update_entity_on_grid_from_world((int)position.x,(int)position.z,(int)a.x,(int)a.z);
+
+        position.set(a);
     }
 
     public boolean hasMoved(){

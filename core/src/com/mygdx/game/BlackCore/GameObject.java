@@ -91,9 +91,17 @@ public class GameObject implements Comparator<GameObject> {
 
     @Override
     public int compare(GameObject o1, GameObject o2) {
+
+        if(o1.transform.position.y + o1.transform.scale.y == o2.transform.position.y+ o2.transform.scale.y)
+        {
+
         if(o1.transform.position.z == o2.transform.position.z)
             return 0;
 
         return (o1.transform.position.z > o2.transform.position.z) ? -1 : 1;
+        }
+        return (o1.transform.position.y + o1.transform.scale.y > o2.transform.position.y+ o2.transform.scale.y) ? 1 : -1;
+
+
     }
 }

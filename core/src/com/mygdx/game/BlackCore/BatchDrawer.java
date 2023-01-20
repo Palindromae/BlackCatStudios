@@ -28,6 +28,8 @@ public class BatchDrawer {
 
         batch.setProjectionMatrix(combinedMatrix);
         batch.begin();
+        batch.enableBlending();
+
         List<GameObject> GameObjectsToRemove = new LinkedList<>();
 
 
@@ -48,16 +50,19 @@ public class BatchDrawer {
             //make gamescale with window width - look at sams code
 
 
+
             //Y axis is transformed to z axis TODO think about adding a drop shadow to objects
-            batch.draw(object.texture.texture, object.transform.position.x, object.transform.position.z + object.transform.position.y * yAxisToZConversionRation,
-                    object.transform.position.x + object.texture.textureOrigin.x, object.transform.position.z + object.texture.textureOrigin.z,
+            batch.draw(object.texture.texture,
+                    object.transform.position.x, object.transform.position.z + object.transform.position.y * yAxisToZConversionRation,
+                     object.texture.textureOrigin.x,  object.texture.textureOrigin.z,
                     object.texture.width, object.texture.height,
-                    object.transform.scale.x, object.transform.scale.z+ object.transform.scale.y * yAxisToZConversionRation, object.transform.rotation.getYaw());
+                    object.transform.scale.x, object.transform.scale.z+ object.transform.scale.y * yAxisToZConversionRation,
+                    object.transform.rotation.getYaw());
 
            // System.out.println(object.tranform.rotation);
 
         }
-
+        batch.disableBlending();
         batch.end();
 
         for (GameObject obj:GameObjectsToRemove

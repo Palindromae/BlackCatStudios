@@ -3,6 +3,7 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,12 +16,7 @@ import com.dongbat.jbump.Grid;
 import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.*;
-import com.mygdx.game.BlackScripts.BasicCharacterController;
-import com.mygdx.game.BlackScripts.CollisionDetection;
-import com.mygdx.game.BlackScripts.CustomerManager;
-import com.mygdx.game.BlackScripts.GridWorld;
-import com.mygdx.game.BlackScripts.ItemFactory;
-import com.mygdx.game.BlackScripts.PhysicsSuperController;
+import com.mygdx.game.BlackScripts.*;
 import com.mygdx.game.CoreData.Items.Items;
 import jdk.javadoc.internal.doclets.formats.html.markup.Script;
 
@@ -35,6 +31,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	FixedTimeController fixedTime;
 	CollisionDetection collisionDetection;
 	PhysicsSuperController physicsController;
+
+	CreateGameWorld GameWorld;
+	MasterChef masterChef;
 	GameObject obj;
 	GameObject obj2;
 	GameObject obj3;
@@ -62,16 +61,17 @@ public class MyGdxGame extends ApplicationAdapter {
 		fixedTime = new FixedTimeController();
 
 
-		texture = new BTexture("badlogic.jpg",null,600);
+		texture = new BTexture("badlogic.jpg",20,20);
 		texture.setWrap(Texture.TextureWrap.MirroredRepeat);
 
+		GameWorld = new CreateGameWorld();
+		GameWorld.Instantiate();
 
-
-		obj = new GameObject(new Rectangle(800/2 - 64/2,20,200,600),texture);
-		obj2 = new GameObject(new Rectangle(800/2 - 64/2,20,200,600),texture);
-		obj2.transform.position = new Vector3(700,0,0);
-		obj.addDynamicCollider();
-		obj2.addDynamicCollider();
+		//obj = new GameObject(new Rectangle(10,10,20,20),texture);
+		//obj2 = new GameObject(new Rectangle(10,10,20,20),texture);
+//		obj2.transform.position = new Vector3(700,0,0);
+//		obj.addDynamicCollider();
+//		obj2.addDynamicCollider();
 
 
 
@@ -100,7 +100,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		BasicCharacterController characterController = new BasicCharacterController();
 		characterController.camera = camera;
 
-		obj.AppendScript(characterController);
+		//obj.AppendScript(characterController);
 
 		ItemFactory factory = new ItemFactory();
 		ScriptManager.tryAppendLooseScript(factory);
@@ -111,9 +111,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		//System.out.println(factory.produceItem(Items.Lettuce).name);
 
 		GridSettings gridsets = new GridSettings();
-		gridsets.scaleOfGrid = .25f;
-		gridsets.XSizeOfFloor = 10;
-		gridsets.ZSizeOfFloor = 10;
+		gridsets.scaleOfGrid = 25;
+		gridsets.XSizeOfFloor = 1000;
+		gridsets.ZSizeOfFloor = 600;
 
 		GridPartition gPart = new GridPartition(gridsets);
 
@@ -122,13 +122,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		config.StepCost = 1;
 		config.DiagonalCost = 1;
 		config.PathMutliplier = 1;
-		config.maxIterations = 200;
-		List<Vector2> a = gPart.pathfindFrom(0,0,3,3,config);
-		System.out.println(a.size());
-		for (Vector2 v2: a
-			 ) {
-			System.out.print(a);
-		}
+		config.maxIterations = 500;
+		config.DistanceCost = 1;
+	//	List<Vector2> a = gPart.pathfindFrom(0,0,3,3,config);
+	//	System.out.println(a.size());
+	//	for (Vector2 v2: a
+	//		 ) {
+	///		System.out.print(a);
+		//}
+
+		masterChef = new MasterChef();
+		masterChef.camera = camera;
+		masterChef.chefTex = texture;
+		masterChef.KitchenPartition = gPart;
+		ScriptManager.tryAppendLooseScript(masterChef);
 
 		customerManager = new CustomerManager();
 		CustomerManager.customermanager.setCustomerTexture(texture);
