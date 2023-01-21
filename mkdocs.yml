@@ -10,6 +10,8 @@ theme:
 nav:
     - Home: index.md
     - Weekly Updates: updates.md
+    - Architecture: architecture.md
+    - Diagrams: Diagrams.md
 markdown_extensions:
     - def_list
     - pymdownx.tasklist:
