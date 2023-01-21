@@ -135,6 +135,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		masterChef.camera = camera;
 		masterChef.chefTex = texture;
 		masterChef.KitchenPartition = gPart;
+
 		ScriptManager.tryAppendLooseScript(masterChef);
 
 		customerManager = new CustomerManager();

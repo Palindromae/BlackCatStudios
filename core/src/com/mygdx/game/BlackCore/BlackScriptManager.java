@@ -17,7 +17,6 @@ public class BlackScriptManager {
         manager = this;
         LooseScripts = new HashSet<>();
 
-
     }
 
     public boolean tryAppendLooseScript(BlackScripts script){

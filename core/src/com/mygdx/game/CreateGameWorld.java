@@ -90,6 +90,7 @@ public class CreateGameWorld
         DiningFloor.transform.position.z = 20;
         DiningFloor.transform.position.y = -1;
 
+
         ServingCounter = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z+100-col_redct,50-col_redct*2,100-col_redct*2), ServingCounterTexture);
         ServingCounter.transform.position.x = KitchenFloor.transform.position.x-50;
         ServingCounter.transform.position.z = KitchenFloor.transform.position.z+100;
