@@ -17,13 +17,14 @@ import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.*;
+import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
 import com.mygdx.game.CoreData.Items.Items;
 import jdk.javadoc.internal.doclets.formats.html.markup.Script;
 
 import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter {
-	private OrthographicCamera camera;
+	public static OrthographicCamera camera;
 	BTexture texture;
 	GameObjectHandler gameObjectHandler;
 
@@ -37,6 +38,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject obj;
 	GameObject obj2;
 	GameObject obj3;
+	GameObject menu;
 
 	BatchDrawer batch;
 
@@ -44,6 +46,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+
+
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
 		batch = new BatchDrawer();
@@ -73,7 +77,8 @@ public class MyGdxGame extends ApplicationAdapter {
 //		obj.addDynamicCollider();
 //		obj2.addDynamicCollider();
 
-
+		menu = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 415));
+		menu.transform.position.y = 3;
 
 		//	gameObjectHandler.Instantiate(obj);
 
@@ -147,6 +152,27 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.exit)){ // If the escape key is pressed in the main menu the game will shut down
+			Gdx.app.exit();
+			System.exit(0);
+		}
+
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.highscores)){ // If the H button is pressed in the main menu the game will display the high scores
+			;
+			// code to display the highscores
+		}
+
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.settings)){ // If the S button is pressed in the main menu, the game will display settings over the menu
+			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
+			// code to display the settings menu
+		}
+
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.start)){ // If ENTER is pressed, the game will be unpaused and the menu will disappear
+			// Music changes from main menu music to game music
+			// Main menu disappears and becomes invisible
+			//
+		}
 
 		if(fixedTime.doTimeStep()){
 			//the time step is within accumilator
