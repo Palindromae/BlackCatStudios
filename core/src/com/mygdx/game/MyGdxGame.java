@@ -37,6 +37,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject obj;
 	GameObject obj2;
 	GameObject obj3;
+	SoundFrame soundFrame = new SoundFrame();
+	LoadSounds soundLoader = new LoadSounds();
 
 	BatchDrawer batch;
 
@@ -44,6 +46,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		soundLoader.loadAllSounds(soundFrame);
+		long id = soundFrame.playSound("Main Screen");
+		soundFrame.setLooping(id, "Main Screen");
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
 		batch = new BatchDrawer();
@@ -172,7 +177,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	}
-	
+
 	@Override
 	public void dispose () {
 		gameObjectHandler.dispose();
