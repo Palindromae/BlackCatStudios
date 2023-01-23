@@ -7,6 +7,8 @@ import  com.badlogic.gdx.math.Vector3;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.MyGdxGame;
 
 
 public class GameObject implements Comparator<GameObject> {
@@ -20,6 +22,9 @@ public class GameObject implements Comparator<GameObject> {
 
     Boolean isDestroyed = false;
     Boolean IsActiveAndVisible;
+    Integer textureWidth;
+    Integer textureHeight;
+
     Integer textureWidth;
     Integer textureHeight;
 
@@ -87,6 +92,14 @@ public class GameObject implements Comparator<GameObject> {
         script.StartUpMethodSequence();
     }
 
+    public Integer getTextureWidth(){
+        return textureWidth;
+    }
+
+    public Integer getTextureHeight(){
+        return textureHeight;
+    }
+
 
     public void dispose(){
         texture.dispose();
@@ -127,12 +140,10 @@ public class GameObject implements Comparator<GameObject> {
 
     }
 
-
     /**
      * Flips the visibility of the object
      */
     public void negateVisibility(){
         IsActiveAndVisible = ! IsActiveAndVisible;
     }
-
 }
