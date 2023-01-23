@@ -2,7 +2,8 @@ package com.mygdx.game.BlackCore;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Shape2D;
 import com.mygdx.game.BlackScripts.CollisionDetection;
-
+import com.mygdx.game.MyGdxGame;
+import  com.badlogic.gdx.math.Vector3;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +22,8 @@ public class GameObject implements Comparator<GameObject> {
 
     Boolean isDestroyed = false;
     Boolean IsActiveAndVisible;
+    Integer textureWidth;
+    Integer textureHeight;
 
     Integer textureWidth;
     Integer textureHeight;
@@ -31,11 +34,10 @@ public class GameObject implements Comparator<GameObject> {
         this.texture = texture;
         transform = new Transform();
         blackScripts = new LinkedList<>();
+        // set to true by default so that objects are correctly displayed
         IsActiveAndVisible = true;
         textureWidth = texture.getWidth();
         textureHeight = texture.getHeight();
-
-
         GameObjectHandler.instantiator.Instantiate(this);
     }
 
@@ -104,6 +106,14 @@ public class GameObject implements Comparator<GameObject> {
 
     }
 
+    public Integer getTextureWidth(){
+        return  textureWidth;
+    }
+
+    public Integer getTextureHeight(){
+        return  textureHeight;
+    }
+
     public Boolean isObjectTouched() { // Method for use of checking if spaces in menus are touched for initiating different buttons/sequences
         if (Gdx.input.isButtonJustPressed(0)) {
             Vector3 touchpos = new Vector3();
@@ -113,7 +123,6 @@ public class GameObject implements Comparator<GameObject> {
         }
         return false;
     }
-
 
     @Override
     public int compare(GameObject o1, GameObject o2) {
@@ -131,7 +140,10 @@ public class GameObject implements Comparator<GameObject> {
 
     }
 
-    public void negateVisibility() {
-        IsActiveAndVisible = !IsActiveAndVisible;
+    /**
+     * Flips the visibility of the object
+     */
+    public void negateVisibility(){
+        IsActiveAndVisible = ! IsActiveAndVisible;
     }
 }

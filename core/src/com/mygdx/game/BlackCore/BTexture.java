@@ -53,7 +53,7 @@ public class BTexture {
    }
 
    public Integer getWidth(){
-        return width;
+        return  width;
    }
 
    public Integer getHeight(){
