@@ -23,9 +23,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	CreateGameWorld GameWorld;
 	RunInteract interact;
 	MasterChef masterChef;
-	GameObject obj;
-	GameObject obj2;
-	GameObject obj3;
+	SoundFrame soundFrame = new SoundFrame();
+	LoadSounds soundLoader = new LoadSounds();
 
 	BatchDrawer batch;
 
@@ -35,6 +34,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		soundLoader.loadAllSounds(soundFrame);
+		long id = soundFrame.playSound("Main Screen");
+		soundFrame.setLooping(id, "Main Screen");
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
 		batch = new BatchDrawer();
@@ -78,18 +80,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		interact = new RunInteract(GameWorld);
-
-		//obj = new GameObject(new Rectangle(10,10,20,20),texture);
-		//obj2 = new GameObject(new Rectangle(10,10,20,20),texture);
-//		obj2.transform.position = new Vector3(700,0,0);
-//		obj.addDynamicCollider();
-//		obj2.addDynamicCollider();
-
-
-
-		//	gameObjectHandler.Instantiate(obj);
-
-
 
 
 
@@ -176,7 +166,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	}
-	
+
 	@Override
 	public void dispose () {
 		gameObjectHandler.dispose();

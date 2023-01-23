@@ -31,15 +31,15 @@ public class SoundFrame {
             return;
         }
         sounds.remove(name);
-    };
+    }
 
-    public void playSound(String name){
+    public long playSound(String name){
 
         if(!sounds.containsKey(name)){
-            return;
+            return 0;
         }
-        sounds.get(name).play(volume);
-
+        long id = sounds.get(name).play(volume);
+        return id;
 
     }
 
@@ -48,7 +48,16 @@ public class SoundFrame {
             return;
         }
         sounds.get(name).stop();
-    };
+    }
+
+
+    public void setLooping(long id, String name){
+        if (!sounds.containsKey(name)){
+            return;
+        }
+        sounds.get(name).setLooping(id, true);
+
+    }
 
     public void pauseSound(String name){
         if (!sounds.containsKey(name)){
@@ -63,11 +72,7 @@ public class SoundFrame {
         volume = 0.0f;
     }
 
-    public void unMuteSound()
-    {
-
-        volume = 1.0f;
-    }
+    public void unMuteSound() { volume = 1.0f; }
 
     public void setVolume(float VolToSet)
     {
