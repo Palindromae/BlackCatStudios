@@ -31,7 +31,7 @@ public class SoundFrame {
             return;
         }
         sounds.remove(name);
-    };
+    }
 
     public long playSound(String name){
 
@@ -48,7 +48,7 @@ public class SoundFrame {
             return;
         }
         sounds.get(name).stop();
-    };
+    }
 
 
     public void setLooping(long id, String name){
@@ -72,11 +72,7 @@ public class SoundFrame {
         volume = 0.0f;
     }
 
-    public void unMuteSound()
-    {
-
-        volume = 1.0f;
-    }
+    public void unMuteSound() { volume = 1.0f; }
 
     public void setVolume(float VolToSet)
     {
