@@ -51,4 +51,12 @@ public class BTexture {
    public void dispose(){
        image.dispose();
    }
+
+   public Integer getWidth(){
+        return  width;
+   }
+
+   public Integer getHeight(){
+        return height;
+   }
 }
