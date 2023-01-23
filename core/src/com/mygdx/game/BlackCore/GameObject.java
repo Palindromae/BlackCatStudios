@@ -102,7 +102,7 @@ public class GameObject implements Comparator<GameObject> {
     }
 
     public Boolean isObjectTouched() { // Method for use of checking if spaces in menus are touched for initiating different buttons/sequences
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isButtonJustPressed(0)) {
             Vector3 touchpos = new Vector3();
             touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             MyGdxGame.camera.unproject(touchpos);

@@ -97,18 +97,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		closeMenu.negateVisibility();
 		closeMenu.transform.position.x = 50;
 		closeMenu.transform.position.z = 325;
-		closeMenu.transform.position.y = 8;
+		closeMenu.transform.position.y = 10;
 
-//		muteMusic
+		muteMusic =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("muteSound.png", 300, 70));
+		muteMusic.negateVisibility();
+		muteMusic.transform.position.x = 50;
+		muteMusic.transform.position.z = 205;
+		muteMusic.transform.position.y = 10;
 
-
-		//	gameObjectHandler.Instantiate(obj);
-
-
-
-
-
-
+		unmuteMusic =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("unMuteSound.png", 300, 70));
+		unmuteMusic.negateVisibility();
+		unmuteMusic.transform.position.x = 50;
+		unmuteMusic.transform.position.z = 205;
+		unmuteMusic.transform.position.y = 10;
+		
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,800,400);
@@ -180,6 +182,12 @@ public class MyGdxGame extends ApplicationAdapter {
 			Pause = !Pause;
 			pauseMenu.negateVisibility(); // makes the pause menu visible
 			closeMenu.negateVisibility();
+			if (!muteState){
+				muteMusic.negateVisibility();
+			}else{
+				unmuteMusic.negateVisibility();
+			}
+
 		}
 		if(fixedTime.doTimeStep()){
 			//the time step is within accumilator
@@ -190,6 +198,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				fixedTime.accumulator-= fixedTime.dt;
 				}
 			}
+
 		if (!Pause){
 			ScriptManager.RunUpdate();
 		}else{
@@ -197,20 +206,21 @@ public class MyGdxGame extends ApplicationAdapter {
 				pauseMenu.negateVisibility();
 				closeMenu.negateVisibility();
 				Pause = !Pause;
-//				gameObject.transform.position.x = touchpos.x - 64/2;
-
 			}
 			if (Gdx.input.isKeyJustPressed(InputsDefaults.exit)){
 				Gdx.app.exit(); //Todo change this to restart the game if possible
 				System.exit(0);
 			}
-			if (Gdx.input.isKeyJustPressed(InputsDefaults.mute)){
-				//Todo add code which mutes sound
+			if (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusic.isObjectTouched() || unmuteMusic.isObjectTouched()){
 				if (muteState){
 					soundFrame.SoundEngine.unMuteSound();
+					unmuteMusic.negateVisibility();
+					muteMusic.negateVisibility();
 				}
 				else{
 					soundFrame.SoundEngine.muteSound();
+					unmuteMusic.negateVisibility();
+					muteMusic.negateVisibility();
 				}
 				muteState = !muteState;
 				System.out.print(soundFrame.volume);
