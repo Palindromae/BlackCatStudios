@@ -1,5 +1,6 @@
 package com.mygdx.game.CoreData.Items;
 import com.mygdx.game.BlackCore.ItemAbs;
+import com.mygdx.game.BlackScripts.ItemFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,7 @@ public class WSHob extends WorkStation{
             Arrays.asList(Items.RawPatty, Items.Buns));
 
     @Override
-    public boolean giveItem(ItemAbs Item){
+    public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
             this.Item = Item;
             checkItem();
@@ -26,11 +27,28 @@ public class WSHob extends WorkStation{
     }
 
     @Override
-    public ItemAbs takeItem(){
-        returnItem = Item;
-        deleteItem();
-        currentRecipe = null;
-        return returnItem;
+    public boolean TestGetItem() {
+        return true;
+    }
+
+    @Override
+    public boolean TestGiveItem() {
+        return true;
+    }
+
+    @Override
+    public ItemAbs GetItem(){
+
+        if(Item!=null && canTakeItem()) {
+
+            returnItem = Item;
+            deleteItem();
+            currentRecipe = null;
+            return returnItem;
+        }
+        interact();
+        return null;
+
     }
 
     // Checks if the given item is in the whitelist, if yes the item's recipe is stored in currentRecipe
@@ -47,18 +65,29 @@ public class WSHob extends WorkStation{
         return Interacted = true;
     }
 
+
+    public boolean isItemReady(float dt){
+        return currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+    }
+
+    public boolean canTakeItem(){
+        return currentRecipe == null || Item.name == currentRecipe.endItem;
+    }
     /**
      * Calls current step in recipe and stores returned boolean in ready, if ready is true and the item's
      * cookingProgress is equal to 0, the counter will increment to select the next step, if it has
      * reached the end of the list the new item will be produced.
      * @param dt Time constant
      */
+
     public void Cook(float dt){
-        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+        ready = isItemReady(dt);
         if(ready & Item.cookingProgress==0){
             i++;
+            System.out.println("Changed step: "+ currentRecipe.RecipeSteps.get(Math.min(i,currentRecipe.RecipeSteps.size()-1)));
+
             if(i==currentRecipe.RecipeSteps.size()){
-                Item = factory.produceItem(currentRecipe.endItem);
+                Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
                 i = 0;
                 checkItem();
             }

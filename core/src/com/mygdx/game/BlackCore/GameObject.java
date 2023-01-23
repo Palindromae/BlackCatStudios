@@ -1,6 +1,8 @@
 package com.mygdx.game.BlackCore;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Shape2D;
+import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
+import com.mygdx.game.BlackCore.Pathfinding.occupationID;
 import com.mygdx.game.BlackScripts.CollisionDetection;
 
 import java.util.Comparator;
@@ -40,9 +42,12 @@ public class GameObject implements Comparator<GameObject> {
         CollisionDetection.collisionMaster.addToDynamicQueue(this);
     }
 
-    public void addStaticCollider(){
+    public void addStaticCollider(GridPartition gridPartition, occupationID id){
+        this.transform.gridPartition = gridPartition;
+        gridPartition.place_static_object_on_grid_from_world(transform.position.x,transform.position.z,texture.width*transform.scale.x, texture.height*transform.scale.z, occupationID.Blocked);
         setColliderState(true);
         CollisionDetection.collisionMaster.addToStaticQueue(this);
+
     }
 
     public void setColliderState(boolean state){
@@ -63,7 +68,7 @@ public class GameObject implements Comparator<GameObject> {
 
     protected void runScriptsUpdate(){
         for (BlackScripts script:
-             blackScripts) {
+                blackScripts) {
             script.Update(Gdx.graphics.getDeltaTime());
         }
     }
@@ -87,6 +92,22 @@ public class GameObject implements Comparator<GameObject> {
 
     }
 
+    public List<BlackScripts> FindInterfaceScripts(){
+        List<BlackScripts> scripts = new LinkedList<>();
+
+        for (BlackScripts script: blackScripts
+        ) {
+            if(script instanceof InteractInterface)
+            {
+                scripts.add(script);
+            }
+
+        }
+
+        return scripts;
+
+    }
+
 
 
     @Override
@@ -95,10 +116,10 @@ public class GameObject implements Comparator<GameObject> {
         if(o1.transform.position.y + o1.transform.scale.y == o2.transform.position.y+ o2.transform.scale.y)
         {
 
-        if(o1.transform.position.z == o2.transform.position.z)
-            return 0;
+            if(o1.transform.position.z == o2.transform.position.z)
+                return 0;
 
-        return (o1.transform.position.z > o2.transform.position.z) ? -1 : 1;
+            return (o1.transform.position.z > o2.transform.position.z) ? -1 : 1;
         }
         return (o1.transform.position.y + o1.transform.scale.y > o2.transform.position.y+ o2.transform.scale.y) ? 1 : -1;
 

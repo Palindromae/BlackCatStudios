@@ -41,8 +41,8 @@ public class Transform {
     }
 
     public boolean hasMoved(){
-        System.out.println(pastPos);
-        System.out.println(position);
+        //System.out.println(pastPos);
+        //System.out.println(position);
         return position != pastPos;
         //return true;
     }
