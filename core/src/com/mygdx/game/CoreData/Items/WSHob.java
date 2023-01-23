@@ -1,6 +1,8 @@
 package com.mygdx.game.CoreData.Items;
+import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackScripts.ItemFactory;
+import com.mygdx.game.SoundFrame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +17,12 @@ public class WSHob extends WorkStation{
     boolean ready;
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
             Arrays.asList(Items.RawPatty, Items.Buns));
+
+    long burnerSoundID;
+    long fryingSoundID;
+
+    Boolean playingBurner = false, playingFrying = false;
+
 
     @Override
     public boolean GiveItem(ItemAbs Item){
@@ -82,13 +90,29 @@ public class WSHob extends WorkStation{
 
     public void Cook(float dt){
         ready = isItemReady(dt);
+
+        if(!playingBurner){
+           burnerSoundID =  SoundFrame.SoundEngine.playSound("Cooker");
+           SoundFrame.SoundEngine.setLooping(burnerSoundID,"Cooker");
+           playingBurner = true;
+        }
+
         if(ready & Item.cookingProgress==0){
+
+            if(!playingFrying){
+                fryingSoundID =  SoundFrame.SoundEngine.playSound("Fryer");
+                SoundFrame.SoundEngine.setLooping(fryingSoundID,"Fryer");
+                playingFrying = true;
+            }
+
             i++;
             System.out.println("Changed step: "+ currentRecipe.RecipeSteps.get(Math.min(i,currentRecipe.RecipeSteps.size()-1)));
 
+            SoundFrame.SoundEngine.playSound("Step Achieved");
             if(i==currentRecipe.RecipeSteps.size()){
                 Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
                 i = 0;
+
                 checkItem();
             }
             return;
@@ -106,6 +130,17 @@ public class WSHob extends WorkStation{
     public void FixedUpdate(float dt){
         if(currentRecipe != null)
             Cook(dt);
+        else {
+            if(playingBurner){
+                SoundFrame.SoundEngine.stopSound("Cooker",burnerSoundID);
+                playingBurner = false;
+            }
+            if(playingFrying)
+            {
+                SoundFrame.SoundEngine.stopSound("Fryer",fryingSoundID);
+                playingFrying = false;
+            }
+        }
 
         Interacted = false;
     }

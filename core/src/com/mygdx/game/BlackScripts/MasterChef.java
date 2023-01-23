@@ -32,7 +32,7 @@ public class MasterChef extends BlackScripts {
     private int chefWidth = 20;
     private int chefHeight = 20;
 
-    float chefInteractionDistance = 25;
+    float chefInteractionDistance = 45;
 
     private Boolean AllowTouch = true; //There will be a mouseMaster class that controls what the mouse clicks,
     // to allow for muting ect and prevent the mouse from forcing movement in all cases

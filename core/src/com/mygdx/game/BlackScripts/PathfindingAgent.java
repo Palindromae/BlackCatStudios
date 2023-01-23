@@ -10,7 +10,7 @@ import java.util.List;
 public class PathfindingAgent extends BlackScripts
 {
     private List<Vector2> currentPath;
-    private float Speed = 1;
+    private float Speed = 1.5f;
 
     private Vector3 PrevPosition = new Vector3(0,0,0);
     private Vector3 NextPosition= new Vector3(0,0,0);

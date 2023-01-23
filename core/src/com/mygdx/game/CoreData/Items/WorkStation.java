@@ -18,7 +18,7 @@ public abstract class WorkStation extends BlackScripts implements InteractInterf
     public int i = 0;
     public float workstationSpeed;
 
-    int HowCloseDoesChefNeedToBe =25;
+    int HowCloseDoesChefNeedToBe =45;
 
     //Give workstation an item
     public abstract  boolean GiveItem(ItemAbs Item);

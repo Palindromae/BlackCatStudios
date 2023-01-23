@@ -39,6 +39,8 @@ public class SoundFrame {
             return 0;
         }
         long id = sounds.get(name).play(volume);
+
+
         return id;
 
     }
@@ -50,6 +52,14 @@ public class SoundFrame {
         sounds.get(name).stop();
     }
 
+    public void stopSound(String name, long id) {
+        if (!sounds.containsKey(name)){
+            return;
+        }
+        sounds.get(name).stop(id);
+    }
+
+
 
     public void setLooping(long id, String name){
         if (!sounds.containsKey(name)){
@@ -58,12 +68,25 @@ public class SoundFrame {
         sounds.get(name).setLooping(id, true);
 
     }
+    public void resumeSound(String name,long id){
+        if (!sounds.containsKey(name)){
+            return;
+        }
+        sounds.get(name).resume(id);
+    }
 
     public void pauseSound(String name){
         if (!sounds.containsKey(name)){
             return;
         }
         sounds.get(name).pause();
+    }
+
+    public void pauseSound(String name, long id){
+        if (!sounds.containsKey(name)){
+            return;
+        }
+        sounds.get(name).pause(id);
     }
 
 

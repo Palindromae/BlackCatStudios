@@ -9,6 +9,7 @@ import com.mygdx.game.BlackScripts.CustomerManager;
 import com.mygdx.game.BlackScripts.PathfindingAgent;
 import com.mygdx.game.CoreData.Items.Items;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.SoundFrame;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -38,6 +39,8 @@ public class Customers {
             PathfindingAgent PA = new PathfindingAgent();
             customerObjects.get(i).AppendScript(PA);//Needs to be the first script
         }
+
+        SoundFrame.SoundEngine.playSound("Customer Arrived Bell");
         MoveCustomersToLinePosition();
         frustration = 0;
     }

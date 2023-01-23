@@ -1,7 +1,9 @@
 package com.mygdx.game.CoreData.Items;
+import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackCore.RunInteract;
 import com.mygdx.game.BlackScripts.ItemFactory;
+import com.mygdx.game.SoundFrame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +19,9 @@ public class WSChopBoard extends WorkStation{
     boolean ready;
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
             Arrays.asList(Items.Lettuce, Items.Tomato, Items.Onion, Items.Mince));
+
+    Boolean playingChopSound = false;
+    long soundID ;
 
 
     @Override
@@ -80,9 +85,26 @@ public class WSChopBoard extends WorkStation{
     // Calls the current step and stores returned bool variable in ready, if true a new item is produced
     public void Cut(float dt){
         ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+
+    if(!canTakeItem()){
+        if(!ready && ! playingChopSound)
+        {
+            soundID = SoundFrame.SoundEngine.playSound("Knife Chop");
+            SoundFrame.SoundEngine.setLooping(soundID,"Knife Chop");
+            playingChopSound = true;
+
+        }
+
+    } else {
+        playingChopSound = false;
+        SoundFrame.SoundEngine.stopSound("Knife Chop");
+    }
+
         if(ready && currentRecipe.endItem != Item.name){
             Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
             System.out.println("Finished cutting");
+            SoundFrame.SoundEngine.playSound("Step Achieved");
+
         }
     }
 
@@ -90,6 +112,10 @@ public class WSChopBoard extends WorkStation{
     public void FixedUpdate(float dt){
         if(RunInteract.interact.isChefClose(gameObject,HowCloseDoesChefNeedToBe) & currentRecipe!=null){
             Cut(dt);
+        } else if (playingChopSound){
+            playingChopSound = false;
+            SoundFrame.SoundEngine.stopSound("Knife Chop");
+
         }
         Interacted = false;
         }
