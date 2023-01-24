@@ -5,6 +5,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Quaternion;
@@ -17,13 +19,14 @@ import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.*;
+import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
 import com.mygdx.game.CoreData.Items.Items;
 import jdk.javadoc.internal.doclets.formats.html.markup.Script;
 
 import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter {
-	private OrthographicCamera camera;
+	public static OrthographicCamera camera;
 	BTexture texture;
 	GameObjectHandler gameObjectHandler;
 
@@ -32,21 +35,34 @@ public class MyGdxGame extends ApplicationAdapter {
 	CollisionDetection collisionDetection;
 	PhysicsSuperController physicsController;
 
+	SoundFrame soundFrame = new SoundFrame();
+
 	CreateGameWorld GameWorld;
 	MasterChef masterChef;
 	GameObject obj;
 	GameObject obj2;
 	GameObject obj3;
-
+	GameObject menu;
 	BatchDrawer batch;
 
 	CustomerManager customerManager;
+	Boolean Pause = false;
+	BTexture pauseTexture;
+	GameObject pauseMenu;
+	GameObject closeMenu;
+	GameObject muteMusic;
+	GameObject unmuteMusic;
+	boolean muteState = false;
 
 	@Override
 	public void create () {
+
+
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
 		batch = new BatchDrawer();
+//		Gdx.graphics.setContinuousRendering(false);
+//		Gdx.graphics.requestRendering();
 		try {
 			ScriptManager = new BlackScriptManager(); // this exception shouldnt happen but just incase
 		} catch (Exception e) {
@@ -74,14 +90,35 @@ public class MyGdxGame extends ApplicationAdapter {
 //		obj2.addDynamicCollider();
 
 
+		// Makes a pauseMenu game object using the pauseMenu.png file as a texture
+		pauseMenu = new GameObject(new Rectangle(10,20,20,20),
+				new BTexture("pauseMenu.png", 800, 415));
+		// makes it invisible initially, so it does not block the screen
+		pauseMenu.negateVisibility();
+		pauseMenu.transform.position.y = 3;
+
+		closeMenu = new GameObject(new Rectangle(10,20, 20, 20), new BTexture("Resume.png", 300, 70));
+		closeMenu.negateVisibility();
+		closeMenu.transform.position.x = 50;
+		closeMenu.transform.position.z = 325;
+		closeMenu.transform.position.y = 10;
+
+		muteMusic =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("muteSound.png", 300, 70));
+		muteMusic.negateVisibility();
+		muteMusic.transform.position.x = 50;
+		muteMusic.transform.position.z = 205;
+		muteMusic.transform.position.y = 10;
+
+		unmuteMusic =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("unMuteSound.png", 300, 70));
+		unmuteMusic.negateVisibility();
+		unmuteMusic.transform.position.x = 50;
+		unmuteMusic.transform.position.z = 205;
+		unmuteMusic.transform.position.y = 10;
+		
+		menu = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 415));
+		menu.transform.position.y = 3;
 
 		//	gameObjectHandler.Instantiate(obj);
-
-
-
-
-
-
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,800,400);
@@ -148,29 +185,81 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void render () {
 
-		if(fixedTime.doTimeStep()){
-			//the time step is within accumilator
 
-			while (fixedTime.accumulator> fixedTime.dt){
-				ScriptManager.RunFixedUpdate((float)fixedTime.dt);
-				fixedTime.accumulator-= fixedTime.dt;
-			}
+		
+
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.exit)){ // If the escape key is pressed in the main menu the game will shut down
+			Gdx.app.exit();
+			System.exit(0);
 		}
 
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.highscores)){ // If the H button is pressed in the main menu the game will display the high scores
+			;
+			// code to display the highscores
+		}
 
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.settings)){ // If the S button is pressed in the main menu, the game will display settings over the menu
+			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
+			// code to display the settings menu
+		}
 
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.start)){ // If ENTER is pressed, the game will be unpaused and the menu will disappear
+			// Music changes from main menu music to game music
+			// Main menu disappears and becomes invisible
+			//
+		}
 
-		//RUN UPDATE FIRST
-		ScriptManager.RunUpdate();
+if (Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
+			Pause = !Pause;
+			pauseMenu.negateVisibility(); // makes the pause menu visible
+			closeMenu.negateVisibility();
+			if (!muteState){
+				muteMusic.negateVisibility();
+			}else{
+				unmuteMusic.negateVisibility();
+			}
+		}
+		if(fixedTime.doTimeStep()){
+			//the time step is within accumilator
+			while (fixedTime.accumulator> fixedTime.dt){
+				if (! Pause){ // pauses the game
+					ScriptManager.RunFixedUpdate((float)fixedTime.dt);
+				}
+				fixedTime.accumulator-= fixedTime.dt;
+				}
+			}
 
+		if (!Pause){
+			ScriptManager.RunUpdate();
+		}else{
+			if (closeMenu.isObjectTouched()){
+				pauseMenu.negateVisibility();
+				closeMenu.negateVisibility();
+				Pause = !Pause;
+			}
+			if (Gdx.input.isKeyJustPressed(InputsDefaults.exit)){
+				Gdx.app.exit(); //Todo change this to restart the game if possible
+				System.exit(0);
+			}
+			if (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusic.isObjectTouched() || unmuteMusic.isObjectTouched()){
+				if (muteState){
+					soundFrame.SoundEngine.unMuteSound();
+					unmuteMusic.negateVisibility();
+					muteMusic.negateVisibility();
+				}
+				else{
+					soundFrame.SoundEngine.muteSound();
+					unmuteMusic.negateVisibility();
+					muteMusic.negateVisibility();
+				}
+				muteState = !muteState;
+				System.out.print(soundFrame.volume);
+
+			}
+		}
 		camera.update();
-
-
-
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.RenderTextures(camera.combined);
-
-
 	}
 	
 	@Override
