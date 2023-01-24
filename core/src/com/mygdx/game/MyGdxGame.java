@@ -46,6 +46,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	BatchDrawer batch;
 
 	CustomerManager customerManager;
+	public Boolean gameRestart = false;
 	Boolean Pause = true;
 	BTexture pauseTexture;
 	GameObject pauseMenu;
@@ -265,8 +266,9 @@ public class MyGdxGame extends ApplicationAdapter {
 				negatePauseMenu();
 			}
 			if (Gdx.input.isKeyJustPressed(InputsDefaults.exit)){
-				Gdx.app.exit(); //Todo change this to restart the game if possible
-				System.exit(0);
+//				Gdx.app.exit(); //Todo change this to restart the game if possible
+//				dispose();
+				create();
 			}
 			if (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
 			|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched()){
