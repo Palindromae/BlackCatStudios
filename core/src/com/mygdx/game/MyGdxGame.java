@@ -23,6 +23,7 @@ import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
 import com.mygdx.game.CoreData.Items.Items;
 import jdk.javadoc.internal.doclets.formats.html.markup.Script;
 
+import java.awt.*;
 import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -56,6 +57,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject muteMusicText;
 	GameObject unmuteMusicIcon;
 	GameObject unmuteMusicText;
+	GameObject closeGameText;
+	GameObject controlsText;
 	boolean muteState = false;
 
 	@Override
@@ -138,8 +141,18 @@ public class MyGdxGame extends ApplicationAdapter {
 		unmuteMusicText.transform.position.x = 116;
 		unmuteMusicText.transform.position.z = 155;
 		unmuteMusicText.transform.position.y = 10;
-		
 
+		closeGameText = new GameObject(new Rectangle(10,20, 20, 20), new BTexture("closeGame.png", 170, 85));
+		closeGameText.negateVisibility();
+		closeGameText.transform.position.x = 50;
+		closeGameText.transform.position.z = 35;
+		closeGameText.transform.position.y = 10;
+
+		controlsText = new GameObject(new Rectangle(10,20, 20, 20), new BTexture("controls.png", 260, 361));
+		controlsText.negateVisibility();
+		controlsText.transform.position.x = 500;
+		controlsText.transform.position.z = 15;
+		controlsText.transform.position.y = 10;
 
 		//	gameObjectHandler.Instantiate(obj);
 
@@ -205,10 +218,15 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	}
 
+	/**
+	 * This method negates the visibility of everything on the pause menu
+	 */
 	public void negatePauseMenu(){
-		pauseMenu.negateVisibility(); // makes the pause menu visible
+		pauseMenu.negateVisibility();
 		closeMenuText.negateVisibility();
 		playIcon.negateVisibility();
+		closeGameText.negateVisibility();
+		controlsText.negateVisibility();
 		if (!muteState){
 			muteMusicIcon.negateVisibility();
 			muteMusicText.negateVisibility();
@@ -244,12 +262,13 @@ public class MyGdxGame extends ApplicationAdapter {
 			menu.negateVisibility();
 		}
 
-		if (!menu.getVisibility()&&Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
+		// If P is pressed while the game is running, the pause variable is negated and the menu will appear
+		if (!menu.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
 			Pause = !Pause;
 			negatePauseMenu();
 		}
 		if(fixedTime.doTimeStep()){
-			//the time step is within accumilator
+			//the time step is within accumulator
 			while (fixedTime.accumulator> fixedTime.dt){
 				if (! Pause){ // pauses the game
 					ScriptManager.RunFixedUpdate((float)fixedTime.dt);
@@ -257,18 +276,19 @@ public class MyGdxGame extends ApplicationAdapter {
 				fixedTime.accumulator-= fixedTime.dt;
 				}
 			}
-
 		if (!Pause){
-			ScriptManager.RunUpdate();
+			ScriptManager.RunUpdate(); // this is run when the game is not paused
 		}else{
+			// If the text is clicked, the game will be unpaused and the menu will disappear
 			if (closeMenuText.isObjectTouched() || playIcon.isObjectTouched()){
 				Pause = !Pause;
 				negatePauseMenu();
 			}
-			if (Gdx.input.isKeyJustPressed(InputsDefaults.exit)){
-//				Gdx.app.exit(); //Todo change this to restart the game if possible
-//				dispose();
-				create();
+			// If the text is clicked or the X key is pressed the game will exit
+			if (Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched()){
+				this.dispose();
+				Gdx.app.exit();
+				System.exit(0);
 			}
 			if (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
 			|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched()){
@@ -288,7 +308,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					muteMusicText.negateVisibility();
 					muteState = !muteState;
 				}
-				System.out.print(soundFrame.volume);
+//				System.out.print(soundFrame.volume);
 
 			}
 		}

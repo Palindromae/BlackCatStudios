@@ -89,10 +89,18 @@ public class GameObject implements Comparator<GameObject> {
         script.StartUpMethodSequence();
     }
 
+    /**
+     * This method gets the width of the GameObject's texture
+     * @return the width of the texture
+     */
     public Integer getTextureWidth(){
         return textureWidth;
     }
 
+    /**
+     * This method gets the height of the GameObject's texture
+     * @return the height of the texture
+     */
     public Integer getTextureHeight(){
         return textureHeight;
     }
@@ -103,7 +111,11 @@ public class GameObject implements Comparator<GameObject> {
 
     }
 
-    public Boolean isObjectTouched() { // Method for use of checking if spaces in menus are touched for initiating different buttons/sequences
+    /**
+     * This method is used to check if the object is clicked by the user
+     * @return true if the object is clicked, false otherwise
+     */
+    public Boolean isObjectTouched() {
         if (Gdx.input.isButtonJustPressed(0)) {
             Vector3 touchpos = new Vector3();
             touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
