@@ -46,12 +46,15 @@ public class MyGdxGame extends ApplicationAdapter {
 	BatchDrawer batch;
 
 	CustomerManager customerManager;
-	Boolean Pause = false;
+	Boolean Pause = true;
 	BTexture pauseTexture;
 	GameObject pauseMenu;
-	GameObject closeMenu;
-	GameObject muteMusic;
-	GameObject unmuteMusic;
+	GameObject closeMenuText;
+	GameObject playIcon;
+	GameObject muteMusicIcon;
+	GameObject muteMusicText;
+	GameObject unmuteMusicIcon;
+	GameObject unmuteMusicText;
 	boolean muteState = false;
 
 	@Override
@@ -89,34 +92,53 @@ public class MyGdxGame extends ApplicationAdapter {
 //		obj.addDynamicCollider();
 //		obj2.addDynamicCollider();
 
+		menu = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 415));
+		menu.transform.position.y = 3;
 
 		// Makes a pauseMenu game object using the pauseMenu.png file as a texture
 		pauseMenu = new GameObject(new Rectangle(10,20,20,20),
 				new BTexture("pauseMenu.png", 800, 415));
-		// makes it invisible initially, so it does not block the screen
-		pauseMenu.negateVisibility();
+		pauseMenu.negateVisibility(); // makes it invisible initially, so it does not block the screen
 		pauseMenu.transform.position.y = 3;
 
-		closeMenu = new GameObject(new Rectangle(10,20, 20, 20), new BTexture("Resume.png", 300, 70));
-		closeMenu.negateVisibility();
-		closeMenu.transform.position.x = 50;
-		closeMenu.transform.position.z = 325;
-		closeMenu.transform.position.y = 10;
+		playIcon =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("play-button-arrowhead.png", 64, 64));
+		playIcon.negateVisibility();
+		playIcon.transform.position.x = 50;
+		playIcon.transform.position.z = 275;
+		playIcon.transform.position.y = 10;
 
-		muteMusic =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("muteSound.png", 300, 70));
-		muteMusic.negateVisibility();
-		muteMusic.transform.position.x = 50;
-		muteMusic.transform.position.z = 205;
-		muteMusic.transform.position.y = 10;
 
-		unmuteMusic =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("unMuteSound.png", 300, 70));
-		unmuteMusic.negateVisibility();
-		unmuteMusic.transform.position.x = 50;
-		unmuteMusic.transform.position.z = 205;
-		unmuteMusic.transform.position.y = 10;
+		closeMenuText = new GameObject(new Rectangle(10,20, 20, 20), new BTexture("Resume.png", 170, 85));
+		closeMenuText.negateVisibility();
+		closeMenuText.transform.position.x = 116;
+		closeMenuText.transform.position.z = 265;
+		closeMenuText.transform.position.y = 10;
+
+		muteMusicIcon =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("volume.png", 64, 64));
+		muteMusicIcon.negateVisibility();
+		muteMusicIcon.transform.position.x = 50;
+		muteMusicIcon.transform.position.z = 155;
+		muteMusicIcon.transform.position.y = 10;
+
+		muteMusicText =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("muteSound.png", 350, 70));
+		muteMusicText.negateVisibility();
+		muteMusicText.transform.position.x = 116;
+		muteMusicText.transform.position.z = 155;
+		muteMusicText.transform.position.y = 10;
+
+		unmuteMusicIcon =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
+		unmuteMusicIcon.negateVisibility();
+		unmuteMusicIcon.transform.position.x = 50;
+		unmuteMusicIcon.transform.position.z = 155;
+		unmuteMusicIcon.transform.position.y = 10;
+
+		unmuteMusicText =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("unMuteSound.png", 350, 70));
+		unmuteMusicText.negateVisibility();
+		unmuteMusicText.transform.position.x = 116;
+		unmuteMusicText.transform.position.z = 155;
+		unmuteMusicText.transform.position.y = 10;
 		
-		menu = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 415));
-		menu.transform.position.y = 3;
+
 
 		//	gameObjectHandler.Instantiate(obj);
 
@@ -182,11 +204,21 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	}
 
+	public void negatePauseMenu(){
+		pauseMenu.negateVisibility(); // makes the pause menu visible
+		closeMenuText.negateVisibility();
+		playIcon.negateVisibility();
+		if (!muteState){
+			muteMusicIcon.negateVisibility();
+			muteMusicText.negateVisibility();
+		}else{
+			unmuteMusicIcon.negateVisibility();
+			unmuteMusicText.negateVisibility();
+		}
+	}
+
 	@Override
 	public void render () {
-
-
-		
 
 		if(Gdx.input.isKeyJustPressed(InputsDefaults.exit)){ // If the escape key is pressed in the main menu the game will shut down
 			Gdx.app.exit();
@@ -203,21 +235,17 @@ public class MyGdxGame extends ApplicationAdapter {
 			// code to display the settings menu
 		}
 
-		if(Gdx.input.isKeyJustPressed(InputsDefaults.start)){ // If ENTER is pressed, the game will be unpaused and the menu will disappear
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.start)&&menu.getVisibility()){ // If ENTER is pressed, the game will be unpaused and the menu will disappear
 			// Music changes from main menu music to game music
 			// Main menu disappears and becomes invisible
 			//
+			Pause = !Pause;
+			menu.negateVisibility();
 		}
 
-if (Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
+		if (!menu.getVisibility()&&Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
 			Pause = !Pause;
-			pauseMenu.negateVisibility(); // makes the pause menu visible
-			closeMenu.negateVisibility();
-			if (!muteState){
-				muteMusic.negateVisibility();
-			}else{
-				unmuteMusic.negateVisibility();
-			}
+			negatePauseMenu();
 		}
 		if(fixedTime.doTimeStep()){
 			//the time step is within accumilator
@@ -232,27 +260,32 @@ if (Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
 		if (!Pause){
 			ScriptManager.RunUpdate();
 		}else{
-			if (closeMenu.isObjectTouched()){
-				pauseMenu.negateVisibility();
-				closeMenu.negateVisibility();
+			if (closeMenuText.isObjectTouched() || playIcon.isObjectTouched()){
 				Pause = !Pause;
+				negatePauseMenu();
 			}
 			if (Gdx.input.isKeyJustPressed(InputsDefaults.exit)){
 				Gdx.app.exit(); //Todo change this to restart the game if possible
 				System.exit(0);
 			}
-			if (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusic.isObjectTouched() || unmuteMusic.isObjectTouched()){
+			if (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
+			|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched()){
 				if (muteState){
 					soundFrame.SoundEngine.unMuteSound();
-					unmuteMusic.negateVisibility();
-					muteMusic.negateVisibility();
+					unmuteMusicIcon.negateVisibility();
+					muteMusicIcon.negateVisibility();
+					unmuteMusicText.negateVisibility();
+					muteMusicText.negateVisibility();
+					muteState = !muteState;
 				}
 				else{
 					soundFrame.SoundEngine.muteSound();
-					unmuteMusic.negateVisibility();
-					muteMusic.negateVisibility();
+					unmuteMusicIcon.negateVisibility();
+					muteMusicIcon.negateVisibility();
+					unmuteMusicText.negateVisibility();
+					muteMusicText.negateVisibility();
+					muteState = !muteState;
 				}
-				muteState = !muteState;
 				System.out.print(soundFrame.volume);
 
 			}
