@@ -12,6 +12,7 @@ nav:
     - Weekly Updates: updates.md
     - Architecture: architecture.md
     - Diagrams: Diagrams.md
+    - Attributions: attributions.md
 markdown_extensions:
     - def_list
     - pymdownx.tasklist:
