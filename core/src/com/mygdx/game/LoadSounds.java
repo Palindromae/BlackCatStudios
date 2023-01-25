@@ -1,21 +1,12 @@
 package com.mygdx.game;
-
-import java.lang.reflect.Array;
-import java.util.LinkedList;
-import java.util.List;
-
 public class LoadSounds {
-    public static void loadSounds(){
-        SoundFrame soundFrameClass = new SoundFrame();
-        addSound("sound", "sound.wav");
+    public void loadAllSounds(SoundFrame soundFrame){
+        soundFrame.addSound("Main Screen", "Sound/MainScreen.wav");
+        soundFrame.addSound("Knife Chop", "Sound/knife_chop.wav");
+        soundFrame.addSound("Cooker", "Sound/gas_cooker.wav");
+        soundFrame.addSound("Fryer", "Sound/frying.wav");
+        soundFrame.addSound("Food Ready Bell", "Sound/food_ready_bell.wav");
+        soundFrame.addSound("Step Achieved", "Sound/step_achieved.wav");
+        soundFrame.addSound("Customer Arrived Bell", "Sound/customer_arrived_bell.wav");
     }
-
-
-
-    static void addSound(String name, String path){
-        SoundFrame.SoundEngine.addSound(name, path);
-
-    }
-
 }
-
