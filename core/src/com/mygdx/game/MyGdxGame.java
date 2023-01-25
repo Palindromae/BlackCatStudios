@@ -46,7 +46,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject obj3;
 	GameObject menu;
 	LoadSounds soundLoader = new LoadSounds();
-
+	SoundFrame soundFrame = new SoundFrame();
 
 	BatchDrawer batch;
 
@@ -70,8 +70,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-
-
 
 
 		soundLoader.loadAllSounds(soundFrame);
@@ -153,6 +151,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		muteMusicText.transform.position.x = 140;
 		muteMusicText.transform.position.z = 195;
 		muteMusicText.transform.position.y = 10;
+		
 
 		unmuteMusicIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
 		unmuteMusicIcon.negateVisibility();

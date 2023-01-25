@@ -115,6 +115,13 @@ public class GameObject implements Comparator<GameObject> {
         return textureHeight;
     }
 
+    /**
+     * This method sets the texture of the GameObject
+     * @param texture the texture to be set
+     */
+    public void setTexture(BTexture texture){
+        this.texture = texture;
+    }
 
     public void dispose(){
         texture.dispose();
