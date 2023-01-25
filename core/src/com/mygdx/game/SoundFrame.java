@@ -93,31 +93,22 @@ public class SoundFrame {
     }
 
 
-    public void muteSound()
-    {
-        volume = 0.0f;
+    void setVolume(float volumeToSet){
         for (Map.Entry<String, List<Long>> entry : ids.entrySet()) {
             String key = entry.getKey();
             List<Long> value = entry.getValue();
             for (int k = 0; k<value.size(); k++){
-                sounds.get(key).setVolume(value.get(k),volume);
+                sounds.get(key).setVolume(value.get(k),volumeToSet);
             }
         }
+
+    }
+    public void muteSound()
+    {
+        setVolume(0.0f);
     }
 
     public void unMuteSound() {
-        volume = 1.0f;
-        for (Map.Entry<String, List<Long>> entry : ids.entrySet()) {
-            String key = entry.getKey();
-            List<Long> value = entry.getValue();
-            for (int k = 0; k<value.size(); k++){
-                sounds.get(key).setVolume(value.get(k),volume);
-            }
-        }
-    }
-
-    public void setVolume(float VolToSet)
-    {
-        volume = VolToSet;
+        setVolume(1.0f);
     }
 }
