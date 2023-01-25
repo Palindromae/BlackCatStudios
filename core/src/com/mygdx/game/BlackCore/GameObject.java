@@ -91,7 +91,7 @@ public class GameObject implements Comparator<GameObject> {
 
     /**
      * This method gets the width of the GameObject's texture
-     * @return the width of the texture
+     * @return the width of the texture in pixels
      */
     public Integer getTextureWidth(){
         return textureWidth;
@@ -99,7 +99,7 @@ public class GameObject implements Comparator<GameObject> {
 
     /**
      * This method gets the height of the GameObject's texture
-     * @return the height of the texture
+     * @return the height of the texture in pixels
      */
     public Integer getTextureHeight(){
         return textureHeight;
@@ -112,7 +112,8 @@ public class GameObject implements Comparator<GameObject> {
     }
 
     /**
-     * This method is used to check if the object is clicked by the user
+     * This method is used to check if the object is clicked by the user.
+     * It does this by checking if the mouse is clicked and if the mouse is within the bounds of the object
      * @return true if the object is clicked, false otherwise
      */
     public Boolean isObjectTouched() {
@@ -120,7 +121,8 @@ public class GameObject implements Comparator<GameObject> {
             Vector3 touchpos = new Vector3();
             touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             MyGdxGame.camera.unproject(touchpos);
-            return ((touchpos.x >= this.transform.position.x) && (touchpos.x <= (this.transform.position.x + this.getTextureWidth())) && (touchpos.y >= this.transform.position.z) && (touchpos.y <= (this.transform.position.z + this.getTextureHeight())));
+            return ((touchpos.x >= this.transform.position.x) && (touchpos.x <= (this.transform.position.x + this.getTextureWidth())) &&
+                    (touchpos.y >= this.transform.position.z) && (touchpos.y <= (this.transform.position.z + this.getTextureHeight())));
         }
         return false;
     }
@@ -148,6 +150,10 @@ public class GameObject implements Comparator<GameObject> {
         IsActiveAndVisible = ! IsActiveAndVisible;
     }
 
+    /**
+     * Gets the visibility of the object
+     * @return true if the object is visible, false otherwise
+     */
     public Boolean getVisibility(){
         return  IsActiveAndVisible;
     }

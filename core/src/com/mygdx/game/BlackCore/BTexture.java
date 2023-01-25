@@ -52,10 +52,18 @@ public class BTexture {
        image.dispose();
    }
 
+    /**
+     * Returns the width of the texture region
+     * @return width of the texture region
+     */
    public Integer getWidth(){
         return  width;
    }
 
+    /**
+     * Returns the height of the texture region
+     * @return height of the texture region
+     */
    public Integer getHeight(){
         return height;
    }
