@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -18,6 +19,8 @@ public class CreateGameWorld
 {
     int col_redct = 5;
     GameObject KitchenFloor;
+
+    List<GameObject> WorkStations = new LinkedList<>();
     GameObject DiningFloor;
     GameObject ServingCounter;
     GameObject ChoppingBoard;
@@ -27,6 +30,9 @@ public class CreateGameWorld
     GameObject Stove2;
     GameObject CombinationCounter;
     GameObject KitchenSouthWall;
+
+    public Vector3 SpawnPointChef1 = new Vector3 (0,0,0);
+    public Vector3 SpawnPointChef2 = new Vector3(50,0,0);
 
     GameObject Table1;
     GameObject Table2;
@@ -135,6 +141,8 @@ public class CreateGameWorld
         CombinationCounter.AppendScript(CC);
         InteractableObjects.add(CombinationCounter);
 
+        WorkStations.add(CombinationCounter);
+
 
         createMachines(partition);
 
@@ -192,6 +200,12 @@ public class CreateGameWorld
         InteractableObjects.add(Stove1);
         InteractableObjects.add(Stove2);
         InteractableObjects.add(ChoppingBoard);
+
+        WorkStations.add(Stove1);
+        WorkStations.add(Stove2);
+        WorkStations.add(ChoppingBoard);
+
+
     }
 
     void createFoodCrates(GridPartition partition){
@@ -225,6 +239,9 @@ public class CreateGameWorld
         FoodCrate fCrate = new FoodCrate(item);
         crate.addStaticCollider(partition, occupationID.Station);
         crate.AppendScript(fCrate);
+        WorkStations.add(crate);
+
+
 
         InteractableObjects.add(crate);
 
@@ -301,6 +318,19 @@ public class CreateGameWorld
         Tables.add(BossTable);
 
         TableRadius /=2.0f;
+
+    }
+
+
+    public void Reset(){
+
+
+        for (GameObject obj: WorkStations
+             ) {
+            ((WorkStation)obj.blackScripts.get(0)).Reset();
+
+        }
+
 
     }
 }

@@ -124,7 +124,17 @@ public class WSHob extends WorkStation{
         //  burn()
         // }
     }
+    @Override
+    public void Reset(){
+        super.Reset();
 
+        Interacted = false;
+        playingBurner = false;
+        playingFrying = false;
+        fryingSoundID = 0;
+        burnerSoundID = 0;
+        ready = false;
+    }
     // public void burn(){}
     @Override
     public void FixedUpdate(float dt){

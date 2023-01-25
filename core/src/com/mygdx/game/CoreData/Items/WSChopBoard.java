@@ -109,6 +109,15 @@ public class WSChopBoard extends WorkStation{
     }
 
     @Override
+    public void Reset(){
+        super.Reset();
+
+        Interacted = false;
+        playingChopSound = false;
+        soundID = 0;
+        ready = false;
+    }
+    @Override
     public void FixedUpdate(float dt){
         if(RunInteract.interact.isChefClose(gameObject,HowCloseDoesChefNeedToBe) & currentRecipe!=null){
             Cut(dt);

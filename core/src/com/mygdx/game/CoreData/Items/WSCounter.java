@@ -63,4 +63,12 @@ public class WSCounter extends WorkStation{
 
     }
 
+    @Override
+    public void Reset(){
+        super.Reset();
+
+        temp = null;
+        value = 0;
+    }
+
 }

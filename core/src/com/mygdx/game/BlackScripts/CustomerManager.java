@@ -3,6 +3,7 @@ package com.mygdx.game.BlackScripts;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.ai.btree.leaf.Wait;
 import com.badlogic.gdx.math.Vector3;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.mygdx.game.BlackCore.*;
@@ -35,7 +36,7 @@ int bossAmount = 6;
 
 int currentWave = 0;
 
-Consumer<Float> EndGameCommand;
+public Consumer<Float> EndGameCommand;
 
 int NumberOfTables = 4;
  List<Customers> SeatedCustomers = new LinkedList<>();
@@ -72,17 +73,8 @@ enum RandomisationStyle{
         customermanager = this;
         gridPartition = Partition;
 
-        Menu = new LinkedList<>();
-        List<Items> ItemVar = new LinkedList<>();
-        ItemVar.add(Items.Burger);
-        MenuItem burger = new MenuItem(Items.Burger,1, ItemVar);
+        CreateMenu();
 
-        ItemVar = new LinkedList<>();
-        ItemVar.add(Items.FullSalad);
-        MenuItem salad = new MenuItem(Items.FullSalad,1,ItemVar);
-
-        Menu.add(burger);
-        Menu.add(salad);
         RealTables = _RealTables;
 
         int i = 0;
@@ -274,6 +266,8 @@ enum RandomisationStyle{
         } else{
             //end the game
 
+            EndGameCommand.accept(Score);
+
         }
 
     }
@@ -300,5 +294,40 @@ enum RandomisationStyle{
             WaitingCustomers.get(0).RemoveFirstCustomer();
 
         }
+    }
+        public void CreateMenu(){
+            Menu = new LinkedList<>();
+            List<Items> ItemVar = new LinkedList<>();
+            ItemVar.add(Items.Burger);
+            MenuItem burger = new MenuItem(Items.Burger,1, ItemVar);
+
+            ItemVar = new LinkedList<>();
+            ItemVar.add(Items.FullSalad);
+            MenuItem salad = new MenuItem(Items.FullSalad,1,ItemVar);
+
+            Menu.add(burger);
+            Menu.add(salad);
+        }
+    public void Reset()
+    {
+        NumberOfCustomersSeen = 0;
+        currentWave = 0;
+        CreateMenu();
+
+        for (Customers cust: WaitingCustomers
+             ) {
+            cust.Destroy();
+        }
+
+        for (Customers cust:LeavingCustomers
+             ) {
+            cust.Destroy();
+        }
+
+        WaitingCustomers.clear();
+        LeavingCustomers.clear();
+
+        Score = 0;
+
     }
 }
