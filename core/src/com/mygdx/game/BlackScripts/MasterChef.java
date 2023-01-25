@@ -92,6 +92,10 @@ public class MasterChef extends BlackScripts {
     }
 
     void TouchAllowedCurrently(){
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.B))
+            getCurrentChef().controller.getGameObject().transform.TellItsGridPos();
+
         if( Gdx.input.isButtonJustPressed(0)){
             Vector3 touchpos = new Vector3();
             touchpos.set(Gdx.input.getX(),Gdx.input.getY(),0);

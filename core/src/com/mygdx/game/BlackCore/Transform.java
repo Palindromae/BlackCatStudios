@@ -21,6 +21,12 @@ public class Transform {
 
     }
 
+    public void TellItsGridPos(){
+        String a = "";
+        Vector3 b = gridPartition.translateToLocal((int) position.x, (int) position.z);
+        a += b.x + " : " + b.z;
+        System.out.println(a);
+    }
 
     public void updatePastPos(){
         pastPos.x = position.x;

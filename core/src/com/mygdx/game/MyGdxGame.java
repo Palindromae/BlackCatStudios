@@ -126,12 +126,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		ScriptManager.tryAppendLooseScript(masterChef);
 
-		customerManager = new CustomerManager(GameWorld.Tables,gPart);
+		customerManager = new CustomerManager(GameWorld.Tables,gPart,GameWorld.TableRadius);
 		CustomerManager.customermanager.setCustomerTexture(texture);
 
 		CustomerManager.customermanager.WaitingPositions = GameWorld.CustomerWaitingLocations;
 		CustomerManager.customermanager.spawningLocation = GameWorld.CustomerSpawnLocations;
-		CustomerManager.customermanager.TableRadius =  GameWorld.TableRadius;
+		customerManager.BossTableSeats = GameWorld.BossSeats;
 
 
 
@@ -164,6 +164,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.RenderTextures(camera.combined);
 
+
+	}
+
+	public void FinishGame(float score){
 
 	}
 

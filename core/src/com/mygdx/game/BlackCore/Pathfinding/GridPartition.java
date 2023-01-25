@@ -1,6 +1,7 @@
 package com.mygdx.game.BlackCore.Pathfinding;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.*;
 
@@ -28,6 +29,9 @@ public class GridPartition {
         gridsWorldPosition_BOTTOMLEFT = new Vector2(0,0);
     }
 
+    public Vector3 translateToLocal(int x, int z){
+        return new Vector3(translateToLocal(x,gridsWorldPosition_BOTTOMLEFT.x), 0, translateToLocal(z,gridsWorldPosition_BOTTOMLEFT.y));
+    }
 
     private int translateToLocal(float i, float offset){
         if (i == -1)
@@ -58,8 +62,11 @@ public class GridPartition {
     }
     public List<Vector2> pathfindFrom(int x, int y, int to_X, int to_Y, PathfindingConfig config,DistanceCalculator calc){
 
+
         //IMPLEMENT CLOSEST MOVE and ATTEMPT TO MOVE OFFSCREEN
         int tI = transformToLinearSpace(to_X,to_Y);
+        System.out.println(to_X + " : " + to_Y + " : : "+ gridSpaces[tI] + " : " + tI);
+
         HashMap<Integer, FoundPositions> beenLocations = new HashMap<>();
 
         PriorityQueue<FoundPositions> sortedList = new PriorityQueue<>();
@@ -78,6 +85,8 @@ public class GridPartition {
         int nX;
         int nY;
         int counter = config.maxIterations;
+
+
 
         do{
             //Take lowest score object
@@ -149,7 +158,24 @@ public class GridPartition {
 
             counter--;
         }
-        while (transformToLinearSpace(found.x, found.y) != tI && counter != 0); //while havent found the goal nor reached max iterations
+        while (transformToLinearSpace(found.x, found.y) != tI && counter != 0 &&  sortedList.size() > 0); //while havent found the goal nor reached max iterations
+
+        if(found.x != to_X || found.y != to_Y)
+        {
+            //get closet found position
+            float currentDistance = 1000;
+            for (FoundPositions fp: beenLocations.values()
+                 ) {
+
+                float dist = DistanceIndex(fp.x,fp.y,to_X,to_Y,calc);
+
+                if(dist<currentDistance){
+                    found = fp;
+                    currentDistance = dist;
+                }
+
+            }
+        }
 
         System.out.println(counter);
         List l_steps = new LinkedList<Vector2>();
@@ -208,7 +234,8 @@ public class GridPartition {
 
         for (int ix = 0; ix < width; ix++) {
             for (int iy = 0; iy < height; iy++) {
-                gridSpaces[transformToLinearSpace(Math.min(xSize,x + ix), Math.min(zSize,iy + y))] = ID;
+                System.out.println(Math.min(xSize-1,x + ix) + " : " + Math.min(zSize-1,iy + y) + " : " + transformToLinearSpace(Math.min(xSize-1,x + ix), Math.min(zSize-1,iy + y)));
+                gridSpaces[transformToLinearSpace(Math.min(xSize-1,x + ix), Math.min(zSize-1,iy + y))] = ID;
             }
         }
 
@@ -251,6 +278,6 @@ public class GridPartition {
 
 
     private int transformToLinearSpace(int x, int z){
-        return x + z * zSize;
+        return x + z * xSize;
     }
 }

@@ -45,8 +45,8 @@ public class GameObject implements Comparator<GameObject> {
     public void addStaticCollider(GridPartition gridPartition, occupationID id){
         this.transform.gridPartition = gridPartition;
         gridPartition.place_static_object_on_grid_from_world(transform.position.x,transform.position.z,texture.width*transform.scale.x, texture.height*transform.scale.z, occupationID.Blocked);
-        setColliderState(true);
-        CollisionDetection.collisionMaster.addToStaticQueue(this);
+      //  setColliderState(true);
+      //  CollisionDetection.collisionMaster.addToStaticQueue(this);
 
     }
 
@@ -71,6 +71,11 @@ public class GameObject implements Comparator<GameObject> {
                 blackScripts) {
             script.Update(Gdx.graphics.getDeltaTime());
         }
+    }
+
+    public void Destroy(){
+        isDestroyed = true;
+        GameObjectHandler.instantiator.GameObjectsHeld.remove(_UID);
     }
 
     protected void runScriptsFixedUpdate(float fixedDelta){

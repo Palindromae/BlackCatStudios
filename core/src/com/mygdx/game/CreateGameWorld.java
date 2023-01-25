@@ -1,14 +1,10 @@
 package com.mygdx.game;
 
-import box2dLight.Light;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.dongbat.jbump.Cell;
 import com.mygdx.game.BlackCore.BTexture;
 import com.mygdx.game.BlackCore.GameObject;
-import com.mygdx.game.BlackCore.InteractInterface;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
 import com.mygdx.game.BlackCore.Pathfinding.occupationID;
 import com.mygdx.game.BlackScripts.CustomerManager;
@@ -17,7 +13,6 @@ import com.mygdx.game.CoreData.Items.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 public class CreateGameWorld
 {
@@ -39,6 +34,9 @@ public class CreateGameWorld
     GameObject Table4;
 
     List<GameObject> Tables;
+
+    int seat_per_side = 3;
+    public List<Vector3> BossSeats;
     GameObject BossTable;
 
     GameObject Door;
@@ -122,13 +120,13 @@ public class CreateGameWorld
 
         CustomerWaitingLocations = new ArrayList<>(CustomerManager.maxGroupSize);
         float CustomerOffsetDistance = Math.max(150.0f/CustomerManager.maxGroupSize,25);
-        for (int i = 0; i < CustomerManager.maxGroupSize; i++) {
+        for (int i = 0; i < Math.max(CustomerManager.maxGroupSize,seat_per_side * 2); i++) {
             CustomerWaitingLocations.add(new Vector3( ServingCounter.transform.position.x-25, (float) 0, (float) (Math.ceil(ServingCounter.transform.position.z*50f)/50.0f +i*CustomerOffsetDistance)));
         }
 
 
 
-        CombinationCounter = new GameObject(new Rectangle( 120+ KitchenFloor.transform.position.x ,100+KitchenFloor.transform.position.z, 75,150),CombinationCounterTexture);
+        CombinationCounter = new GameObject(new Rectangle( 120+ KitchenFloor.transform.position.x ,105+KitchenFloor.transform.position.z, 75,150),CombinationCounterTexture);
         CombinationCounter.transform.position.x =  120 + KitchenFloor.transform.position.x;
         CombinationCounter.transform.position.z = 105 + KitchenFloor.transform.position.z;
         CombinationCounter.transform.position.y = 1;
@@ -280,12 +278,29 @@ public class CreateGameWorld
         Tables.add(Table4);
 
 
+
+
+
         BossTable = new GameObject(new Rectangle(TableGroupPosition.x+ DiningFloor.transform.position.x ,width * offsetY+TableGroupPosition.z+ DiningFloor.transform.position.z, TableRadius,TableRadius),BossTableTexture);
         BossTable.transform.position.x = floorToMultipleOfCellWidth( 70 + DiningFloor.transform.position.x, partition.sizeOfGridSpaces);
         BossTable.transform.position.z = floorToMultipleOfCellWidth( 30 +DiningFloor.transform.position.z, partition.sizeOfGridSpaces);
         BossTable.transform.position.y = 2;
         BossTable.transform.scale.set(1,0,1);
+        BossTable.addStaticCollider(partition,occupationID.Blocked);
+
+        //apply seating arrangement
+        int seat_per_side = 3;
+        float seatOffset = 75;
+        BossSeats = new LinkedList<Vector3>();
+        for (int y = 0; y < 2; y++) {
+            for (int x = 0; x < seat_per_side; x++) {
+                BossSeats.add(new Vector3(x * seatOffset,0,y * (25+BossTableTexture.height)-25).add(BossTable.transform.position));
+            }
+        }
+
         Tables.add(BossTable);
+
+        TableRadius /=2.0f;
 
     }
 }

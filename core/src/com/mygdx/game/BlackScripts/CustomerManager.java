@@ -1,6 +1,8 @@
 package com.mygdx.game.BlackScripts;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.mygdx.game.BlackCore.*;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 
 public class CustomerManager extends BlackScripts {
@@ -19,11 +22,20 @@ public Vector3 spawningLocation;
 BTexture customerTexture;
 public List<Vector3> WaitingPositions;
 List<Customers> WaitingCustomers = new LinkedList<>();
+List<Customers> LeavingCustomers = new LinkedList<>();
+
+public float Score = 0;
 
 int wavesOfCustomers = 5;
+
+int NumberOfCustomersSeen = 0;
+int MaxNumberOfCustomers = (int)Math.round(wavesOfCustomers * (minGroupSize+ maxGroupSize)/2.0f);
 int bossWave = 1;
+int bossAmount = 6;
+
 int currentWave = 0;
 
+Consumer<Float> EndGameCommand;
 
 int NumberOfTables = 4;
  List<Customers> SeatedCustomers = new LinkedList<>();
@@ -32,14 +44,16 @@ int NumberOfTables = 4;
  public List<GameObject> RealTables = new LinkedList<>();
  public List<Vector3> BossTableSeats = new LinkedList<>();
  public float TableRadius;
- private float TableRadiusOffset = 5;
+ private float TableRadiusOffset = 10;
 List<MenuItem> Menu = new ArrayList<>();//this is a list sets of items. So that one type of item isnt over represented because it has more variations
 Random rand = new Random();
 
 public GridPartition gridPartition;
 
-float TimeToNextLeave = 0;
 float EatingTime = 10;
+
+float TimeToNextLeave = EatingTime;
+
 int StockFloor = 5;
 int MaxStockCapacity = 15;
 int refillCapability = 5;
@@ -51,7 +65,7 @@ enum RandomisationStyle{
     }
 
 
-    public CustomerManager(List<GameObject> _RealTables, GridPartition Partition){
+    public CustomerManager(List<GameObject> _RealTables, GridPartition Partition, float TableRadius){
         if (customermanager != null)
             return;
 
@@ -76,9 +90,9 @@ enum RandomisationStyle{
              ) {
             i++;
             if(i != RealTables.size())
-            Tables.add(new Table(t.transform.position, TableRadius + TableRadiusOffset));
+            Tables.add(new Table(t.transform.position, TableRadius + TableRadiusOffset, TableRadiusOffset));
             else
-                BossTable = new Table(t.transform.position,-1);
+                BossTable = new Table(t.transform.position,-1, 0);
 
 
         }
@@ -100,7 +114,7 @@ enum RandomisationStyle{
         return null;
     }
     public void invokeNewCustomer(){
-        int count = rand.ints(1,minGroupSize,maxGroupSize+1).sum();
+        int count = GetNumberOfCustomersInWave();
 
         Table tableToUse = getNextFreeTable();
         tableToUse.DefineSeatingArrangement(count);
@@ -192,12 +206,13 @@ enum RandomisationStyle{
     if(head.IsSatisfied()){
         WaitingCustomers.remove(0);
         SeatedCustomers.add(head);
+        Score += head.getScore();
        // head.frustration = 0;
         //Customer should now leave for a table
         return;
     }
 
-    head.updateFrustration(1);
+    head.updateFrustration(1 * dt);
 
     }
 
@@ -205,22 +220,26 @@ enum RandomisationStyle{
         //Reset the counter if there its time for someone to leave
         if(TimeToNextLeave<= 0){
             TimeToNextLeave = EatingTime;
+            Customers head = SeatedCustomers.get(0);
             SeatedCustomers.remove(0);
+            LeavingCustomers.add(head);
+            head.MoveCustomersToExit();
             //Should Signal here to pathfind to exit
+
         }
 
         //Decrement the count if there is someone seated
         if(SeatedCustomers.size()>0)
-            EatingTime -= dt;
+            TimeToNextLeave -= dt;
     }
     void UpdateWaitingCustomers(float dt){
-        if(SeatedCustomers.size()<NumberOfTables){
+        //f(SeatedCustomers.size()<NumberOfTables){
 
             if(WaitingCustomers.size()!=0)
                 UpdateCustomerHead(dt);
 
 
-        }
+       // }
         //Check if theres a seated customer
         if(SeatedCustomers.size()>0)
             UpdateSeatedCustomer(dt);
@@ -229,20 +248,35 @@ enum RandomisationStyle{
 
     }
 
-    void UpdateWave(){
-    currentWave++;
-    if(currentWave<wavesOfCustomers)
-    {
-        invokeNewCustomer();
+
+    int GetNumberOfCustomersInWave(){
+    int count = rand.ints(1,minGroupSize,maxGroupSize+1).sum();
+    count = Math.max(1, Math.min(MaxNumberOfCustomers- (wavesOfCustomers-currentWave)-NumberOfCustomersSeen, count));
+    NumberOfCustomersSeen += count;
+    return count;
 
 
-    }  else if(currentWave<wavesOfCustomers+bossWave){
-        BossTable.DefineSeatingArrangement(BossTableSeats);
-        Customers customerGroup = new Customers(spawningLocation, CreateRandomOrder(maxGroupSize,RandomisationStyle.Random),customerTexture,gridPartition,BossTable);
-        WaitingCustomers.add(customerGroup);
+
     }
 
+    void UpdateWave(){
 
+    if(getNextFreeTable() != null) {
+        currentWave++;
+        if (currentWave < wavesOfCustomers) {
+            invokeNewCustomer();
+
+
+        } else if (currentWave < wavesOfCustomers + bossWave) {
+            BossTable.DefineSeatingArrangement(BossTableSeats);
+            Customers customerGroup = new Customers(spawningLocation, CreateRandomOrder(BossTableSeats.size(), RandomisationStyle.Random), customerTexture, gridPartition, BossTable);
+            WaitingCustomers.add(customerGroup);
+        } else{
+            //end the game
+
+        }
+
+    }
 
     }
 
@@ -253,6 +287,18 @@ enum RandomisationStyle{
         if(WaitingCustomers.size() == 0)
         {
             UpdateWave();
+        }
+
+        for (int i = LeavingCustomers.size()-1; i >= 0; i--) {
+
+            if(LeavingCustomers.get(i).TryDestroyOnEmptyPaths())
+                LeavingCustomers.remove(i);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)){
+            if(WaitingCustomers.size()>0)
+            WaitingCustomers.get(0).RemoveFirstCustomer();
+
         }
     }
 }

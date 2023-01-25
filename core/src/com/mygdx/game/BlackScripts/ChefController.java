@@ -19,6 +19,10 @@ public class ChefController extends PathfindingAgent {
     private int maxStackSize = 3;
 
 
+    public ChefController(){
+        UpdateMap = true;
+    }
+
 
     @Override
     public void Update(float dt) {

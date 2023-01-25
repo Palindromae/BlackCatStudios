@@ -12,6 +12,8 @@ public class PathfindingAgent extends BlackScripts
     private List<Vector2> currentPath;
     private float Speed = 1.5f;
 
+    public boolean UpdateMap = false;
+
     private Vector3 PrevPosition = new Vector3(0,0,0);
     private Vector3 NextPosition= new Vector3(0,0,0);
 
@@ -40,6 +42,9 @@ public class PathfindingAgent extends BlackScripts
     }
 
 
+    public int pathLength(){
+        return currentPath.size();
+    }
     //linePnt - point the line passes through
 //lineDir - unit vector in direction of line, either direction works
 //pnt - the point to find nearest on line for
@@ -86,7 +91,11 @@ public class PathfindingAgent extends BlackScripts
         Vector3 p = new Vector3(0,0,0);
         p.set(gameObject.transform.position);
         p.mulAdd(dir,dst);
-        gameObject.transform.UpdatePosition(p);
+
+        if(UpdateMap)
+          gameObject.transform.UpdatePosition(p);
+        else
+            gameObject.transform.position.set(p);
 
     }
 }
