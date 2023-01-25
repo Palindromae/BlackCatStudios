@@ -3,28 +3,27 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.ApplicationAdapter;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Quaternion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.dongbat.jbump.Grid;
-import com.dongbat.jbump.Item;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.*;
+
 import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
 import com.mygdx.game.CoreData.Items.Items;
 import jdk.javadoc.internal.doclets.formats.html.markup.Script;
 
 import java.awt.*;
 import java.util.List;
+
 
 public class MyGdxGame extends ApplicationAdapter {
 	public static OrthographicCamera camera;
@@ -39,12 +38,21 @@ public class MyGdxGame extends ApplicationAdapter {
 	SoundFrame soundFrame = new SoundFrame();
 
 	CreateGameWorld GameWorld;
+	RunInteract interact;
 	MasterChef masterChef;
+
 	GameObject obj;
 	GameObject obj2;
 	GameObject obj3;
 	GameObject menu;
+
+	SoundFrame soundFrame = new SoundFrame();
+	LoadSounds soundLoader = new LoadSounds();
+
+
 	BatchDrawer batch;
+
+	public static PathfindingConfig pathfindingConfig;
 
 	CustomerManager customerManager;
 	public Boolean gameRestart = false;
@@ -65,6 +73,12 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 
+
+
+
+		soundLoader.loadAllSounds(soundFrame);
+		long id = soundFrame.playSound("Main Screen");
+		soundFrame.setLooping(id, "Main Screen");
 
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
@@ -89,13 +103,22 @@ public class MyGdxGame extends ApplicationAdapter {
 		texture.setWrap(Texture.TextureWrap.MirroredRepeat);
 
 		GameWorld = new CreateGameWorld();
-		GameWorld.Instantiate();
 
-		//obj = new GameObject(new Rectangle(10,10,20,20),texture);
-		//obj2 = new GameObject(new Rectangle(10,10,20,20),texture);
-//		obj2.transform.position = new Vector3(700,0,0);
-//		obj.addDynamicCollider();
-//		obj2.addDynamicCollider();
+		GridSettings gridsets = new GridSettings();
+		gridsets.scaleOfGrid = 25;
+		gridsets.XSizeOfFloor = 1000;
+		gridsets.ZSizeOfFloor = 600;
+
+		GridPartition gPart = new GridPartition(gridsets);
+
+		pathfindingConfig = new PathfindingConfig();
+		pathfindingConfig.DiagonalCost = 1;
+		pathfindingConfig.StepCost = 1;
+		pathfindingConfig.DiagonalCost = 1;
+		pathfindingConfig.PathMutliplier = 1;
+		pathfindingConfig.maxIterations = 500;
+		pathfindingConfig.DistanceCost = 1;
+
 
 		// Makes a menu game object using the menu.png file as a texture and sets it to position y = 3, which brings it to the front
 		menu = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 415));
@@ -163,10 +186,21 @@ public class MyGdxGame extends ApplicationAdapter {
 		controlsText.transform.position.z = 15;
 		controlsText.transform.position.y = 10;
 
-		//	gameObjectHandler.Instantiate(obj);
+
+		GameWorld.Instantiate(gPart);
+
+
+
+
+
+		interact = new RunInteract(GameWorld);
+
+
+
+
 
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false,800,400);
+		camera.setToOrtho(false,800,480);
 
 
 
@@ -192,20 +226,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		//System.out.println(factory.produceItem(Items.Lettuce).name);
 
-		GridSettings gridsets = new GridSettings();
-		gridsets.scaleOfGrid = 25;
-		gridsets.XSizeOfFloor = 1000;
-		gridsets.ZSizeOfFloor = 600;
-
-		GridPartition gPart = new GridPartition(gridsets);
-
-		PathfindingConfig config = new PathfindingConfig();
-		config.DiagonalCost = 1;
-		config.StepCost = 1;
-		config.DiagonalCost = 1;
-		config.PathMutliplier = 1;
-		config.maxIterations = 500;
-		config.DistanceCost = 1;
 	//	List<Vector2> a = gPart.pathfindFrom(0,0,3,3,config);
 	//	System.out.println(a.size());
 	//	for (Vector2 v2: a
@@ -220,8 +240,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		ScriptManager.tryAppendLooseScript(masterChef);
 
-		customerManager = new CustomerManager();
+		customerManager = new CustomerManager(GameWorld.Tables,gPart,GameWorld.TableRadius);
 		CustomerManager.customermanager.setCustomerTexture(texture);
+
+		CustomerManager.customermanager.WaitingPositions = GameWorld.CustomerWaitingLocations;
+		CustomerManager.customermanager.spawningLocation = GameWorld.CustomerSpawnLocations;
+		customerManager.BossTableSeats = GameWorld.BossSeats;
+
+
 
 		ScriptManager.tryAppendLooseScript(customerManager);
 
@@ -328,7 +354,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.RenderTextures(camera.combined);
 	}
-	
+
+	public void FinishGame(float score){
+
+	}
+
 	@Override
 	public void dispose () {
 		gameObjectHandler.dispose();

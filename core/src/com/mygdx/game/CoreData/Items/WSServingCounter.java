@@ -8,7 +8,7 @@ public class WSServingCounter extends WorkStation{
 
 
     @Override
-    public boolean giveItem(ItemAbs Item){
+    public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
             this.Item = Item;
             return true;
@@ -17,7 +17,17 @@ public class WSServingCounter extends WorkStation{
     }
 
     @Override
-    public ItemAbs takeItem(){
+    public boolean TestGetItem() {
+        return true;
+    }
+
+    @Override
+    public boolean TestGiveItem() {
+        return true;
+    }
+
+    @Override
+    public ItemAbs GetItem(){
         returnItem = Item;
         deleteItem();
         return returnItem;

@@ -1,5 +1,6 @@
 package com.mygdx.game.BlackCore.Pathfinding;
 
+
 public class PathfindingConfig {
 
 
