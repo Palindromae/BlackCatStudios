@@ -24,6 +24,11 @@ public abstract class WorkStation extends BlackScripts implements InteractInterf
     public abstract  boolean GiveItem(ItemAbs Item);
     public abstract ItemAbs GetItem();
 
+    public void Reset(){
+        Item = null;
+        returnItem = null;
+        currentRecipe = null;
+    }
 
     public void deleteItem(){
         Item = null;
