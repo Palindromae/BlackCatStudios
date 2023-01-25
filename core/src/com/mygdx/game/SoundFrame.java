@@ -48,19 +48,14 @@ public class SoundFrame {
 
     }
 
-    public void stopSound(String name) {
-        if (!sounds.containsKey(name)){
-            return;
-        }
-        sounds.get(name).stop();
-    }
-
     public void stopSound(String name, long id) {
         if (!sounds.containsKey(name)){
             return;
         }
         sounds.get(name).stop(id);
+        ids.get(name).remove(id);
     }
+
 
 
 
@@ -76,13 +71,6 @@ public class SoundFrame {
             return;
         }
         sounds.get(name).resume(id);
-    }
-
-    public void pauseSound(String name){
-        if (!sounds.containsKey(name)){
-            return;
-        }
-        sounds.get(name).pause();
     }
 
     public void pauseSound(String name, long id){
