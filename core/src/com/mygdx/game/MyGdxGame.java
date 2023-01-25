@@ -128,7 +128,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		pauseMenu = new GameObject((Shape2D) new Rectangle(10,20,20,20),
 				new BTexture("pauseMenu.png", 800, 480));
 		pauseMenu.negateVisibility(); // makes it invisible initially, so it does not block the screen
-		pauseMenu.transform.position.y = 3;
+		pauseMenu.transform.position.y = 9;
 
 		// All the following game objects are used to display the pause menu options
 		playIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("play-button-arrowhead.png", 64, 64));
