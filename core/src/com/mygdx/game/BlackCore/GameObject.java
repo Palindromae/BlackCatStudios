@@ -19,7 +19,7 @@ public class GameObject implements Comparator<GameObject> {
     public Transform transform;
     public boolean colliderState;
 
-    List<BlackScripts> blackScripts;
+   public List<BlackScripts> blackScripts;
     private Integer _UID;
 
     Boolean isDestroyed = false;

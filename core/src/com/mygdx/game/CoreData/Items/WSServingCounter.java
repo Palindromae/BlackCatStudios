@@ -44,6 +44,13 @@ public class WSServingCounter extends WorkStation{
 
 
     @Override
+    public void Reset(){
+        super.Reset();
+
+        answer = false;
+    }
+
+    @Override
     public void FixedUpdate(float dt){
 
     }

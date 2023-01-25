@@ -85,13 +85,7 @@ Vector3 spawnPos;
 
         }
 
-        for (GameObject obj: satisfiedCustomers
-             ) {
-
-            obj.Destroy();
-
-            table.reset();
-        }
+        Destroy();
     return  true;
     }
 
@@ -102,6 +96,16 @@ Vector3 spawnPos;
 
         MoveCustomerToPos(obj,nextSeat);
         satisfiedCustomers.add(obj);
+    }
+
+    public void Destroy(){
+        for (GameObject obj: satisfiedCustomers
+        ) {
+
+            obj.Destroy();
+
+            table.reset();
+        }
     }
 
     void MoveCustomerToPos(GameObject obj, Vector3 pos){

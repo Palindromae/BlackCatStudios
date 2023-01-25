@@ -19,6 +19,12 @@ public class ChefController extends PathfindingAgent {
     private int maxStackSize = 3;
 
 
+    public void reset(Vector3 p)
+    {
+        gameObject.transform.UpdatePosition(p);
+        ItemStack.clear();
+    }
+
     public ChefController(){
         UpdateMap = true;
     }

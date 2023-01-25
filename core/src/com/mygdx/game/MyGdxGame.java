@@ -3,7 +3,7 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.ApplicationAdapter;
-
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -34,8 +34,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	FixedTimeController fixedTime;
 	CollisionDetection collisionDetection;
 	PhysicsSuperController physicsController;
-
-	SoundFrame soundFrame = new SoundFrame();
 
 	CreateGameWorld GameWorld;
 	RunInteract interact;
@@ -242,7 +240,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		customerManager = new CustomerManager(GameWorld.Tables,gPart,GameWorld.TableRadius);
 		CustomerManager.customermanager.setCustomerTexture(texture);
-
+		customerManager.EndGameCommand = this::FinishGame;
 		CustomerManager.customermanager.WaitingPositions = GameWorld.CustomerWaitingLocations;
 		CustomerManager.customermanager.spawningLocation = GameWorld.CustomerSpawnLocations;
 		customerManager.BossTableSeats = GameWorld.BossSeats;
@@ -355,8 +353,24 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.RenderTextures(camera.combined);
 	}
 
-	public void FinishGame(float score){
+	public void Restart(){
 
+		//Place chefs in area
+		//Destroy chefs items
+		masterChef.ResetSequence(GameWorld.SpawnPointChef1,GameWorld.SpawnPointChef2);
+		//Remove items from machines
+		GameWorld.Reset();
+		//Reset customers, seen customers, wave number
+		CustomerManager.customermanager.Reset();
+
+		//Go to menu or what ever it is suppose to
+
+	}
+
+
+
+	public void FinishGame(float score){
+		System.out.println("Ended the game with score: " + score);
 	}
 
 	@Override
