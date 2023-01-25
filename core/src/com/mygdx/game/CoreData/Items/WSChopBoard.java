@@ -124,6 +124,7 @@ public class WSChopBoard extends WorkStation{
         } else if (playingChopSound){
             playingChopSound = false;
             SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);
+            SoundFrame.SoundEngine.stopSound("Knife Chop",soundID);
 
         }
         Interacted = false;

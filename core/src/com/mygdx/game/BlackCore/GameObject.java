@@ -40,6 +40,19 @@ public class GameObject implements Comparator<GameObject> {
         GameObjectHandler.instantiator.Instantiate(this);
     }
 
+    public GameObject(Shape2D shape, BTexture texture, int width, int height){
+
+        this.shape = shape;
+        this.texture = texture;
+        transform = new Transform();
+        blackScripts = new LinkedList<>();
+        // set to true by default so that objects are correctly displayed
+        IsActiveAndVisible = true;
+        textureWidth = width;
+        textureHeight = height;
+        GameObjectHandler.instantiator.Instantiate(this);
+    }
+
     public Integer getUID() {
         return _UID;
 
@@ -52,7 +65,7 @@ public class GameObject implements Comparator<GameObject> {
 
     public void addStaticCollider(GridPartition gridPartition, occupationID id){
         this.transform.gridPartition = gridPartition;
-        gridPartition.place_static_object_on_grid_from_world(transform.position.x,transform.position.z,texture.width*transform.scale.x, texture.height*transform.scale.z, occupationID.Blocked);
+        gridPartition.place_static_object_on_grid_from_world(transform.position.x,transform.position.z,getTextureWidth()*transform.scale.x, getTextureHeight()*transform.scale.z, occupationID.Blocked);
       //  setColliderState(true);
       //  CollisionDetection.collisionMaster.addToStaticQueue(this);
 
