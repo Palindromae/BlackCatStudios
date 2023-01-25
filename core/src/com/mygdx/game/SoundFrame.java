@@ -12,7 +12,6 @@ public class SoundFrame {
 
     float volume = 1.0f;
 
-
     public SoundFrame(){
         if(SoundEngine != null)
             return;
@@ -77,7 +76,7 @@ public class SoundFrame {
         if (!sounds.containsKey(name)){
             return;
         }
-        sounds.get(name).pause(id);
+        sounds.get(name).pause();
     }
 
 

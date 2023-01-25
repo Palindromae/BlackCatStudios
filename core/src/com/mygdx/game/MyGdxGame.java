@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.*;
@@ -23,6 +24,7 @@ import jdk.javadoc.internal.doclets.formats.html.markup.Script;
 
 import java.awt.*;
 import java.util.List;
+import com.badlogic.gdx.math.Rectangle;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -43,8 +45,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject obj2;
 	GameObject obj3;
 	GameObject menu;
-
-	SoundFrame soundFrame = new SoundFrame();
 	LoadSounds soundLoader = new LoadSounds();
 
 
@@ -119,69 +119,69 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		// Makes a menu game object using the menu.png file as a texture and sets it to position y = 3, which brings it to the front
-		menu = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 415));
+		menu = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 415));
 		menu.transform.position.y = 3;
 
 		// Makes a pauseMenu game object using the pauseMenu.png file as a texture
-		pauseMenu = new GameObject(new Rectangle(10,20,20,20),
-				new BTexture("pauseMenu.png", 800, 415));
+		pauseMenu = new GameObject((Shape2D) new Rectangle(10,20,20,20),
+				new BTexture("pauseMenu.png", 800, 480));
 		pauseMenu.negateVisibility(); // makes it invisible initially, so it does not block the screen
 		pauseMenu.transform.position.y = 3;
 
 		// All the following game objects are used to display the pause menu options
-		playIcon =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("play-button-arrowhead.png", 64, 64));
+		playIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("play-button-arrowhead.png", 64, 64));
 		playIcon.negateVisibility();
 		playIcon.transform.position.x = 50;
-		playIcon.transform.position.z = 275;
+		playIcon.transform.position.z = 325;
 		playIcon.transform.position.y = 10;
 
 
-		closeMenuText = new GameObject(new Rectangle(10,20, 20, 20), new BTexture("Resume.png", 180, 85));
+		closeMenuText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("Resume.png", 180, 85));
 		closeMenuText.negateVisibility();
 		closeMenuText.transform.position.x = 140;
-		closeMenuText.transform.position.z = 265;
+		closeMenuText.transform.position.z = 315;
 		closeMenuText.transform.position.y = 10;
 
-		muteMusicIcon =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("volume.png", 64, 64));
+		muteMusicIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("volume.png", 64, 64));
 		muteMusicIcon.negateVisibility();
 		muteMusicIcon.transform.position.x = 50;
-		muteMusicIcon.transform.position.z = 155;
+		muteMusicIcon.transform.position.z = 205;
 		muteMusicIcon.transform.position.y = 10;
 
-		muteMusicText =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("muteSound.png", 190, 85));
+		muteMusicText =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("muteSound.png", 190, 85));
 		muteMusicText.negateVisibility();
 		muteMusicText.transform.position.x = 140;
-		muteMusicText.transform.position.z = 145;
+		muteMusicText.transform.position.z = 195;
 		muteMusicText.transform.position.y = 10;
 
-		unmuteMusicIcon =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
+		unmuteMusicIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
 		unmuteMusicIcon.negateVisibility();
 		unmuteMusicIcon.transform.position.x = 50;
-		unmuteMusicIcon.transform.position.z = 155;
+		unmuteMusicIcon.transform.position.z = 205;
 		unmuteMusicIcon.transform.position.y = 10;
 
-		unmuteMusicText =  new GameObject(new Rectangle(10,20, 20, 20), new BTexture("unMuteSound.png", 230, 85));
+		unmuteMusicText =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("unMuteSound.png", 230, 85));
 		unmuteMusicText.negateVisibility();
 		unmuteMusicText.transform.position.x = 140;
-		unmuteMusicText.transform.position.z = 145;
+		unmuteMusicText.transform.position.z = 195;
 		unmuteMusicText.transform.position.y = 10;
 
-		closeGameText = new GameObject(new Rectangle(10,20, 20, 20), new BTexture("closeGame.png", 190, 85));
+		closeGameText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("closeGame.png", 190, 85));
 		closeGameText.negateVisibility();
 		closeGameText.transform.position.x = 140;
-		closeGameText.transform.position.z = 35;
+		closeGameText.transform.position.z = 85;
 		closeGameText.transform.position.y = 10;
 
-		closeGameIcon = new GameObject(new Rectangle(10,20, 20, 20), new BTexture("cancel-button.png", 64, 64));
+		closeGameIcon = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("cancel-button.png", 64, 64));
 		closeGameIcon.negateVisibility();
 		closeGameIcon.transform.position.x = 50;
-		closeGameIcon.transform.position.z = 35;
+		closeGameIcon.transform.position.z = 85;
 		closeGameIcon.transform.position.y = 10;
 
-		controlsText = new GameObject(new Rectangle(10,20, 20, 20), new BTexture("controls.png", 252, 350));
+		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 252, 350));
 		controlsText.negateVisibility();
 		controlsText.transform.position.x = 450;
-		controlsText.transform.position.z = 15;
+		controlsText.transform.position.z = 65;
 		controlsText.transform.position.y = 10;
 
 
@@ -314,37 +314,38 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (!Pause){
 			ScriptManager.RunUpdate(); // this is run when the game is not paused
 		}else{
-			// If the text is clicked, the game will be unpaused and the menu will disappear
-			if (closeMenuText.isObjectTouched() || playIcon.isObjectTouched()){
-				Pause = !Pause;
-				negatePauseMenu();
-			}
-			// If the text is clicked or the X key is pressed the game will exit
-			if (Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched()){
-				this.dispose();
-				Gdx.app.exit();
-				System.exit(0);
-			}
-			// If the unmute/ mute icon or text is clicked, the music will be muted or unmuted
-			if (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
-			|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched()){
-				if (muteState){
-					soundFrame.SoundEngine.unMuteSound();
-					unmuteMusicIcon.negateVisibility();
-					muteMusicIcon.negateVisibility();
-					unmuteMusicText.negateVisibility();
-					muteMusicText.negateVisibility();
-					muteState = !muteState;
+			if (!menu.getVisibility()){
+				// If the text is clicked, the game will be unpaused and the menu will disappear
+				if (closeMenuText.isObjectTouched() || playIcon.isObjectTouched()){
+					Pause = !Pause;
+					negatePauseMenu();
 				}
-				else{
-					soundFrame.SoundEngine.muteSound();
-					unmuteMusicIcon.negateVisibility();
-					muteMusicIcon.negateVisibility();
-					unmuteMusicText.negateVisibility();
-					muteMusicText.negateVisibility();
-					muteState = !muteState;
+				// If the text is clicked or the X key is pressed the game will exit
+				if (Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched()){
+					this.dispose();
+					Gdx.app.exit();
+					System.exit(0);
 				}
-//				System.out.print(soundFrame.volume);
+				// If the unmute/ mute icon or text is clicked, the music will be muted or unmuted
+				if (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
+						|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched()) {
+					if (muteState) {
+						soundFrame.unMuteSound();
+						unmuteMusicIcon.negateVisibility();
+						muteMusicIcon.negateVisibility();
+						unmuteMusicText.negateVisibility();
+						muteMusicText.negateVisibility();
+						muteState = !muteState;
+					} else {
+						soundFrame.muteSound();
+						unmuteMusicIcon.negateVisibility();
+						muteMusicIcon.negateVisibility();
+						unmuteMusicText.negateVisibility();
+						muteMusicText.negateVisibility();
+						muteState = !muteState;
+					}
+					System.out.print(soundFrame.volume);
+				}
 
 			}
 		}
