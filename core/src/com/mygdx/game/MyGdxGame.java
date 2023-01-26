@@ -49,10 +49,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	Boolean Pause = false;
 	BTexture pauseTexture;
 	GameObject pauseMenu;
+
+	HighScore highScore;
 	GameObject closeMenu;
 	GameObject muteMusic;
 	GameObject unmuteMusic;
 	boolean muteState = false;
+
+
 
 	@Override
 	public void create () {
@@ -182,6 +186,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	}
 
+
+
 	@Override
 	public void render () {
 
@@ -194,7 +200,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 		if(Gdx.input.isKeyJustPressed(InputsDefaults.highscores)){ // If the H button is pressed in the main menu the game will display the high scores
-			;
+
+
 			// code to display the highscores
 		}
 

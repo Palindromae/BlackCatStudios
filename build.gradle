@@ -50,7 +50,9 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
         api "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
-        
+        implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+
+
     }
 }
 
@@ -69,6 +71,7 @@ project(":core") {
         api "com.esotericsoftware.spine:spine-libgdx:3.8.55.1"
         api "com.github.tommyettinger:jbump:1.0.1"
         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         
     }
 }
