@@ -76,6 +76,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject pauseButton;
 	boolean muteState = false;
 	Boolean isGameRunning = false;
+  HighScore highScore;
 
 	@Override
 	public void create () {
