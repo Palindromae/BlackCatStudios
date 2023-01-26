@@ -73,8 +73,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject muteMusic;
 	GameObject unmuteMusic;
 	GameObject menuControls;
+	GameObject pauseButton;
 	boolean muteState = false;
-	boolean isGameRunning = false;
+	Boolean isGameRunning = false;
 
 	@Override
 	public void create () {
@@ -127,14 +128,20 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		// Makes a menu game object using the menu.png file as a texture and sets it to position y = 3, which brings it to the front
-		menu = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 415));
-		menu.transform.position.y = 3;
+		menu = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 480));
+		menu.transform.position.y = 4;
 
 		// Makes a pauseMenu game object using the pauseMenu.png file as a texture
 		pauseMenu = new GameObject((Shape2D) new Rectangle(10,20,20,20),
 				new BTexture("pauseMenu.png", 800, 480));
 		pauseMenu.negateVisibility(); // makes it invisible initially, so it does not block the screen
-		pauseMenu.transform.position.y = 3;
+		pauseMenu.transform.position.y = 4;
+
+		pauseButton = new GameObject((Shape2D) new Rectangle(10,20,20,20),
+				new BTexture("pause.png", 64, 46));
+		pauseButton.transform.position.x = 735;
+		pauseButton.transform.position.z = 415;
+		pauseButton.transform.position.y = 3;
 
 		// All the following game objects are used to display the pause menu options
 		playIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("play-button-arrowhead.png", 64, 64));
@@ -163,27 +170,27 @@ public class MyGdxGame extends ApplicationAdapter {
 		muteMusicText.transform.position.y = 10;
 
 		menuControls = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 250, 350));
-		menuControls.transform.position.y = 4;
+		menuControls.transform.position.y = 5;
 		menuControls.transform.position.x = 500;
 		menuControls.transform.position.z = 25;
 
 		settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 65, 70));
-		settings.transform.position.y = 4;
+		settings.transform.position.y = 5;
 		settings.transform.position.x = 75;
 		settings.transform.position.z = 125;
 
 		highscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("trophy-for-sports.png", 300, 70));
-		highscores.transform.position.y = 4;
+		highscores.transform.position.y = 5;
 		highscores.transform.position.x = 75;
 		highscores.transform.position.z = 200;
 
 		exit = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("exitIcon.png", 65, 70));
-		exit.transform.position.y = 4;
+		exit.transform.position.y = 5;
 		exit.transform.position.x = 75;
 		exit.transform.position.z = 50;
 
 		start = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("play-button-arrowhead.png", 300, 70));
-		start.transform.position.y = 4;
+		start.transform.position.y = 5;
 		start.transform.position.x = 75;
 		start.transform.position.z = 275;
 
@@ -353,9 +360,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		// If P is pressed while the game is running, the pause variable is negated and the menu will appear
-		if (isGameRunning && Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
-			Pause = !Pause;
-			negatePauseMenu();
+		if (!Pause && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || pauseButton.isObjectTouched())){
+			if (!isGameRunning){
+				negatePauseMenu(); // the pause menu is closed
+				this.changeMenuVisbility(); // the main menu is opened again
+			}else {
+				Pause = !Pause;
+				negatePauseMenu();
+			}
 		}
 		if(fixedTime.doTimeStep()){
 			//the time step is within accumulator
@@ -370,20 +382,13 @@ public class MyGdxGame extends ApplicationAdapter {
 			ScriptManager.RunUpdate(); // this is run when the game is not paused
 		}else{
 			if (!menu.getVisibility()){
-				// If the text is clicked, the game will be unpaused and the menu will disappear
-//				if (closePauseMenuText.isObjectTouched() || playIcon.isObjectTouched()){
-//					Pause = !Pause;
-//					negatePauseMenu();
-//				}
 				if (!isGameRunning && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || playIcon.isObjectTouched() || closePauseMenuText.isObjectTouched())){
-					negatePauseMenu();
-					changeMenuVisbility();
+					negatePauseMenu(); // the pause menu is closed
+					changeMenuVisbility(); // the start menu is displayed again
 				}
-				else if (isGameRunning){
+				else if (isGameRunning && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || playIcon.isObjectTouched() || closePauseMenuText.isObjectTouched())){
 					Pause = !Pause;
 					negatePauseMenu();
-				}
-
 				}
 				// If the text is clicked or the X key is pressed the game will exit
 				if (Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched()){
@@ -411,6 +416,8 @@ public class MyGdxGame extends ApplicationAdapter {
 					}
 					System.out.print(soundFrame.volume);
 				}
+				}
+
 
 			}
 		camera.update();
