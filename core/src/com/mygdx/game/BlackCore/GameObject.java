@@ -147,7 +147,8 @@ public class GameObject implements Comparator<GameObject> {
      * It does this by checking if the mouse is clicked and if the mouse is within the bounds of the object
      * @return true if the object is clicked, false otherwise
      */
-    public Boolean isObjectTouched() {
+
+    public Boolean isObjectTouched() { // Method for use of checking if spaces in menus are touched for initiating different buttons/sequences
         if (Gdx.input.isButtonJustPressed(0)) {
             Vector3 touchpos = new Vector3();
             touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
