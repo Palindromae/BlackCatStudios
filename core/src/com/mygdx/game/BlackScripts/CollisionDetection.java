@@ -59,7 +59,7 @@ public class CollisionDetection {
                 Shape2D mainShape = toCheck.shape;
                 Shape2D secondShape = dynamicObjects.get(i).shape;
                 if (toCheck.getColliderState() == false) continue;
-                System.out.println(collider(mainShape, secondShape));
+           //     System.out.println(collider(mainShape, secondShape));
                 if(collider(mainShape, secondShape)){
                     collisions.add(dynamicObjects.get(i));
 
@@ -69,7 +69,7 @@ public class CollisionDetection {
         return collisions;
     }
 
-    public boolean collider(Shape2D obj1,Shape2D obj2){
+    public static boolean collider(Shape2D obj1,Shape2D obj2){
         if (obj1 instanceof Rectangle && obj2 instanceof Rectangle) return Intersector.overlaps((Rectangle) obj1, (Rectangle)obj2);
         if (obj1 instanceof Rectangle && obj2 instanceof Circle) return Intersector.overlaps((Circle)obj2, (Rectangle) obj1);
         if (obj1 instanceof Circle && obj2 instanceof Rectangle) return Intersector.overlaps((Circle) obj1, (Rectangle)obj2);
