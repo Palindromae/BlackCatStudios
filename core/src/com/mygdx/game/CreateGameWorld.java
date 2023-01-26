@@ -375,8 +375,9 @@ public class CreateGameWorld
 
         for (GameObject obj: WorkStations
              ) {
-            ((WorkStation)obj.blackScripts.get(0)).Reset();
-
+            if (obj.blackScripts.get(0) instanceof WorkStation){
+                ((WorkStation)obj.blackScripts.get(0)).Reset();
+            }
         }
 
 
