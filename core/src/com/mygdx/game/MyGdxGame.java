@@ -320,19 +320,19 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void render () {
 		// if(Gdx.input.isKeyJustPressed(InputsDefaults.exit)){ // If the escape key is pressed in the main menu the game will shut down
-		if((Gdx.input.isKeyJustPressed(InputsDefaults.exit)) || (exit.isObjectTouched()) ){ // If the X key is pressed or the text is clicked in the main menu the game will shut down
+		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.exit)) || (exit.isObjectTouched()))){ // If the X key is pressed or the text is clicked in the main menu the game will shut down
 			Gdx.app.exit();
 			System.exit(0);
 		}
 
-		if((Gdx.input.isKeyJustPressed(InputsDefaults.highscores)) || (highscores.isObjectTouched())){ // If the H button is pressed or the text is clicked in the main menu the game will display the high scores
+		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.highscores)) || (highscores.isObjectTouched()))){ // If the H button is pressed or the text is clicked in the main menu the game will display the high scores
 			this.changeMenuVisbility();
 			// code to display the highscores
 
 
 		}
 
-		if((Gdx.input.isKeyJustPressed(InputsDefaults.settings)) || (settings.isObjectTouched())){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
+		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.settings)) || (settings.isObjectTouched()))){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
 			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
 			this.changeMenuVisbility();
 			// code to display the settings menu
