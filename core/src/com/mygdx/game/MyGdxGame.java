@@ -74,7 +74,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject unmuteMusic;
 	GameObject menuControls;
 	boolean muteState = false;
-
 	boolean isGameRunning = false;
 
 	@Override
@@ -187,7 +186,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		start.transform.position.y = 4;
 		start.transform.position.x = 75;
 		start.transform.position.z = 275;
-		
+
 
 		unmuteMusicIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
 		unmuteMusicIcon.negateVisibility();
@@ -321,6 +320,16 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+
+		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.start)) || (start.isObjectTouched()))){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
+			// Music changes from main menu music to game music
+			// Main menu disappears and becomes invisible
+			this.changeMenuVisbility();
+			isGameRunning = !isGameRunning;
+			Pause = !Pause;
+
+		}
+
 		// if(Gdx.input.isKeyJustPressed(InputsDefaults.exit)){ // If the escape key is pressed in the main menu the game will shut down
 		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.exit)) || (exit.isObjectTouched()))){ // If the X key is pressed or the text is clicked in the main menu the game will shut down
 			Gdx.app.exit();
@@ -336,23 +345,15 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.settings)) || (settings.isObjectTouched()))){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
 			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
+			negatePauseMenu();
 			this.changeMenuVisbility();
 			// code to display the settings menu
-			this.negatePauseMenu();
-		}
-
-
-		if((menu.getVisibility()) && ((Gdx.input.isKeyJustPressed(InputsDefaults.start)) || (start.isObjectTouched()))){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
-			// Music changes from main menu music to game music
-			// Main menu disappears and becomes invisible
-			this.changeMenuVisbility();
-			isGameRunning = !isGameRunning;
-			Pause = !Pause;
 
 		}
+
 
 		// If P is pressed while the game is running, the pause variable is negated and the menu will appear
-		if (!menu.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
+		if (isGameRunning && Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
 			Pause = !Pause;
 			negatePauseMenu();
 		}
@@ -370,9 +371,19 @@ public class MyGdxGame extends ApplicationAdapter {
 		}else{
 			if (!menu.getVisibility()){
 				// If the text is clicked, the game will be unpaused and the menu will disappear
-				if (closePauseMenuText.isObjectTouched() || playIcon.isObjectTouched()){
+//				if (closePauseMenuText.isObjectTouched() || playIcon.isObjectTouched()){
+//					Pause = !Pause;
+//					negatePauseMenu();
+//				}
+				if (!isGameRunning && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || playIcon.isObjectTouched() || closePauseMenuText.isObjectTouched())){
+					negatePauseMenu();
+					changeMenuVisbility();
+				}
+				else if (isGameRunning){
 					Pause = !Pause;
 					negatePauseMenu();
+				}
+
 				}
 				// If the text is clicked or the X key is pressed the game will exit
 				if (Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched()){
@@ -381,8 +392,8 @@ public class MyGdxGame extends ApplicationAdapter {
 					System.exit(0);
 				}
 				// If the unmute/ mute icon or text is clicked, the music will be muted or unmuted
-				if (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
-						|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched()) {
+				if (!menu.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
+						|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched())) {
 					if (muteState) {
 						soundFrame.unMuteSound();
 						unmuteMusicIcon.negateVisibility();
@@ -402,7 +413,6 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 
 			}
-		}
 		camera.update();
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.RenderTextures(camera.combined);
