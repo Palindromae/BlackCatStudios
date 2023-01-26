@@ -302,11 +302,12 @@ public class MyGdxGame extends ApplicationAdapter {
 			unmuteMusicIcon.negateVisibility();
 			unmuteMusicText.negateVisibility();
 		}
+		}
 
 	/**
 	 * Function to change menu visibility when an action is taken from it
 	 */
-	public void changeMenuVisbility () {
+	public void changeMenuVisbility() {
 		settings.negateVisibility();
 		start.negateVisibility();
 		highscores.negateVisibility();
@@ -339,7 +340,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 
-		if((Gdx.input.isKeyJustPressed(InputsDefaults.start)) || (start.isObjectTouched())){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
+		if((menu.getVisibility()) && ((Gdx.input.isKeyJustPressed(InputsDefaults.start)) || (start.isObjectTouched()))){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
 			// Music changes from main menu music to game music
 			// Main menu disappears and becomes invisible
 			this.changeMenuVisbility();
@@ -366,7 +367,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}else{
 			if (!menu.getVisibility()){
 				// If the text is clicked, the game will be unpaused and the menu will disappear
-				if (closeMenuText.isObjectTouched() || playIcon.isObjectTouched()){
+				if (closePauseMenuText.isObjectTouched() || playIcon.isObjectTouched()){
 					Pause = !Pause;
 					negatePauseMenu();
 				}
