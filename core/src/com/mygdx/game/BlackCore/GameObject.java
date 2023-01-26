@@ -27,6 +27,7 @@ public class GameObject implements Comparator<GameObject> {
     Integer textureWidth;
     Integer textureHeight;
 
+
     public GameObject(Shape2D shape, BTexture texture){
 
         this.shape = shape;
@@ -147,7 +148,6 @@ public class GameObject implements Comparator<GameObject> {
      * It does this by checking if the mouse is clicked and if the mouse is within the bounds of the object
      * @return true if the object is clicked, false otherwise
      */
-
     public Boolean isObjectTouched() { // Method for use of checking if spaces in menus are touched for initiating different buttons/sequences
         if (Gdx.input.isButtonJustPressed(0)) {
             Vector3 touchpos = new Vector3();

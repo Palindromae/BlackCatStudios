@@ -69,12 +69,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject closeGameText;
 	GameObject closeGameIcon;
 	GameObject controlsText;
+
+	HighScore highScore;
 	GameObject closeMenu;
 	GameObject muteMusic;
 	GameObject unmuteMusic;
 	GameObject menuControls;
 	boolean muteState = false;
-
 	boolean isGameRunning = false;
 
 	@Override
@@ -285,7 +286,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScriptManager.tryAppendLooseScript(customerManager);
 
 	}
-
 	/**
 	 * This method negates the visibility of everything on the pause menu
 	 * so that it can be shown or hidden
@@ -305,6 +305,10 @@ public class MyGdxGame extends ApplicationAdapter {
 			unmuteMusicText.negateVisibility();
 		}
 		}
+
+
+	@Override
+	public void render () {
 
 	/**
 	 * Function to change menu visibility when an action is taken from it
@@ -329,6 +333,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.highscores)) || (highscores.isObjectTouched()))){ // If the H button is pressed or the text is clicked in the main menu the game will display the high scores
 			this.changeMenuVisbility();
+		if(Gdx.input.isKeyJustPressed(InputsDefaults.highscores)){ // If the H button is pressed in the main menu the game will display the high scores
 			// code to display the highscores
 
 
