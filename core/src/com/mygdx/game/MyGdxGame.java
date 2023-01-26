@@ -43,15 +43,21 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject obj2;
 	GameObject obj3;
 	GameObject menu;
+	GameObject settings;
+	GameObject highscores;
+	GameObject start;
+	GameObject exit;
 	BatchDrawer batch;
 
 	CustomerManager customerManager;
-	Boolean Pause = false;
+	Boolean Pause = true;
 	BTexture pauseTexture;
 	GameObject pauseMenu;
 	GameObject closeMenu;
 	GameObject muteMusic;
 	GameObject unmuteMusic;
+
+	GameObject menuControls;
 	boolean muteState = false;
 
 	@Override
@@ -114,6 +120,31 @@ public class MyGdxGame extends ApplicationAdapter {
 		unmuteMusic.transform.position.x = 50;
 		unmuteMusic.transform.position.z = 205;
 		unmuteMusic.transform.position.y = 10;
+
+		menuControls = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 250, 350));
+		menuControls.transform.position.y = 4;
+		menuControls.transform.position.x = 500;
+		menuControls.transform.position.z = 25;
+
+		settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 65, 70));
+		settings.transform.position.y = 4;
+		settings.transform.position.x = 75;
+		settings.transform.position.z = 125;
+
+		highscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("trophy-for-sports.png", 300, 70));
+		highscores.transform.position.y = 4;
+		highscores.transform.position.x = 75;
+		highscores.transform.position.z = 200;
+
+		exit = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("exitIcon.png", 65, 70));
+		exit.transform.position.y = 4;
+		exit.transform.position.x = 75;
+		exit.transform.position.z = 50;
+
+		start = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("play-button-arrowhead.png", 300, 70));
+		start.transform.position.y = 4;
+		start.transform.position.x = 75;
+		start.transform.position.z = 275;
 		
 		menu = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 415));
 		menu.transform.position.y = 3;
@@ -182,31 +213,49 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	}
 
+	/**
+	 * Function to change menu visibility when an action is taken from it
+	 */
+	public void changeMenuVisbility () {
+		settings.negateVisibility();
+		start.negateVisibility();
+		highscores.negateVisibility();
+		exit.negateVisibility();
+		menuControls.negateVisibility();
+		menu.negateVisibility();
+	}
+
 	@Override
 	public void render () {
 
 
 		
 
-		if(Gdx.input.isKeyJustPressed(InputsDefaults.exit)){ // If the escape key is pressed in the main menu the game will shut down
+		if((Gdx.input.isKeyJustPressed(InputsDefaults.exit)) || (exit.isObjectTouched()) ){ // If the escape key is pressed or the text is clicked in the main menu the game will shut down
 			Gdx.app.exit();
 			System.exit(0);
 		}
 
-		if(Gdx.input.isKeyJustPressed(InputsDefaults.highscores)){ // If the H button is pressed in the main menu the game will display the high scores
-			;
+		if((Gdx.input.isKeyJustPressed(InputsDefaults.highscores)) || (highscores.isObjectTouched())){ // If the H button is pressed or the text is clicked in the main menu the game will display the high scores
+			this.changeMenuVisbility();
 			// code to display the highscores
+
+
 		}
 
-		if(Gdx.input.isKeyJustPressed(InputsDefaults.settings)){ // If the S button is pressed in the main menu, the game will display settings over the menu
+		if((Gdx.input.isKeyJustPressed(InputsDefaults.settings)) || (settings.isObjectTouched())){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
 			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
+			this.changeMenuVisbility();
 			// code to display the settings menu
+
 		}
 
-		if(Gdx.input.isKeyJustPressed(InputsDefaults.start)){ // If ENTER is pressed, the game will be unpaused and the menu will disappear
+		if((Gdx.input.isKeyJustPressed(InputsDefaults.start)) || (start.isObjectTouched())){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
 			// Music changes from main menu music to game music
 			// Main menu disappears and becomes invisible
-			//
+			this.changeMenuVisbility();
+			Pause = !Pause;
+
 		}
 
 if (Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
@@ -220,7 +269,7 @@ if (Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
 			}
 		}
 		if(fixedTime.doTimeStep()){
-			//the time step is within accumilator
+			//the time step is within accumulator
 			while (fixedTime.accumulator> fixedTime.dt){
 				if (! Pause){ // pauses the game
 					ScriptManager.RunFixedUpdate((float)fixedTime.dt);

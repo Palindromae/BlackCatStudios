@@ -25,9 +25,6 @@ public class GameObject implements Comparator<GameObject> {
     Integer textureWidth;
     Integer textureHeight;
 
-    Integer textureWidth;
-    Integer textureHeight;
-
     public GameObject(Shape2D shape, BTexture texture){
 
         this.shape = shape;
@@ -104,14 +101,6 @@ public class GameObject implements Comparator<GameObject> {
     public void dispose(){
         texture.dispose();
 
-    }
-
-    public Integer getTextureWidth(){
-        return  textureWidth;
-    }
-
-    public Integer getTextureHeight(){
-        return  textureHeight;
     }
 
     public Boolean isObjectTouched() { // Method for use of checking if spaces in menus are touched for initiating different buttons/sequences
