@@ -75,6 +75,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject menuControls;
 	boolean muteState = false;
 
+	boolean isGameRunning = false;
+
 	@Override
 	public void create () {
 
@@ -336,7 +338,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
 			this.changeMenuVisbility();
 			// code to display the settings menu
-
+			this.negatePauseMenu();
 		}
 
 
@@ -344,6 +346,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			// Music changes from main menu music to game music
 			// Main menu disappears and becomes invisible
 			this.changeMenuVisbility();
+			isGameRunning = !isGameRunning;
 			Pause = !Pause;
 
 		}
