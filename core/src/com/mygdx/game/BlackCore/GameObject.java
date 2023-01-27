@@ -22,7 +22,7 @@ public class GameObject implements Comparator<GameObject> {
     private Integer _UID;
 
     Boolean isDestroyed = false;
-    Boolean IsActiveAndVisible;
+    public Boolean IsActiveAndVisible;
     Integer textureWidth;
     Integer textureHeight;
 
