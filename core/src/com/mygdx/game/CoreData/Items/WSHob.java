@@ -1,5 +1,8 @@
 package com.mygdx.game.CoreData.Items;
+import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.BlackCore.ItemAbs;
+import com.mygdx.game.BlackScripts.ItemFactory;
+import com.mygdx.game.SoundFrame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,8 +18,14 @@ public class WSHob extends WorkStation{
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
             Arrays.asList(Items.RawPatty, Items.Buns));
 
+    long burnerSoundID;
+    long fryingSoundID;
+
+    Boolean playingBurner = false, playingFrying = false;
+
+
     @Override
-    public boolean giveItem(ItemAbs Item){
+    public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
             this.Item = Item;
             checkItem();
@@ -26,11 +35,28 @@ public class WSHob extends WorkStation{
     }
 
     @Override
-    public ItemAbs takeItem(){
-        returnItem = Item;
-        deleteItem();
-        currentRecipe = null;
-        return returnItem;
+    public boolean TestGetItem() {
+        return true;
+    }
+
+    @Override
+    public boolean TestGiveItem() {
+        return true;
+    }
+
+    @Override
+    public ItemAbs GetItem(){
+
+        if(Item!=null && canTakeItem()) {
+
+            returnItem = Item;
+            deleteItem();
+            currentRecipe = null;
+            return returnItem;
+        }
+        interact();
+        return null;
+
     }
 
     // Checks if the given item is in the whitelist, if yes the item's recipe is stored in currentRecipe
@@ -47,15 +73,47 @@ public class WSHob extends WorkStation{
         return Interacted = true;
     }
 
+
+    public boolean isItemReady(float dt){
+        return currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+    }
+
+    public boolean canTakeItem(){
+        return currentRecipe == null || Item.name == currentRecipe.endItem;
+    }
     /**
      * Calls current step in recipe and stores returned boolean in ready, if ready is true and the item's
      * cookingProgress is equal to 0, the counter will increment to select the next step, if it has
      * reached the end of the list the new item will be produced.
      * @param dt Time constant
      */
+
     public void Cook(float dt){
+        ready = isItemReady(dt);
+
+        if(!playingBurner){
+           burnerSoundID =  SoundFrame.SoundEngine.playSound("Cooker");
+           SoundFrame.SoundEngine.setLooping(burnerSoundID,"Cooker");
+           playingBurner = true;
+        }
+
         ready = currentRecipe.RecipeSteps.get(Item.currentStep).timeStep(Item, dt, Interacted);
         if(ready & Item.cookingProgress==0){
+
+            if(!playingFrying){
+                fryingSoundID =  SoundFrame.SoundEngine.playSound("Fryer");
+                SoundFrame.SoundEngine.setLooping(fryingSoundID,"Fryer");
+                playingFrying = true;
+            }
+
+            i++;
+            System.out.println("Changed step: "+ currentRecipe.RecipeSteps.get(Math.min(i,currentRecipe.RecipeSteps.size()-1)));
+
+            SoundFrame.SoundEngine.playSound("Step Achieved");
+            if(i==currentRecipe.RecipeSteps.size()){
+                Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
+                i = 0;
+
             Item.currentStep++;
             if(Item.currentStep==currentRecipe.RecipeSteps.size()){
                 Item = factory.produceItem(currentRecipe.endItem);
@@ -81,6 +139,17 @@ public class WSHob extends WorkStation{
     public void FixedUpdate(float dt){
         if(currentRecipe != null)
             Cook(dt);
+        else {
+            if(playingBurner){
+                SoundFrame.SoundEngine.stopSound("Cooker",burnerSoundID);
+                playingBurner = false;
+            }
+            if(playingFrying)
+            {
+                SoundFrame.SoundEngine.stopSound("Fryer",fryingSoundID);
+                playingFrying = false;
+            }
+        }
         if(Item.cookingProgress>0)
             ProgressBar();
 

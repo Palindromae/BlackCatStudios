@@ -1,54 +1,126 @@
 package com.mygdx.game.BlackScripts;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
-import com.dongbat.jbump.Item;
+import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.mygdx.game.BlackCore.*;
+import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
 import com.mygdx.game.CoreData.Items.Items;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 
 public class CustomerManager extends BlackScripts {
 public static CustomerManager customermanager;
-Vector3 spawningLocation;
+public Vector3 spawningLocation;
 BTexture customerTexture;
-
+public List<Vector3> WaitingPositions;
 List<Customers> WaitingCustomers = new LinkedList<>();
+List<Customers> LeavingCustomers = new LinkedList<>();
 
-int NumberOfTables = 10;
-List<Customers> SeatedCustomers = new LinkedList<>();
+public float Score = 0;
+
+int wavesOfCustomers = 5;
+
+int NumberOfCustomersSeen = 0;
+int MaxNumberOfCustomers = (int)Math.round(wavesOfCustomers * (minGroupSize+ maxGroupSize)/2.0f);
+int bossWave = 1;
+int bossAmount = 6;
+
+int currentWave = 0;
+
+Consumer<Float> EndGameCommand;
+
+int NumberOfTables = 4;
+ List<Customers> SeatedCustomers = new LinkedList<>();
+ List<Table> Tables = new LinkedList<>();
+ Table BossTable;
+ public List<GameObject> RealTables = new LinkedList<>();
+ public List<Vector3> BossTableSeats = new LinkedList<>();
+ public float TableRadius;
+ private float TableRadiusOffset = 10;
 List<MenuItem> Menu = new ArrayList<>();//this is a list sets of items. So that one type of item isnt over represented because it has more variations
 Random rand = new Random();
 
-float TimeToNextLeave = 0;
+public GridPartition gridPartition;
+
 float EatingTime = 10;
+
+float TimeToNextLeave = EatingTime;
+
 int StockFloor = 5;
 int MaxStockCapacity = 15;
 int refillCapability = 5;
-int minGroupSize = 2;
-int maxGroupSize = 5;
+public static int minGroupSize = 2;
+public static int maxGroupSize = 5;
 enum RandomisationStyle{
     Random,
     LimitedRandom
     }
 
 
-    public CustomerManager(){
+    public CustomerManager(List<GameObject> _RealTables, GridPartition Partition, float TableRadius){
         if (customermanager != null)
             return;
+
         customermanager = this;
+        gridPartition = Partition;
+
+        Menu = new LinkedList<>();
+        List<Items> ItemVar = new LinkedList<>();
+        ItemVar.add(Items.Burger);
+        MenuItem burger = new MenuItem(Items.Burger,1, ItemVar);
+
+        ItemVar = new LinkedList<>();
+        ItemVar.add(Items.FullSalad);
+        MenuItem salad = new MenuItem(Items.FullSalad,1,ItemVar);
+
+        Menu.add(burger);
+        Menu.add(salad);
+        RealTables = _RealTables;
+
+        int i = 0;
+        for (GameObject t: RealTables
+             ) {
+            i++;
+            if(i != RealTables.size())
+            Tables.add(new Table(t.transform.position, TableRadius + TableRadiusOffset, TableRadiusOffset));
+            else
+                BossTable = new Table(t.transform.position,-1, 0);
+
+
+        }
     }
 
     public void setCustomerTexture(BTexture customerTexture) {
         this.customerTexture = customerTexture;
     }
 
+
+    Table getNextFreeTable(){
+        for (Table t: Tables
+        ) {
+            if (t.seats != null && t.seats.size() >0)
+                continue;
+            return t;
+        }
+
+        return null;
+    }
     public void invokeNewCustomer(){
-        int count = rand.ints(1,minGroupSize,maxGroupSize+1).sum();
-        Customers customerGroup = new Customers(spawningLocation, count, CreateRandomOrder(count,RandomisationStyle.LimitedRandom),customerTexture);
+        int count = GetNumberOfCustomersInWave();
+
+        Table tableToUse = getNextFreeTable();
+        tableToUse.DefineSeatingArrangement(count);
+
+        Customers customerGroup = new Customers(spawningLocation, CreateRandomOrder(count,RandomisationStyle.LimitedRandom),customerTexture,gridPartition,tableToUse);
+        WaitingCustomers.add(customerGroup);
     }
 
     List<Items> CreateRandomOrder(int count, RandomisationStyle ranStyle){
@@ -56,7 +128,7 @@ enum RandomisationStyle{
             return CreatePureRandomOrder(count);
 
         if(ranStyle == RandomisationStyle.LimitedRandom){
-
+            return CreateLimitedRandomOrder(count);
         }
         throw new IllegalArgumentException("you failed to set a correct to set a correct randomisation pattern");
     }
@@ -67,7 +139,7 @@ enum RandomisationStyle{
         List<Items> _items = new LinkedList<>();
         int pot = 0;
         //Sum the stock
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < Menu.size(); i++)
             pot += Menu.get(i).count;
 
 
@@ -134,12 +206,13 @@ enum RandomisationStyle{
     if(head.IsSatisfied()){
         WaitingCustomers.remove(0);
         SeatedCustomers.add(head);
+        Score += head.getScore();
        // head.frustration = 0;
         //Customer should now leave for a table
         return;
     }
 
-    head.updateFrustration(1);
+    head.updateFrustration(1 * dt);
 
     }
 
@@ -147,22 +220,26 @@ enum RandomisationStyle{
         //Reset the counter if there its time for someone to leave
         if(TimeToNextLeave<= 0){
             TimeToNextLeave = EatingTime;
+            Customers head = SeatedCustomers.get(0);
             SeatedCustomers.remove(0);
+            LeavingCustomers.add(head);
+            head.MoveCustomersToExit();
             //Should Signal here to pathfind to exit
+
         }
 
         //Decrement the count if there is someone seated
         if(SeatedCustomers.size()>0)
-            EatingTime -= dt;
+            TimeToNextLeave -= dt;
     }
     void UpdateWaitingCustomers(float dt){
-        if(SeatedCustomers.size()<NumberOfTables){
+        //f(SeatedCustomers.size()<NumberOfTables){
 
             if(WaitingCustomers.size()!=0)
                 UpdateCustomerHead(dt);
 
 
-        }
+       // }
         //Check if theres a seated customer
         if(SeatedCustomers.size()>0)
             UpdateSeatedCustomer(dt);
@@ -172,10 +249,56 @@ enum RandomisationStyle{
     }
 
 
-    //Im using fixed update so customers are updated at frame rate so they cant leave inbetween frames
+    int GetNumberOfCustomersInWave(){
+    int count = rand.ints(1,minGroupSize,maxGroupSize+1).sum();
+    count = Math.max(1, Math.min(MaxNumberOfCustomers- (wavesOfCustomers-currentWave)-NumberOfCustomersSeen, count));
+    NumberOfCustomersSeen += count;
+    return count;
+
+
+
+    }
+
+    void UpdateWave(){
+
+    if(getNextFreeTable() != null) {
+        currentWave++;
+        if (currentWave < wavesOfCustomers) {
+            invokeNewCustomer();
+
+
+        } else if (currentWave < wavesOfCustomers + bossWave) {
+            BossTable.DefineSeatingArrangement(BossTableSeats);
+            Customers customerGroup = new Customers(spawningLocation, CreateRandomOrder(BossTableSeats.size(), RandomisationStyle.Random), customerTexture, gridPartition, BossTable);
+            WaitingCustomers.add(customerGroup);
+        } else{
+            //end the game
+
+        }
+
+    }
+
+    }
+
     @Override
     public void Update(float dt) {
         super.Update(dt);
         UpdateWaitingCustomers(dt);
+        if(WaitingCustomers.size() == 0)
+        {
+            UpdateWave();
+        }
+
+        for (int i = LeavingCustomers.size()-1; i >= 0; i--) {
+
+            if(LeavingCustomers.get(i).TryDestroyOnEmptyPaths())
+                LeavingCustomers.remove(i);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)){
+            if(WaitingCustomers.size()>0)
+            WaitingCustomers.get(0).RemoveFirstCustomer();
+
+        }
     }
 }

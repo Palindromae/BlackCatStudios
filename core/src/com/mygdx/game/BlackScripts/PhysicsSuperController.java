@@ -23,7 +23,7 @@ public class PhysicsSuperController extends BlackScripts {
             List<GameObject> DynamicCollisionList = CollisionDetection.collisionMaster.dynamicCollision(CollisionDetection.collisionMaster.dynamicColliders, CollisionDetection.collisionMaster.dynamicColliders.get(i)); // Checks if a collision has occurred
             List<GameObject> StaticCollisionList = CollisionDetection.collisionMaster.staticCollision(CollisionDetection.collisionMaster.dynamicColliders.get(i), CollisionDetection.collisionMaster.staticColliders);
             if(DynamicCollisionList.isEmpty() && StaticCollisionList.isEmpty()){
-                break;
+                continue;
             } //If there's no collision, end the function
             CollisionDetection.collisionMaster.dynamicColliders.get(i).transform.moveToPast();// Moves to past position
         }
