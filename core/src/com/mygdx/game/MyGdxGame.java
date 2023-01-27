@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
@@ -17,6 +16,11 @@ import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.*;
 
 import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
+import com.mygdx.game.CoreData.Items.Items;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.util.List;
+import java.util.Map;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -80,19 +84,19 @@ public class MyGdxGame extends ApplicationAdapter {
 	public GameObject menuHighscores;
 	HighScore highScores;
 
-	@Override
-	public void create () {
+    @Override
+    public void create() {
 
-		soundFrame = new SoundFrame();
-		soundLoader.loadAllSounds(soundFrame);
+        soundFrame = new SoundFrame();
+        soundLoader.loadAllSounds(soundFrame);
 
 
-		long id = soundFrame.playSound("Main Screen");
-		soundFrame.setLooping(id, "Main Screen");
+        long id = soundFrame.playSound("Main Screen");
+        soundFrame.setLooping(id, "Main Screen");
 
-		collisionDetection = new CollisionDetection();
-		physicsController = new PhysicsSuperController();
-		batch = new BatchDrawer();
+        collisionDetection = new CollisionDetection();
+        physicsController = new PhysicsSuperController();
+        batch = new BatchDrawer();
 //		Gdx.graphics.setContinuousRendering(false);
 //		Gdx.graphics.requestRendering();
 		try {
@@ -138,7 +142,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		pauseMenu = new GameObject((Shape2D) new Rectangle(10,20,20,20),
 				new BTexture("pauseMenu.png", 800, 480));
 		pauseMenu.negateVisibility(); // makes it invisible initially, so it does not block the screen
-		pauseMenu.transform.position.y = 4;
+		pauseMenu.transform.position.y = 6;
 
 		pauseButton = new GameObject((Shape2D) new Rectangle(10,20,20,20),
 				new BTexture("pause.png", 64, 46));
@@ -275,120 +279,244 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
+        muteMusicText = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("muteSound.png", 190, 85));
+        muteMusicText.negateVisibility();
+        muteMusicText.transform.position.x = 140;
+        muteMusicText.transform.position.z = 195;
+        muteMusicText.transform.position.y = 10;
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false,800,480);
+        menuControls = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 250, 350));
+        menuControls.transform.position.y = 5;
+        menuControls.transform.position.x = 500;
+        menuControls.transform.position.z = 25;
 
+        settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 65, 70));
+        settings.transform.position.y = 5;
+        settings.transform.position.x = 75;
+        settings.transform.position.z = 125;
 
-		//Try out script manager
+        highscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("trophy-for-sports.png", 300, 70));
+        highscores.transform.position.y = 5;
+        highscores.transform.position.x = 75;
+        highscores.transform.position.z = 200;
 
-		BlackScriptTest testScript = new BlackScriptTest();
+        exit = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("exitIcon.png", 65, 70));
+        exit.transform.position.y = 5;
+        exit.transform.position.x = 75;
+        exit.transform.position.z = 50;
 
-		ScriptManager.tryAppendLooseScript(testScript);
-		ScriptManager.tryAppendLooseScript(physicsController);
-
-
-		BasicCharacterController characterController = new BasicCharacterController();
-		characterController.camera = camera;
-
-		//obj.AppendScript(characterController);
-
-		ItemFactory factory = new ItemFactory();
-		ScriptManager.tryAppendLooseScript(factory);
-
-
-		ItemFactory.factory.implementItems();
-
-		//System.out.println(factory.produceItem(Items.Lettuce).name);
-
-	//	List<Vector2> a = gPart.pathfindFrom(0,0,3,3,config);
-	//	System.out.println(a.size());
-	//	for (Vector2 v2: a
-	//		 ) {
-	///		System.out.print(a);
-		//}
-
-		masterChef = new MasterChef();
-		masterChef.camera = camera;
-		masterChef.chefTex = texture;
-		masterChef.KitchenPartition = gPart;
-
-		ScriptManager.tryAppendLooseScript(masterChef);
-
-		customerManager = new CustomerManager(GameWorld.Tables,gPart,GameWorld.TableRadius);
-		//CustomerManager.customermanager.setCustomerTexture(texture);
-		customerManager.EndGameCommand = this::FinishGame;
-		CustomerManager.customermanager.WaitingPositions = GameWorld.CustomerWaitingLocations;
-		CustomerManager.customermanager.spawningLocation = GameWorld.CustomerSpawnLocations;
-		customerManager.BossTableSeats = GameWorld.BossSeats;
+        start = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("play-button-arrowhead.png", 300, 70));
+        start.transform.position.y = 5;
+        start.transform.position.x = 75;
+        start.transform.position.z = 275;
 
 
+        unmuteMusicIcon = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
+        unmuteMusicIcon.negateVisibility();
+        unmuteMusicIcon.transform.position.x = 50;
+        unmuteMusicIcon.transform.position.z = 205;
+        unmuteMusicIcon.transform.position.y = 10;
 
-		ScriptManager.tryAppendLooseScript(customerManager);
+        unmuteMusicText = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("unMuteSound.png", 230, 85));
+        unmuteMusicText.negateVisibility();
+        unmuteMusicText.transform.position.x = 140;
+        unmuteMusicText.transform.position.z = 195;
+        unmuteMusicText.transform.position.y = 10;
 
-	}
+        closeGameText = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("closeGame.png", 190, 85));
+        closeGameText.negateVisibility();
+        closeGameText.transform.position.x = 140;
+        closeGameText.transform.position.z = 85;
+        closeGameText.transform.position.y = 10;
 
-	/**
-	 * This method negates the visibility of everything on the pause menu
-	 * so that it can be shown or hidden
-	 */
-	public void negatePauseMenu(){
-		pauseMenu.negateVisibility();
-		closePauseMenuText.negateVisibility();
-		playIcon.negateVisibility();
-		closeGameText.negateVisibility();
-		closeGameIcon.negateVisibility();
-		controlsText.negateVisibility();
-		if (!muteState){
-			muteMusicIcon.negateVisibility();
-			muteMusicText.negateVisibility();
-		}else{
-			unmuteMusicIcon.negateVisibility();
-			unmuteMusicText.negateVisibility();
-		}
-	}
+        closeGameIcon = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("cancel-button.png", 64, 64));
+        closeGameIcon.negateVisibility();
+        closeGameIcon.transform.position.x = 50;
+        closeGameIcon.transform.position.z = 85;
+        closeGameIcon.transform.position.y = 10;
 
-	/**
-	 * Function to change menu visibility when an action is taken from it
-	 */
-	public void changeMenuVisbility() {
-		settings.negateVisibility();
-		start.negateVisibility();
-		highscoresButton.negateVisibility();
-		exit.negateVisibility();
-		menuControls.negateVisibility();
-		menu.negateVisibility();
+        controlsText = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 252, 350));
+        controlsText.negateVisibility();
+        controlsText.transform.position.x = 450;
+        controlsText.transform.position.z = 65;
+        controlsText.transform.position.y = 10;
 
-	}
+        orderPageButton = new GameObject((Shape2D) new Rectangle(0, 500, 30, 50), new BTexture("PullOut.png", 25, 50));
+        orderPageButton.transform.position.z = Gdx.graphics.getHeight() / 2;
+        orderPageButton.transform.position.y = 3;
 
-
-
-
-	@Override
-	public void render () {
+        orderPageCloseButton = new GameObject((Shape2D) new Rectangle(200, 500, 30, 50), new BTexture("PushIn.png", 25, 50));
+        orderPageCloseButton.transform.position.z = Gdx.graphics.getHeight() / 2;
+        orderPageCloseButton.transform.position.y = 4;
+        orderPageCloseButton.transform.position.x = -100;
 
 
-		if(orderPageButton.isObjectTouched() && !Pause){
-			if(orderPageButton.transform.position.x != 200){
-				masterChef.AllowTouch = false;
-				orderPageButton.transform.position.x = 200;
-				orderPage.transform.position.x = 0;
-				orderPageCloseButton.transform.position.x = 200;
-				orderPageButton.negateVisibility();
-				orderPageShown = true;
-				if(OrderAlerts.alertOn){
-					OrderAlerts.changeAlertState();
-					OrderAlerts.alertOn = false;
-				}
+        orderPage = new GameObject((Shape2D) new Rectangle(0, 0, 200, 400), new BTexture("OrderPage.png", 200, 400));
+        orderPage.transform.position.x = -200;
+        orderPage.transform.position.y = 5;
+
+        orderAlert = new GameObject((Shape2D) new Rectangle(0, 0, 10, 10), new BTexture("NewOrderBig.png", 25, 25));
+        orderAlert.transform.position.x = 5;
+        orderAlert.transform.position.z = Gdx.graphics.getHeight() / 2 + 40;
+        orderAlert.transform.position.y = 4;
+        orderAlert.negateVisibility();
+
+        menuBackground = new GameObject((Shape2D) new Rectangle(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), new BTexture("white.png",Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        menuBackground.negateVisibility();
+
+        ShowOrderText showText = new ShowOrderText();
+        DisplayOrders x = new DisplayOrders();
+        GameWorld.Instantiate(gPart);
+        interact = new RunInteract(GameWorld);
+
+
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 480);
+
+
+        //Try out script manager
+
+        BlackScriptTest testScript = new BlackScriptTest();
+
+        ScriptManager.tryAppendLooseScript(testScript);
+        ScriptManager.tryAppendLooseScript(physicsController);
+
+
+        BasicCharacterController characterController = new BasicCharacterController();
+        characterController.camera = camera;
+
+        //obj.AppendScript(characterController);
+
+        ItemFactory factory = new ItemFactory();
+        ScriptManager.tryAppendLooseScript(factory);
+
+
+        ItemFactory.factory.implementItems();
+
+        //System.out.println(factory.produceItem(Items.Lettuce).name);
+
+        //	List<Vector2> a = gPart.pathfindFrom(0,0,3,3,config);
+        //	System.out.println(a.size());
+        //	for (Vector2 v2: a
+        //		 ) {
+        ///		System.out.print(a);
+        //}
+
+        masterChef = new MasterChef();
+        masterChef.camera = camera;
+        masterChef.chefTex = texture;
+        masterChef.KitchenPartition = gPart;
+
+        ScriptManager.tryAppendLooseScript(masterChef);
+
+        customerManager = new CustomerManager(GameWorld.Tables, gPart, GameWorld.TableRadius);
+        //CustomerManager.customermanager.setCustomerTexture(texture);
+        customerManager.EndGameCommand = this::FinishGame;
+        CustomerManager.customermanager.WaitingPositions = GameWorld.CustomerWaitingLocations;
+        CustomerManager.customermanager.spawningLocation = GameWorld.CustomerSpawnLocations;
+        customerManager.BossTableSeats = GameWorld.BossSeats;
+
+
+        ScriptManager.tryAppendLooseScript(customerManager);
+
+    }
+
+    /**
+     * This method negates the visibility of everything on the pause menu
+     * so that it can be shown or hidden
+     */
+    public void negatePauseMenu() {
+        pauseMenu.negateVisibility();
+        closePauseMenuText.negateVisibility();
+        playIcon.negateVisibility();
+        closeGameText.negateVisibility();
+        closeGameIcon.negateVisibility();
+        controlsText.negateVisibility();
+        if (!muteState) {
+            muteMusicIcon.negateVisibility();
+            muteMusicText.negateVisibility();
+        } else {
+            unmuteMusicIcon.negateVisibility();
+            unmuteMusicText.negateVisibility();
+        }
+    }
+
+    /**
+     * Function to change menu visibility when an action is taken from it
+     */
+    public void changeMenuVisbility() {
+        settings.negateVisibility();
+        start.negateVisibility();
+        highscores.negateVisibility();
+        exit.negateVisibility();
+        menuControls.negateVisibility();
+        menu.negateVisibility();
+
+    }
+
+
+
+	// @Override
+	// public void render () {
+
+
+		// if(orderPageButton.isObjectTouched() && !Pause){
+		// 	if(orderPageButton.transform.position.x != 200){
+		// 		masterChef.AllowTouch = false;
+		// 		orderPageButton.transform.position.x = 200;
+		// 		orderPage.transform.position.x = 0;
+		// 		orderPageCloseButton.transform.position.x = 200;
+		// 		orderPageButton.negateVisibility();
+		// 		orderPageShown = true;
+		// 		if(OrderAlerts.alertOn){
+		// 			OrderAlerts.changeAlertState();
+		// 			OrderAlerts.alertOn = false;
+		// 		}
+    @Override
+    public void render() {
+        if (orderPageShown) {
+            for (Map.Entry<Integer, Boolean> entry : DisplayOrders.displayOrders.seen.entrySet()) {
+                DisplayOrders.displayOrders.seen.put(entry.getKey(), true);
+            }
+        }
+		Boolean showAlertBool = false;
+		for (Map.Entry<Integer, Boolean> entry : DisplayOrders.displayOrders.seen.entrySet()) {
+			if(entry.getValue() == false){
+				showAlertBool = true;
+				break;
 			}else{
-				masterChef.AllowTouch =false;
-				orderPageButton.transform.position.x = 0;
-				orderPage.transform.position.x = -200;
-				orderPageCloseButton.transform.position.x = -100;
-				orderPageShown = false;
-				orderPageButton.negateVisibility();
+				showAlertBool = false;
 			}
 		}
+        if(showAlertBool){
+			if(MyGdxGame.orderAlert.getVisibility() == false){
+				MyGdxGame.orderAlert.negateVisibility();
+			}
+		}else{
+            if(MyGdxGame.orderAlert.getVisibility()){
+				MyGdxGame.orderAlert.negateVisibility();
+			}
+		}
+
+        if (orderPageButton.isObjectTouched() && !Pause) {
+            if (orderPageButton.transform.position.x != 200) {
+                masterChef.AllowTouch = false;
+                orderPageButton.transform.position.x = 200;
+                orderPage.transform.position.x = 0;
+                orderPageCloseButton.transform.position.x = 200;
+                orderPageButton.negateVisibility();
+                orderPageShown = true;
+
+            } else {
+                masterChef.AllowTouch = false;
+                orderPageButton.transform.position.x = 0;
+                orderPage.transform.position.x = -200;
+                orderPageCloseButton.transform.position.x = -100;
+                orderPageShown = false;
+                orderPageButton.negateVisibility();
+                OrderAlerts.alertOn = false;
+            }
+        }
 
 		if(menu.getVisibility() && !menuHighscores.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.start)) || (start.isObjectTouched()))){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
 			// Music changes from main menu music to game music
@@ -451,10 +579,10 @@ public class MyGdxGame extends ApplicationAdapter {
 				orderPageButton.transform.position.x = 0;
 				orderPage.transform.position.x = -200;
 				orderPageShown = false;
-			}
-			negatePauseMenu();
-		}
-		if (!Pause && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || pauseButton.isObjectTouched())){
+            }
+            negatePauseMenu();
+        }
+        if (!Pause && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || pauseButton.isObjectTouched())){
 			if (!isGameRunning){
 				negatePauseMenu(); // the pause menu is closed
 				this.changeMenuVisbility(); // the main menu is opened again
@@ -463,7 +591,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				negatePauseMenu();
 			}
 		}
-		if(fixedTime.doTimeStep()){
+        if(fixedTime.doTimeStep()){
 			//the time step is within accumulator
 			while (fixedTime.accumulator> fixedTime.dt){
 				if (! Pause){ // pauses the game
@@ -472,9 +600,9 @@ public class MyGdxGame extends ApplicationAdapter {
 				fixedTime.accumulator-= fixedTime.dt;
 				}
 			}
-		if (!Pause){
-			ScriptManager.RunUpdate(); // this is run when the game is not paused
-		}else{
+        if (!Pause){
+            ScriptManager.RunUpdate();
+        }else{
 			if (!menu.getVisibility()){
 				if (pauseMenu.getVisibility() && !isGameRunning && !menuHighscores.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || playIcon.isObjectTouched() || closePauseMenuText.isObjectTouched())){
 					negatePauseMenu(); // the pause menu is closed
@@ -542,11 +670,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	}
-
-
-
-	
-
 	public void Restart(){
 
 		//Place chefs in area

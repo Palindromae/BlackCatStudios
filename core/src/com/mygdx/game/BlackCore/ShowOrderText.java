@@ -33,17 +33,13 @@ public class ShowOrderText extends BlackScripts{
     }
 
     public static void displayText(){
-        LinkedList<Items> toAddToOrder = new LinkedList<Items>();
         String totalOrderString = new String();
-        toAddToOrder.add(Items.CheeseBurger);
-        toAddToOrder.add(Items.CheeseBurger);
-        toAddToOrder.add(Items.Burger);
-        toAddToOrder.add(Items.FullSalad);
-        toAddToOrder.add(Items.CookedPatty);
-        DisplayOrders.displayOrders.orderDict.put(23,toAddToOrder);
 
         for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet()) {
             List<Items> value = entry.getValue();
+            if (value.isEmpty()){
+                continue;
+            }
             String orderString = new String();
             orderString = "- ";
             Set<Items> mySet = new HashSet<Items>(value);
