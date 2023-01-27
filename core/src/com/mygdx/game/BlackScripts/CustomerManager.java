@@ -139,15 +139,13 @@ enum RandomisationStyle{
         if(ranStyle == RandomisationStyle.Random){
             allOrders = (LinkedList<Items>) CreatePureRandomOrder(count);
             displayOrders.orderDict.put(OrderID, allOrders);
-            displayOrders.completed.put(OrderID, false);
-            OrderAlerts.checkIfToShowAlert();
+            displayOrders.seen.put(OrderID, false);
             return allOrders;
         }
         if(ranStyle == RandomisationStyle.LimitedRandom){
             allOrders = (LinkedList<Items>) CreateLimitedRandomOrder(count);;
             displayOrders.orderDict.put(OrderID, allOrders);
-            displayOrders.completed.put(OrderID, false);
-            OrderAlerts.checkIfToShowAlert();
+            displayOrders.seen.put(OrderID, false);
             return allOrders;
         }
         throw new IllegalArgumentException("you failed to set a correct to set a correct randomisation pattern");
@@ -212,8 +210,6 @@ enum RandomisationStyle{
 
     public Boolean IsFoodInOrder(ItemAbs item){
     if(WaitingCustomers.get(0).TestAndRemoveItemFromOrders(item)){
-
-        displayOrders.completed.put(OrderID, true);
         displayOrders.removeOrder(OrderID);
         return true;
     }
