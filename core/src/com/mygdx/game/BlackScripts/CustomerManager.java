@@ -166,7 +166,7 @@ enum RandomisationStyle{
 
         for (int i = 0; i < count; i++) {
             //find random index in the pot
-            int n = rand.nextInt(pot);
+            int n = rand.nextInt(pot+1);
             //Correct menu item
             MenuItem cmi = null;
             for (MenuItem mi: Menu
@@ -332,8 +332,8 @@ enum RandomisationStyle{
             MenuItem burger = new MenuItem(Items.Burger,1, ItemVar);
 
             ItemVar = new LinkedList<>();
-            ItemVar.add(Items.FullSalad);
-            MenuItem salad = new MenuItem(Items.FullSalad,1,ItemVar);
+            ItemVar.add(Items.TomatoOnionLettuceSalad);
+            MenuItem salad = new MenuItem(Items.TomatoOnionLettuceSalad,1,ItemVar);
 
             Menu.add(burger);
             Menu.add(salad);

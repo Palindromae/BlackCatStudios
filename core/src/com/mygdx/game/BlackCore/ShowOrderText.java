@@ -38,7 +38,7 @@ public class ShowOrderText extends BlackScripts{
         toAddToOrder.add(Items.CheeseBurger);
         toAddToOrder.add(Items.CheeseBurger);
         toAddToOrder.add(Items.Burger);
-        toAddToOrder.add(Items.FullSalad);
+        toAddToOrder.add(Items.TomatoOnionLettuceSalad);
         toAddToOrder.add(Items.CookedPatty);
         DisplayOrders.displayOrders.orderDict.put(23,toAddToOrder);
 

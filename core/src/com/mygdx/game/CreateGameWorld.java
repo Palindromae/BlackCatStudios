@@ -275,14 +275,14 @@ public class CreateGameWorld
         int TopOfKitchen = 326;
         int CrateOffset = 50;
         int CrateStart = 75;
-        String CratePath = "Crate.png";
-        CreateCrate(LettuceCrate,Items.Lettuce,new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,TopOfKitchen),"lettuce"+CratePath,CrateWidth,CrateHeight, partition);
-        CreateCrate(OnionCrate,Items.Onion,  new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,TopOfKitchen),"onion"  +CratePath,CrateWidth,CrateHeight,partition);
-        CreateCrate(TomatoCrate,Items.Tomato, new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,TopOfKitchen),"tomato" +CratePath,CrateWidth,CrateHeight,partition);
+        String CratePath = "pictures/Crate.png";
+        CreateCrate(LettuceCrate,Items.Lettuce,new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,TopOfKitchen),CratePath,CrateWidth,CrateHeight, partition);
+        CreateCrate(OnionCrate,Items.Onion,  new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,TopOfKitchen),  CratePath,CrateWidth,CrateHeight,partition);
+        CreateCrate(TomatoCrate,Items.Tomato, new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,TopOfKitchen),CratePath,CrateWidth,CrateHeight,partition);
 
-        CreateCrate(MeatCrate,Items.Mince,  new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,0),"mince"  +CratePath,CrateWidth,CrateHeight,partition);
-        CreateCrate(CheeseCrate,Items.Cheese, new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,0),"cheese" +CratePath,CrateWidth,CrateHeight,partition);
-        CreateCrate(BunsCrate,Items.Buns,   new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,0),"buns"   +CratePath,CrateWidth,CrateHeight,partition);
+        CreateCrate(MeatCrate,Items.Mince,  new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,0),CratePath,CrateWidth,CrateHeight,partition);
+        CreateCrate(CheeseCrate,Items.Cheese, new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,0),CratePath,CrateWidth,CrateHeight,partition);
+        CreateCrate(BunsCrate,Items.Buns,   new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,0),CratePath,CrateWidth,CrateHeight,partition);
 
     }
 
@@ -290,13 +290,15 @@ public class CreateGameWorld
 
         position.x += KitchenFloor.transform.position.x;
         position.z += KitchenFloor.transform.position.z;
-        BTexture tex = new BTexture(texture,width,height);
-        crate = new GameObject(new Rectangle(position.x,position.z,width,height),tex);
+        BTexture tex = new BTexture(texture,null,null);
+        crate = new GameObject(new Rectangle(position.x,position.z,width,height),tex,width,height);
         crate.transform.position.set(position);
         FoodCrate fCrate = new FoodCrate(item);
         crate.addStaticCollider(partition, occupationID.Station);
         crate.AppendScript(fCrate);
         WorkStations.add(crate);
+
+        fCrate.init();
 
 
 
