@@ -50,7 +50,7 @@ public class WSChopBoard extends WorkStation{
 
     // Calls the current step and stores returned bool variable in ready, if true a new item is produced
     public void Cut(float dt){
-        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+        ready = currentRecipe.RecipeSteps.get(Item.currentStep).timeStep(Item, dt, Interacted);
         if(ready){
             Item = factory.produceItem(currentRecipe.endItem);
         }

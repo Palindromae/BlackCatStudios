@@ -54,12 +54,11 @@ public class WSHob extends WorkStation{
      * @param dt Time constant
      */
     public void Cook(float dt){
-        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+        ready = currentRecipe.RecipeSteps.get(Item.currentStep).timeStep(Item, dt, Interacted);
         if(ready & Item.cookingProgress==0){
-            i++;
-            if(i==currentRecipe.RecipeSteps.size()){
+            Item.currentStep++;
+            if(Item.currentStep==currentRecipe.RecipeSteps.size()){
                 Item = factory.produceItem(currentRecipe.endItem);
-                i = 0;
                 checkItem();
             }
             return;
@@ -72,11 +71,18 @@ public class WSHob extends WorkStation{
         // }
     }
 
+    public void ProgressBar(){
+        float progress = Item.cookingProgress/Item.MaxProgress;
+
+    }
+
     // public void burn(){}
     @Override
     public void FixedUpdate(float dt){
         if(currentRecipe != null)
             Cook(dt);
+        if(Item.cookingProgress>0)
+            ProgressBar();
 
         Interacted = false;
     }
