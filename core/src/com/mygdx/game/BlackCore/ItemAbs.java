@@ -12,15 +12,4 @@ public abstract class ItemAbs {
 
 }
 
-
-/*
-
-Dictionary<Enum Recipe, recipe obj>
-list {
-
-    step{ done 25}
-    step{flip interaction
-    step[]
-
-}*/
-
+}
