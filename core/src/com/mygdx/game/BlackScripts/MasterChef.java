@@ -34,7 +34,7 @@ public class MasterChef extends BlackScripts {
 
     float chefInteractionDistance = 45;
 
-    private Boolean AllowTouch = true; //There will be a mouseMaster class that controls what the mouse clicks,
+    public Boolean AllowTouch = true; //There will be a mouseMaster class that controls what the mouse clicks,
     // to allow for muting ect and prevent the mouse from forcing movement in all cases
     PathfindingConfig pathfindingConfig;
 
@@ -91,7 +91,7 @@ public class MasterChef extends BlackScripts {
     if(AllowTouch)
      TouchAllowedCurrently();
 
-
+    AllowTouch = true;
     }
 
     void TouchAllowedCurrently(){

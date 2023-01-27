@@ -291,6 +291,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render () {
 		if(orderPageButton.isObjectTouched() && !Pause){
 			if(orderPageButton.transform.position.x != 200){
+				masterChef.AllowTouch = false;
 				orderPageButton.transform.position.x = 200;
 				orderPage.transform.position.x = 0;
 				orderPageCloseButton.transform.position.x = 200;
@@ -301,6 +302,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					OrderAlerts.alertOn = false;
 				}
 			}else{
+				masterChef.AllowTouch =false;
 				orderPageButton.transform.position.x = 0;
 				orderPage.transform.position.x = -200;
 				orderPageCloseButton.transform.position.x = -100;
