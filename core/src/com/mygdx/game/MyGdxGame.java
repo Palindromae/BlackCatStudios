@@ -276,98 +276,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		interact = new RunInteract(GameWorld);
 
 
-
-
-
-        muteMusicText = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("muteSound.png", 190, 85));
-        muteMusicText.negateVisibility();
-        muteMusicText.transform.position.x = 140;
-        muteMusicText.transform.position.z = 195;
-        muteMusicText.transform.position.y = 10;
-
-        menuControls = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 250, 350));
-        menuControls.transform.position.y = 5;
-        menuControls.transform.position.x = 500;
-        menuControls.transform.position.z = 25;
-
-        settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 65, 70));
-        settings.transform.position.y = 5;
-        settings.transform.position.x = 75;
-        settings.transform.position.z = 125;
-
-        highscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("trophy-for-sports.png", 300, 70));
-        highscores.transform.position.y = 5;
-        highscores.transform.position.x = 75;
-        highscores.transform.position.z = 200;
-
-        exit = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("exitIcon.png", 65, 70));
-        exit.transform.position.y = 5;
-        exit.transform.position.x = 75;
-        exit.transform.position.z = 50;
-
-        start = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("play-button-arrowhead.png", 300, 70));
-        start.transform.position.y = 5;
-        start.transform.position.x = 75;
-        start.transform.position.z = 275;
-
-
-        unmuteMusicIcon = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
-        unmuteMusicIcon.negateVisibility();
-        unmuteMusicIcon.transform.position.x = 50;
-        unmuteMusicIcon.transform.position.z = 205;
-        unmuteMusicIcon.transform.position.y = 10;
-
-        unmuteMusicText = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("unMuteSound.png", 230, 85));
-        unmuteMusicText.negateVisibility();
-        unmuteMusicText.transform.position.x = 140;
-        unmuteMusicText.transform.position.z = 195;
-        unmuteMusicText.transform.position.y = 10;
-
-        closeGameText = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("closeGame.png", 190, 85));
-        closeGameText.negateVisibility();
-        closeGameText.transform.position.x = 140;
-        closeGameText.transform.position.z = 85;
-        closeGameText.transform.position.y = 10;
-
-        closeGameIcon = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("cancel-button.png", 64, 64));
-        closeGameIcon.negateVisibility();
-        closeGameIcon.transform.position.x = 50;
-        closeGameIcon.transform.position.z = 85;
-        closeGameIcon.transform.position.y = 10;
-
-        controlsText = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 252, 350));
-        controlsText.negateVisibility();
-        controlsText.transform.position.x = 450;
-        controlsText.transform.position.z = 65;
-        controlsText.transform.position.y = 10;
-
-        orderPageButton = new GameObject((Shape2D) new Rectangle(0, 500, 30, 50), new BTexture("PullOut.png", 25, 50));
-        orderPageButton.transform.position.z = Gdx.graphics.getHeight() / 2;
-        orderPageButton.transform.position.y = 3;
-
-        orderPageCloseButton = new GameObject((Shape2D) new Rectangle(200, 500, 30, 50), new BTexture("PushIn.png", 25, 50));
-        orderPageCloseButton.transform.position.z = Gdx.graphics.getHeight() / 2;
-        orderPageCloseButton.transform.position.y = 4;
-        orderPageCloseButton.transform.position.x = -100;
-
-
-        orderPage = new GameObject((Shape2D) new Rectangle(0, 0, 200, 400), new BTexture("OrderPage.png", 200, 400));
-        orderPage.transform.position.x = -200;
-        orderPage.transform.position.y = 5;
-
-        orderAlert = new GameObject((Shape2D) new Rectangle(0, 0, 10, 10), new BTexture("NewOrderBig.png", 25, 25));
-        orderAlert.transform.position.x = 5;
-        orderAlert.transform.position.z = Gdx.graphics.getHeight() / 2 + 40;
-        orderAlert.transform.position.y = 4;
-        orderAlert.negateVisibility();
-
-        menuBackground = new GameObject((Shape2D) new Rectangle(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), new BTexture("white.png",Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        menuBackground.negateVisibility();
-
-        ShowOrderText showText = new ShowOrderText();
-        DisplayOrders x = new DisplayOrders();
         GameWorld.Instantiate(gPart);
-        interact = new RunInteract(GameWorld);
 
 
         camera = new OrthographicCamera();
@@ -447,7 +356,7 @@ public class MyGdxGame extends ApplicationAdapter {
     public void changeMenuVisbility() {
         settings.negateVisibility();
         start.negateVisibility();
-        highscores.negateVisibility();
+        highscoresButton.negateVisibility();
         exit.negateVisibility();
         menuControls.negateVisibility();
         menu.negateVisibility();
@@ -518,11 +427,10 @@ public class MyGdxGame extends ApplicationAdapter {
             }
         }
 
-		if(menu.getVisibility() && !menuHighscores.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.start)) || (start.isObjectTouched()))){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
+		if(menu.getVisibility() && !menuHighscores.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.start) || start.isObjectTouched())){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
 			// Music changes from main menu music to game music
 			// Main menu disappears and becomes invisible
 			this.changeMenuVisbility();
-			this.menu.IsActiveAndVisible = false;
 			isGameRunning = !isGameRunning;
 			Pause = !Pause;
 
@@ -654,8 +562,6 @@ public class MyGdxGame extends ApplicationAdapter {
 				Restart();
 			}
 		}
-
-
 		camera.update();
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.RenderTextures(camera.combined);

@@ -207,7 +207,7 @@ public class GameObject implements Comparator<GameObject> {
      * Flips the visibility of the object
      */
     public void negateVisibility(){
-        IsActiveAndVisible = ! IsActiveAndVisible;
+        IsActiveAndVisible = !IsActiveAndVisible;
     }
 
     /**
