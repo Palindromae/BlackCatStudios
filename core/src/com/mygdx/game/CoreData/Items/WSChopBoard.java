@@ -83,41 +83,47 @@ public class WSChopBoard extends WorkStation{
     }
 
     // Calls the current step and stores returned bool variable in ready, if true a new item is produced
-    public void Cut(float dt) {
+    public void Cut(float dt){
         ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
 
-        if (!canTakeItem()) {
-            if (!ready && !playingChopSound) {
-                soundID = SoundFrame.SoundEngine.playSound("Knife Chop");
-                SoundFrame.SoundEngine.setLooping(soundID, "Knife Chop");
-                playingChopSound = true;
+    if(!canTakeItem()){
+        if(!ready && ! playingChopSound)
+        {
+            soundID = SoundFrame.SoundEngine.playSound("Knife Chop");
+            SoundFrame.SoundEngine.setLooping(soundID,"Knife Chop");
+            playingChopSound = true;
 
-            }
-
-        } else {
-            playingChopSound = false;
-            SoundFrame.SoundEngine.stopSound("Knife Chop");
         }
 
-        if (ready && currentRecipe.endItem != Item.name) {
+    } else {
+        playingChopSound = false;
+        SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);
+    }
+
+        if(ready && currentRecipe.endItem != Item.name){
             Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
             System.out.println("Finished cutting");
             SoundFrame.SoundEngine.playSound("Step Achieved");
 
-            ready = currentRecipe.RecipeSteps.get(Item.currentStep).timeStep(Item, dt, Interacted);
-            if (ready) {
-                Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
-            }
         }
     }
 
+    @Override
+    public void Reset(){
+        super.Reset();
+
+        Interacted = false;
+        playingChopSound = false;
+        soundID = 0;
+        ready = false;
+    }
     @Override
     public void FixedUpdate(float dt){
         if(RunInteract.interact.isChefClose(gameObject,HowCloseDoesChefNeedToBe) & currentRecipe!=null){
             Cut(dt);
         } else if (playingChopSound){
             playingChopSound = false;
-            SoundFrame.SoundEngine.stopSound("Knife Chop");
+            SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);
 
         }
         Interacted = false;

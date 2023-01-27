@@ -23,8 +23,9 @@ public class PathfindingAgent extends BlackScripts
 
         DequeueNext();
 
-
-        PrevPosition.set(gameObject.transform.position);
+        Vector3 p = new Vector3(gameObject.transform.position);
+        p.y =0;
+        PrevPosition.set(p);
     }
 
     public void DequeueNext(){
@@ -41,8 +42,15 @@ public class PathfindingAgent extends BlackScripts
         currentPath.remove(0);
     }
 
-
+    public Vector3 getNextPosition(){
+        return new Vector3(NextPosition);
+    }
+    public Vector3 getCurrentPosition(){
+        return new Vector3(PrevPosition);
+    }
     public int pathLength(){
+        if(currentPath == null)
+            return 0;
         return currentPath.size();
     }
     //linePnt - point the line passes through
@@ -74,23 +82,27 @@ public class PathfindingAgent extends BlackScripts
         {
             return;
         }
+        Vector3 simulatedPosition = new Vector3(gameObject.transform.position);
+        simulatedPosition.y  =0;
 
         Vector3 rDir = new Vector3(NextPosition);
         rDir.sub(PrevPosition);
-        RayPoint rp = NearestPointOnLine(PrevPosition, rDir,gameObject.transform.position);
+        RayPoint rp = NearestPointOnLine(PrevPosition, rDir,simulatedPosition);
         float nt = PrevPosition.dst(NextPosition);
         if(rp.t >= nt )
             DequeueNext();
 
-        float dst = NextPosition.dst(gameObject.transform.position);
+        float dst = NextPosition.dst(simulatedPosition);
 
         dst = Math.min(dst,Speed);
         Vector3 dir = new Vector3(0,0,0);
-        dir.set(NextPosition).sub(gameObject.transform.position).nor();
+        dir.set(NextPosition).sub(simulatedPosition).nor();
 
         Vector3 p = new Vector3(0,0,0);
-        p.set(gameObject.transform.position);
+        p.set(simulatedPosition);
         p.mulAdd(dir,dst);
+
+        p.y = 3;
 
         if(UpdateMap)
           gameObject.transform.UpdatePosition(p);

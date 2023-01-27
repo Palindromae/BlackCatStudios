@@ -42,7 +42,7 @@ public class Table
             GameObject obj = new GameObject(new Rectangle(), tex);
 
             pos = new Vector3(p);
-            pos.y = 5;
+            pos.y = 7;
             obj.transform.position =  pos;
         }
 

@@ -1,16 +1,15 @@
 package com.mygdx.game.BlackCore;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Shape2D;
+import com.badlogic.gdx.math.*;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
 import com.mygdx.game.BlackCore.Pathfinding.occupationID;
 import com.mygdx.game.BlackScripts.CollisionDetection;
 import com.mygdx.game.MyGdxGame;
-import  com.badlogic.gdx.math.Vector3;
+
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.MyGdxGame;
 
 
 public class GameObject implements Comparator<GameObject> {
@@ -19,7 +18,7 @@ public class GameObject implements Comparator<GameObject> {
     public Transform transform;
     public boolean colliderState;
 
-    List<BlackScripts> blackScripts;
+   public List<BlackScripts> blackScripts;
     private Integer _UID;
 
     Boolean isDestroyed = false;
@@ -27,9 +26,19 @@ public class GameObject implements Comparator<GameObject> {
     Integer textureWidth;
     Integer textureHeight;
 
+
+    private Vector3 MaintainedOffset;
+
+
+    public void setMaintainedOffset(int x, int z){
+     MaintainedOffset = new Vector3(x,0,z);
+    }
     public GameObject(Shape2D shape, BTexture texture){
 
         this.shape = shape;
+
+
+        setMaintainedOffset(0,0);
         this.texture = texture;
         transform = new Transform();
         blackScripts = new LinkedList<>();
@@ -37,6 +46,20 @@ public class GameObject implements Comparator<GameObject> {
         IsActiveAndVisible = true;
         textureWidth = texture.getWidth();
         textureHeight = texture.getHeight();
+        GameObjectHandler.instantiator.Instantiate(this);
+    }
+
+    public GameObject(Shape2D shape, BTexture texture, int width, int height){
+
+        setMaintainedOffset(0,0);
+        this.shape = shape;
+        this.texture = texture;
+        transform = new Transform();
+        blackScripts = new LinkedList<>();
+        // set to true by default so that objects are correctly displayed
+        IsActiveAndVisible = true;
+        textureWidth = width;
+        textureHeight = height;
         GameObjectHandler.instantiator.Instantiate(this);
     }
 
@@ -52,7 +75,7 @@ public class GameObject implements Comparator<GameObject> {
 
     public void addStaticCollider(GridPartition gridPartition, occupationID id){
         this.transform.gridPartition = gridPartition;
-        gridPartition.place_static_object_on_grid_from_world(transform.position.x,transform.position.z,texture.width*transform.scale.x, texture.height*transform.scale.z, occupationID.Blocked);
+        gridPartition.place_static_object_on_grid_from_world(transform.position.x,transform.position.z,getTextureWidth()*transform.scale.x, getTextureHeight()*transform.scale.z, occupationID.Blocked);
       //  setColliderState(true);
       //  CollisionDetection.collisionMaster.addToStaticQueue(this);
 
@@ -115,6 +138,13 @@ public class GameObject implements Comparator<GameObject> {
         return textureHeight;
     }
 
+    /**
+     * This method sets the texture of the GameObject
+     * @param texture the texture to be set
+     */
+    public void setTexture(BTexture texture){
+        this.texture = texture;
+    }
 
     public void dispose(){
         texture.dispose();
@@ -127,7 +157,7 @@ public class GameObject implements Comparator<GameObject> {
      * It does this by checking if the mouse is clicked and if the mouse is within the bounds of the object
      * @return true if the object is clicked, false otherwise
      */
-    public Boolean isObjectTouched() {
+    public Boolean isObjectTouched() { // Method for use of checking if spaces in menus are touched for initiating different buttons/sequences
         if (Gdx.input.isButtonJustPressed(0)) {
             Vector3 touchpos = new Vector3();
             touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -186,5 +216,9 @@ public class GameObject implements Comparator<GameObject> {
      */
     public Boolean getVisibility(){
         return  IsActiveAndVisible;
+    }
+
+    public Vector3 getMaintainedOffset() {
+        return MaintainedOffset;
     }
 }

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class BatchDrawer {
 
-    public SpriteBatch batch;
+    public static SpriteBatch batch;
 
     List<GameObject> ZOrderedObjects;
 
@@ -44,7 +44,7 @@ public class BatchDrawer {
         for (GameObject object:ZOrderedObjects){
 
             if(object.isDestroyed) {
-                GameObjectsToRemove.add((object));
+                GameObjectsToRemove.add(object);
                 continue;
             }
             //make gamescale with window width - look at sams code
@@ -54,9 +54,9 @@ public class BatchDrawer {
 
             //Y axis is transformed to z axis TODO think about adding a drop shadow to objects
             batch.draw(object.texture.texture,
-                    object.transform.position.x, object.transform.position.z + object.transform.position.y * yAxisToZConversionRation,
+                    object.transform.position.x - object.getMaintainedOffset().x, object.transform.position.z - object.getMaintainedOffset().z + object.transform.position.y * yAxisToZConversionRation,
                      object.texture.textureOrigin.x,  object.texture.textureOrigin.z,
-                    object.texture.width, object.texture.height,
+                    object.textureWidth, object.textureHeight,
                     object.transform.scale.x, object.transform.scale.z+ object.transform.scale.y * yAxisToZConversionRation,
                     object.transform.rotation.getYaw());
 

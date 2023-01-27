@@ -88,52 +88,52 @@ public class WSHob extends WorkStation{
      * @param dt Time constant
      */
 
-    public void Cook(float dt) {
+    public void Cook(float dt){
         ready = isItemReady(dt);
 
-        if (!playingBurner) {
-            burnerSoundID = SoundFrame.SoundEngine.playSound("Cooker");
-            SoundFrame.SoundEngine.setLooping(burnerSoundID, "Cooker");
-            playingBurner = true;
+        if(!playingBurner){
+           burnerSoundID =  SoundFrame.SoundEngine.playSound("Cooker");
+           SoundFrame.SoundEngine.setLooping(burnerSoundID,"Cooker");
+           playingBurner = true;
         }
 
-        ready = currentRecipe.RecipeSteps.get(Item.currentStep).timeStep(Item, dt, Interacted);
-        if (ready & Item.cookingProgress == 0) {
+        if(ready & Item.cookingProgress==0){
 
-            if (!playingFrying) {
-                fryingSoundID = SoundFrame.SoundEngine.playSound("Fryer");
-                SoundFrame.SoundEngine.setLooping(fryingSoundID, "Fryer");
+            if(!playingFrying){
+                fryingSoundID =  SoundFrame.SoundEngine.playSound("Fryer");
+                SoundFrame.SoundEngine.setLooping(fryingSoundID,"Fryer");
                 playingFrying = true;
             }
 
             i++;
-            System.out.println("Changed step: " + currentRecipe.RecipeSteps.get(Math.min(i, currentRecipe.RecipeSteps.size() - 1)));
+            System.out.println("Changed step: "+ currentRecipe.RecipeSteps.get(Math.min(i,currentRecipe.RecipeSteps.size()-1)));
 
             SoundFrame.SoundEngine.playSound("Step Achieved");
-            if (i == currentRecipe.RecipeSteps.size()) {
+            if(i==currentRecipe.RecipeSteps.size()){
                 Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
                 i = 0;
 
-                Item.currentStep++;
-                if (Item.currentStep == currentRecipe.RecipeSteps.size()) {
-                    Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
-                    checkItem();
-                }
-                return;
+                checkItem();
             }
+            return;
+        }
         /* Burn can be implemented here, cookingProgress will only be set to zero if player has interacted during
             with the hob during an interaction step or at the end of a TimeStep.
          */
-            //if(ready){
-            //  burn()
-            // }
-        }
-
-
+        //if(ready){
+        //  burn()
+        // }
     }
-    public void ProgressBar () {
-        float progress = Item.cookingProgress / Item.MaxProgress;
+    @Override
+    public void Reset(){
+        super.Reset();
 
+        Interacted = false;
+        playingBurner = false;
+        playingFrying = false;
+        fryingSoundID = 0;
+        burnerSoundID = 0;
+        ready = false;
     }
     // public void burn(){}
     @Override
@@ -151,8 +151,6 @@ public class WSHob extends WorkStation{
                 playingFrying = false;
             }
         }
-        if(Item!= null && Item.cookingProgress>0)
-            ProgressBar();
 
         Interacted = false;
     }
