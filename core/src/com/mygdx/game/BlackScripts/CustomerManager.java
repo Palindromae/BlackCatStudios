@@ -9,12 +9,16 @@ import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
 import com.mygdx.game.CoreData.Items.Items;
+import com.mygdx.game.MyGdxGame;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
+
+import static com.mygdx.game.BlackCore.DisplayOrders.displayOrders;
 
 
 public class CustomerManager extends BlackScripts {
@@ -35,6 +39,7 @@ int bossWave = 1;
 int bossAmount = 6;
 
 int currentWave = 0;
+int OrderID = 0;
 
 public Consumer<Float> EndGameCommand;
 
@@ -116,11 +121,21 @@ enum RandomisationStyle{
     }
 
     List<Items> CreateRandomOrder(int count, RandomisationStyle ranStyle){
-        if(ranStyle == RandomisationStyle.Random)
-            return CreatePureRandomOrder(count);
-
+        LinkedList<Items> allOrders = new LinkedList<>();
+        OrderID = ThreadLocalRandom.current().nextInt(1,1000);
+        if(ranStyle == RandomisationStyle.Random){
+            allOrders = (LinkedList<Items>) CreatePureRandomOrder(count);
+            displayOrders.orderDict.put(OrderID, allOrders);
+            displayOrders.completed.put(OrderID, false);
+            OrderAlerts.checkIfToShowAlert();
+            return allOrders;
+        }
         if(ranStyle == RandomisationStyle.LimitedRandom){
-            return CreateLimitedRandomOrder(count);
+            allOrders = (LinkedList<Items>) CreateLimitedRandomOrder(count);;
+            displayOrders.orderDict.put(OrderID, allOrders);
+            displayOrders.completed.put(OrderID, false);
+            OrderAlerts.checkIfToShowAlert();
+            return allOrders;
         }
         throw new IllegalArgumentException("you failed to set a correct to set a correct randomisation pattern");
     }
@@ -185,6 +200,8 @@ enum RandomisationStyle{
     public Boolean IsFoodInOrder(ItemAbs item){
     if(WaitingCustomers.get(0).TestAndRemoveItemFromOrders(item)){
 
+        displayOrders.completed.put(OrderID, true);
+        displayOrders.removeOrder(OrderID);
         return true;
     }
     return false;

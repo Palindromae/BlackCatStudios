@@ -1,6 +1,5 @@
 package com.mygdx.game.BlackScripts;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
@@ -15,6 +14,7 @@ import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
 import com.mygdx.game.Chef;
 import com.mygdx.game.CoreData.Items.FoodCrate;
 import com.mygdx.game.CoreData.Items.WorkStation;
+import com.mygdx.game.SoundFrame;
 
 import java.util.List;
 import java.util.Optional;
@@ -158,6 +158,7 @@ public class MasterChef extends BlackScripts {
             //Interaction succeeded
             getCurrentChef().controller.GiveItem(item); //Put item on top of
             System.out.println("Succeded on Getting");
+            SoundFrame.SoundEngine.playSound("Item Equip");
             return true;
         } else{
             //Failed
@@ -187,6 +188,7 @@ public class MasterChef extends BlackScripts {
             //Interaction succeeded
             //Nothing else needed to be done
             System.out.println("Succeeded in giving");
+            SoundFrame.SoundEngine.playSound("Item Drop");
             return true;
         } else{
             //Failed

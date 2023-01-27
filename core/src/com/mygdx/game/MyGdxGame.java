@@ -4,10 +4,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
 
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,12 +16,6 @@ import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.*;
 
 import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
-import com.mygdx.game.CoreData.Items.Items;
-import jdk.javadoc.internal.doclets.formats.html.markup.Script;
-
-import java.awt.*;
-import java.util.List;
-import com.badlogic.gdx.math.Rectangle;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -46,7 +37,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject obj3;
 	GameObject menu;
 	LoadSounds soundLoader = new LoadSounds();
-
+	SoundFrame soundFrame = new SoundFrame();
 
 	BatchDrawer batch;
 
@@ -66,17 +57,20 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject closeGameText;
 	GameObject closeGameIcon;
 	GameObject controlsText;
+	GameObject orderPageButton;
+	GameObject orderPageCloseButton;
+	public static GameObject orderAlert;
+	public static GameObject orderPage;
+	boolean orderPageShown = false;
 	boolean muteState = false;
+
 
 	@Override
 	public void create () {
-
-
-
-
 		soundLoader.loadAllSounds(soundFrame);
 		long id = soundFrame.playSound("Main Screen");
 		soundFrame.setLooping(id, "Main Screen");
+
 
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
@@ -184,7 +178,29 @@ public class MyGdxGame extends ApplicationAdapter {
 		controlsText.transform.position.z = 65;
 		controlsText.transform.position.y = 10;
 
+		orderPageButton = new GameObject((Shape2D) new Rectangle(0, 500, 30, 50), new BTexture("PullOut.png", 25, 50));
+		orderPageButton.transform.position.z = Gdx.graphics.getHeight()/2;
+		orderPageButton.transform.position.y = 1;
 
+		orderPageCloseButton = new GameObject((Shape2D) new Rectangle(200,500,30,50), new BTexture("PushIn.png", 25,50));
+		orderPageCloseButton.transform.position.z = Gdx.graphics.getHeight()/2;
+		orderPageCloseButton.transform.position.y = 1;
+		orderPageCloseButton.transform.position.x = -100;
+
+
+
+		orderPage = new GameObject((Shape2D) new Rectangle(0, 0, 200, 400), new BTexture("OrderPage.png", 200, 400));
+		orderPage.transform.position.x = -200;
+		orderPage.transform.position.y = 100;
+
+		orderAlert = new GameObject((Shape2D) new Rectangle(0,0,10,10), new BTexture("NewOrderBig.png", 25, 25));
+		orderAlert.transform.position.x = 5;
+		orderAlert.transform.position.z = Gdx.graphics.getHeight()/2 + 40;
+		orderAlert.transform.position.y = 3;
+		orderAlert.negateVisibility();
+
+		ShowOrderText showText = new ShowOrderText();
+		DisplayOrders x = new DisplayOrders();
 		GameWorld.Instantiate(gPart);
 
 
@@ -197,10 +213,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
+
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,800,480);
-
-
 
 
 		//Try out script manager
@@ -271,8 +286,28 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
+
 	@Override
 	public void render () {
+		if(orderPageButton.isObjectTouched() && !Pause){
+			if(orderPageButton.transform.position.x != 200){
+				orderPageButton.transform.position.x = 200;
+				orderPage.transform.position.x = 0;
+				orderPageCloseButton.transform.position.x = 200;
+				orderPageButton.negateVisibility();
+				orderPageShown = true;
+				if(OrderAlerts.alertOn){
+					OrderAlerts.changeAlertState();
+					OrderAlerts.alertOn = false;
+				}
+			}else{
+				orderPageButton.transform.position.x = 0;
+				orderPage.transform.position.x = -200;
+				orderPageCloseButton.transform.position.x = -100;
+				orderPageShown = false;
+				orderPageButton.negateVisibility();
+			}
+		}
 
 		if(Gdx.input.isKeyJustPressed(InputsDefaults.exit)){ // If the escape key is pressed in the main menu the game will shut down
 			Gdx.app.exit();
@@ -300,6 +335,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		// If P is pressed while the game is running, the pause variable is negated and the menu will appear
 		if (!menu.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.pause)){
 			Pause = !Pause;
+			if(orderPageButton.transform.position.x == 200){
+				orderPageButton.transform.position.x = 0;
+				orderPage.transform.position.x = -200;
+				orderPageShown = false;
+			}
 			negatePauseMenu();
 		}
 		if(fixedTime.doTimeStep()){
@@ -347,12 +387,23 @@ public class MyGdxGame extends ApplicationAdapter {
 					System.out.print(soundFrame.volume);
 				}
 
+
 			}
 		}
 		camera.update();
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.RenderTextures(camera.combined);
+
+
+		if(orderPageShown && !Pause){
+			ShowOrderText.displayText();
+		}
+
+
+
 	}
+
+
 
 	public void Restart(){
 
@@ -378,5 +429,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void dispose () {
 		gameObjectHandler.dispose();
 		batch.dispose();
+		ShowOrderText.disposeOf();
 	}
 }

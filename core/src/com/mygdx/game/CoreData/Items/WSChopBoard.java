@@ -1,5 +1,4 @@
 package com.mygdx.game.CoreData.Items;
-import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackCore.RunInteract;
 import com.mygdx.game.BlackScripts.ItemFactory;
@@ -97,7 +96,7 @@ public class WSChopBoard extends WorkStation{
 
     } else {
         playingChopSound = false;
-        SoundFrame.SoundEngine.stopSound("Knife Chop");
+        SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);
     }
 
         if(ready && currentRecipe.endItem != Item.name){
@@ -123,7 +122,7 @@ public class WSChopBoard extends WorkStation{
             Cut(dt);
         } else if (playingChopSound){
             playingChopSound = false;
-            SoundFrame.SoundEngine.stopSound("Knife Chop");
+            SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);
 
         }
         Interacted = false;

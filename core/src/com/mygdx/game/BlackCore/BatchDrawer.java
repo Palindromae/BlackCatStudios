@@ -7,7 +7,7 @@ import java.util.*;
 
 public class BatchDrawer {
 
-    public SpriteBatch batch;
+    public static SpriteBatch batch;
 
     List<GameObject> ZOrderedObjects;
 
