@@ -298,7 +298,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScriptManager.tryAppendLooseScript(masterChef);
 
 		customerManager = new CustomerManager(GameWorld.Tables,gPart,GameWorld.TableRadius);
-		CustomerManager.customermanager.setCustomerTexture(texture);
+		//CustomerManager.customermanager.setCustomerTexture(texture);
 		customerManager.EndGameCommand = this::FinishGame;
 		CustomerManager.customermanager.WaitingPositions = GameWorld.CustomerWaitingLocations;
 		CustomerManager.customermanager.spawningLocation = GameWorld.CustomerSpawnLocations;

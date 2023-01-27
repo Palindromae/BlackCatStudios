@@ -168,28 +168,36 @@ public class CreateGameWorld
     {
 
         int middleSections = 3;
+        int width = 2;
         int segmentHeight =  150/(middleSections+2);
-        int segmentWidth = 50;
+        int segmentWidth = 75/2;
 
         GameObject CombinationCounter;
         for (int i = 1; i <= middleSections; i++)
         {
-            CombinationCounter = new GameObject(new Rectangle( 120+ KitchenFloor.transform.position.x ,i*segmentHeight +KitchenFloor.transform.position.z, segmentWidth,segmentHeight),CombinationCounterTexture,segmentWidth,segmentHeight);
-            CombinationCounter.transform.position.x =  120 + KitchenFloor.transform.position.x;
-            CombinationCounter.transform.position.z =  i*segmentHeight + 105 + KitchenFloor.transform.position.z;
-            CombinationCounter.transform.position.y = 1;
-            CombinationCounter.addStaticCollider(partition, occupationID.Station);
-            WSCounter CC = new WSCounter();
-            CombinationCounter.AppendScript(CC);
-            InteractableObjects.add(CombinationCounter);
-            CombinationCounters.add(CombinationCounter);
-            WorkStations.add(CombinationCounter);
+            for (int j = 0; j < 2; j++) {
+
+
+                CombinationCounter = new GameObject(new Rectangle(j*segmentWidth+120 + KitchenFloor.transform.position.x, i * segmentHeight + KitchenFloor.transform.position.z, segmentWidth, segmentHeight), CombinationCounterTexture, segmentWidth, segmentHeight);
+                CombinationCounter.transform.position.x = j*segmentWidth+120 + KitchenFloor.transform.position.x;
+                CombinationCounter.transform.position.z = i * segmentHeight + 105 + KitchenFloor.transform.position.z;
+                CombinationCounter.transform.position.y = 1;
+                CombinationCounter.addStaticCollider(partition, occupationID.Station);
+                WSCounter CC = new WSCounter();
+                CombinationCounter.AppendScript(CC);
+                InteractableObjects.add(CombinationCounter);
+                CombinationCounters.add(CombinationCounter);
+                WorkStations.add(CombinationCounter);
+            }
 
         }
 
 
-        CombinationCounter = new GameObject(new Rectangle( 120+ KitchenFloor.transform.position.x ,105+KitchenFloor.transform.position.z, 75,150),CombinationCounterTextureEnd,segmentWidth,segmentHeight);
-        CombinationCounter.transform.position.x =  120 + KitchenFloor.transform.position.x;
+        for (int i = 0; i < width; i++) {
+
+
+        CombinationCounter = new GameObject(new Rectangle( i*segmentWidth+segmentWidth+120+ KitchenFloor.transform.position.x ,105+KitchenFloor.transform.position.z, 75,150),CombinationCounterTextureEnd,segmentWidth,segmentHeight);
+        CombinationCounter.transform.position.x =  i*segmentWidth+120 + KitchenFloor.transform.position.x;
         CombinationCounter.transform.position.z = 105 + KitchenFloor.transform.position.z;
         CombinationCounter.transform.position.y = 1;
         CombinationCounter.addStaticCollider(partition, occupationID.Station);
@@ -201,8 +209,8 @@ public class CreateGameWorld
         WorkStations.add(CombinationCounter);
 
 
-        CombinationCounter = new GameObject(new Rectangle( 120+ KitchenFloor.transform.position.x ,(middleSections+1)*segmentHeight +KitchenFloor.transform.position.z, segmentWidth,segmentHeight),CombinationCounterTextureEndDown,segmentWidth,segmentHeight);
-        CombinationCounter.transform.position.x =  120 + KitchenFloor.transform.position.x;
+        CombinationCounter = new GameObject(new Rectangle( i*segmentWidth+120+ KitchenFloor.transform.position.x ,(middleSections+1)*segmentHeight +KitchenFloor.transform.position.z, segmentWidth,segmentHeight),CombinationCounterTextureEndDown,segmentWidth,segmentHeight);
+        CombinationCounter.transform.position.x =  i*segmentWidth+120 + KitchenFloor.transform.position.x;
         CombinationCounter.transform.position.z =  (middleSections+1)*segmentHeight + 105 + KitchenFloor.transform.position.z;
         CombinationCounter.transform.position.y = 1;
         CombinationCounter.addStaticCollider(partition, occupationID.Station);
@@ -211,6 +219,8 @@ public class CreateGameWorld
         InteractableObjects.add(CombinationCounter);
         CombinationCounters.add(CombinationCounter);
         WorkStations.add(CombinationCounter);
+        }
+
     }
 
 

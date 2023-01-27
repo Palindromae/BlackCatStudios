@@ -16,8 +16,7 @@ import com.mygdx.game.CoreData.Items.FoodCrate;
 import com.mygdx.game.CoreData.Items.WorkStation;
 import com.mygdx.game.SoundFrame;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class MasterChef extends BlackScripts {
 
@@ -39,6 +38,9 @@ public class MasterChef extends BlackScripts {
     PathfindingConfig pathfindingConfig;
 
 
+    String[] CharacterSheets = new String[]{
+        "Characters/ChefMaleFull.png", "Characters/ChefFemFull.png"
+    };
 
     @Override
     public void Start() {
@@ -46,13 +48,26 @@ public class MasterChef extends BlackScripts {
         
         chefs = new Chef[numberOfChefs];
 
+        BTexture chefFem = new BTexture("Characters/ChefFemTest.png",null,null);
+        List<FrameIDs> frameIDsList = new LinkedList<>();
+
+
+
         for (int i = 0; i < numberOfChefs; i++) {
 
+
+            Collections.reverse(frameIDsList);
+
             ChefController controller = new ChefController();
-            GameObject obj = new GameObject(new Rectangle(0,0,chefWidth,chefHeight),chefTex);
+            Animate Animator = new CharacterAnimator(.125f,CharacterSheets[i], chefWidth,chefHeight,21,13,controller);
+            GameObject obj = new GameObject(new Rectangle(0,0,chefWidth,chefHeight),Animator.tex,chefWidth*3,chefHeight*3);
+            obj.setMaintainedOffset(16,0);
+           // Animator.tex.textureOrigin = new Vector3(64,0,0);
             obj.transform.gridPartition = KitchenPartition;
+            obj.transform.position.y = 2;
             obj.addDynamicCollider();
             obj.AppendScript(controller);
+            obj.AppendScript(Animator);
 
             chefs[i] = new Chef(i, controller);
         }
@@ -83,6 +98,8 @@ public class MasterChef extends BlackScripts {
         for (int i = 0; i < numberOfChefs; i++) {
             if(Gdx.input.isKeyPressed(Input.Keys.NUM_1 + i)) // increments to next number for each chef 1,2,3 ect (dont go above 9)
                 currentlySelectedChef = i;//Chef to select
+
+
         }
 
 

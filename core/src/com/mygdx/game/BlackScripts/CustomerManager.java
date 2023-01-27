@@ -11,10 +11,7 @@ import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
 import com.mygdx.game.CoreData.Items.Items;
 import com.mygdx.game.MyGdxGame;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
@@ -24,18 +21,23 @@ import static com.mygdx.game.BlackCore.DisplayOrders.displayOrders;
 public class CustomerManager extends BlackScripts {
 public static CustomerManager customermanager;
 public Vector3 spawningLocation;
-BTexture customerTexture;
 public List<Vector3> WaitingPositions;
 List<Customers> WaitingCustomers = new LinkedList<>();
 List<Customers> LeavingCustomers = new LinkedList<>();
 
+String[] CustomerAvatarsPaths = new String[]{
+        "Characters/RedWoman.png","Characters/ScarfWoman.png","Characters/OldMan.png","Characters/IvernMan.png","Characters/strongman.png"
+};
+
+List<String> CustomerAvatars = new LinkedList<>();
+
 public float Score = 0;
 
-int wavesOfCustomers = 5;
+int wavesOfCustomers = 3;
 
 int NumberOfCustomersSeen = 0;
-int MaxNumberOfCustomers = (int)Math.round(wavesOfCustomers * (minGroupSize+ maxGroupSize)/2.0f);
-int bossWave = 1;
+int MaxNumberOfCustomers = 5;//(int)Math.round(wavesOfCustomers * (minGroupSize+ maxGroupSize)/2.0f)
+int bossWave = 0;
 int bossAmount = 6;
 
 int currentWave = 0;
@@ -63,8 +65,8 @@ float TimeToNextLeave = EatingTime;
 int StockFloor = 5;
 int MaxStockCapacity = 15;
 int refillCapability = 5;
-public static int minGroupSize = 2;
-public static int maxGroupSize = 5;
+public static int minGroupSize = 1;
+public static int maxGroupSize = 3;
 enum RandomisationStyle{
     Random,
     LimitedRandom
@@ -93,11 +95,16 @@ enum RandomisationStyle{
 
 
         }
+
+        for (String path:CustomerAvatarsPaths
+             ) {
+            CustomerAvatars.add(path);
+        }
+
+        Collections.shuffle(CustomerAvatars);
     }
 
-    public void setCustomerTexture(BTexture customerTexture) {
-        this.customerTexture = customerTexture;
-    }
+
 
 
     Table getNextFreeTable(){
@@ -116,7 +123,13 @@ enum RandomisationStyle{
         Table tableToUse = getNextFreeTable();
         tableToUse.DefineSeatingArrangement(count);
 
-        Customers customerGroup = new Customers(spawningLocation, CreateRandomOrder(count,RandomisationStyle.LimitedRandom),customerTexture,gridPartition,tableToUse);
+        List<String> textures = new LinkedList<>();
+
+        for (int i = 0; i < count; i++) {
+            textures.add(CustomerAvatars.get(i-count+NumberOfCustomersSeen));
+        }
+
+        Customers customerGroup = new Customers(spawningLocation, CreateRandomOrder(count,RandomisationStyle.LimitedRandom),textures,gridPartition,tableToUse);
         WaitingCustomers.add(customerGroup);
     }
 
@@ -272,14 +285,14 @@ enum RandomisationStyle{
 
     if(getNextFreeTable() != null) {
         currentWave++;
-        if (currentWave < wavesOfCustomers) {
+        if (currentWave <= wavesOfCustomers) {
             invokeNewCustomer();
 
 
-        } else if (currentWave < wavesOfCustomers + bossWave) {
-            BossTable.DefineSeatingArrangement(BossTableSeats);
-            Customers customerGroup = new Customers(spawningLocation, CreateRandomOrder(BossTableSeats.size(), RandomisationStyle.Random), customerTexture, gridPartition, BossTable);
-            WaitingCustomers.add(customerGroup);
+       // }// else if (currentWave < wavesOfCustomers + bossWave) {
+           // BossTable.DefineSeatingArrangement(BossTableSeats);
+            //Customers customerGroup = new Customers(spawningLocation, CreateRandomOrder(BossTableSeats.size(), RandomisationStyle.Random), CustomerAvatars, gridPartition, BossTable);
+           // WaitingCustomers.add(customerGroup);
         } else{
             //end the game
 

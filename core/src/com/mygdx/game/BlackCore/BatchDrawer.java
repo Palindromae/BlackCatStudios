@@ -54,7 +54,7 @@ public class BatchDrawer {
 
             //Y axis is transformed to z axis TODO think about adding a drop shadow to objects
             batch.draw(object.texture.texture,
-                    object.transform.position.x, object.transform.position.z + object.transform.position.y * yAxisToZConversionRation,
+                    object.transform.position.x - object.getMaintainedOffset().x, object.transform.position.z - object.getMaintainedOffset().z + object.transform.position.y * yAxisToZConversionRation,
                      object.texture.textureOrigin.x,  object.texture.textureOrigin.z,
                     object.textureWidth, object.textureHeight,
                     object.transform.scale.x, object.transform.scale.z+ object.transform.scale.y * yAxisToZConversionRation,

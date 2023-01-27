@@ -13,7 +13,7 @@ public class PhysicsSuperController extends BlackScripts {
         for(int i = 0; i < CollisionDetection.collisionMaster.dynamicColliders.size(); i++){
             GameObject CheckShape = CollisionDetection.collisionMaster.dynamicColliders.get(i);
             if (CheckShape.shape instanceof Rectangle){
-                ((Rectangle)CheckShape.shape).setPosition(CheckShape.transform.position.x, CheckShape.transform.position.z);
+                ((Rectangle)CheckShape.shape).setPosition(CheckShape.transform.position.x + CheckShape.getMaintainedOffset().x, CheckShape.transform.position.z+ CheckShape.getMaintainedOffset().z);
             }
 
         }

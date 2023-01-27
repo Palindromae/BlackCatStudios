@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.BlackCore.Pathfinding.DistanceCalculator;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
+import com.mygdx.game.BlackScripts.Animate;
 import com.mygdx.game.BlackScripts.CustomerManager;
 import com.mygdx.game.BlackScripts.PathfindingAgent;
 import com.mygdx.game.CoreData.Items.Items;
@@ -30,19 +31,24 @@ public class Customers {
 Vector3 spawnPos;
     Table table;
 
-    public Customers(Vector3 centralLocation, List<Items> orders, BTexture cusTex, GridPartition partition, Table table){
+    public Customers(Vector3 centralLocation, List<Items> orders, List<String> cusTex, GridPartition partition, Table table){
 
         int count = orders.size();
         orderList = orders;
         this.table = table;
         spawnPos = centralLocation;
         for (int i = 0; i < count; i++) {
-            customerObjects.add(i, new GameObject(new Rectangle(), cusTex));
+
+            PathfindingAgent PA = new PathfindingAgent();
+            Animate animator = new CharacterAnimator(.25f, cusTex.get(i), 20,20, 21,13,PA);
+            customerObjects.add(i, new GameObject(new Rectangle(),  animator.tex,64,64));
+
+            customerObjects.get(i).setMaintainedOffset(32,0);
             customerObjects.get(i).transform.position = new Vector3(centralLocation);
             customerObjects.get(i).transform.gridPartition = CustomerManager.customermanager.gridPartition;
 
-            PathfindingAgent PA = new PathfindingAgent();
             customerObjects.get(i).AppendScript(PA);//Needs to be the first script
+            customerObjects.get(i).AppendScript(animator);
         }
 
         SoundFrame.SoundEngine.playSound("Customer Arrived Bell");

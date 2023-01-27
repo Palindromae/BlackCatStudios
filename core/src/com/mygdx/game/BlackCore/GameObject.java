@@ -1,16 +1,15 @@
 package com.mygdx.game.BlackCore;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Shape2D;
+import com.badlogic.gdx.math.*;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
 import com.mygdx.game.BlackCore.Pathfinding.occupationID;
 import com.mygdx.game.BlackScripts.CollisionDetection;
 import com.mygdx.game.MyGdxGame;
-import  com.badlogic.gdx.math.Vector3;
+
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.MyGdxGame;
 
 
 public class GameObject implements Comparator<GameObject> {
@@ -28,9 +27,18 @@ public class GameObject implements Comparator<GameObject> {
     Integer textureHeight;
 
 
+    private Vector3 MaintainedOffset;
+
+
+    public void setMaintainedOffset(int x, int z){
+     MaintainedOffset = new Vector3(x,0,z);
+    }
     public GameObject(Shape2D shape, BTexture texture){
 
         this.shape = shape;
+
+
+        setMaintainedOffset(0,0);
         this.texture = texture;
         transform = new Transform();
         blackScripts = new LinkedList<>();
@@ -43,6 +51,7 @@ public class GameObject implements Comparator<GameObject> {
 
     public GameObject(Shape2D shape, BTexture texture, int width, int height){
 
+        setMaintainedOffset(0,0);
         this.shape = shape;
         this.texture = texture;
         transform = new Transform();
@@ -207,5 +216,9 @@ public class GameObject implements Comparator<GameObject> {
      */
     public Boolean getVisibility(){
         return  IsActiveAndVisible;
+    }
+
+    public Vector3 getMaintainedOffset() {
+        return MaintainedOffset;
     }
 }
