@@ -318,8 +318,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		pauseMenu.negateVisibility();
 		closePauseMenuText.negateVisibility();
 		playIcon.negateVisibility();
-		closeGameText.negateVisibility();
-		closeGameIcon.negateVisibility();
+		if (isGameRunning){
+			closeGameText.negateVisibility();
+			closeGameIcon.negateVisibility();
+		}
 		controlsText.negateVisibility();
 		if (!muteState){
 			muteMusicIcon.negateVisibility();
