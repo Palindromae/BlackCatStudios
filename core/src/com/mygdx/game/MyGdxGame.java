@@ -71,6 +71,7 @@ public class MyGdxGame extends ApplicationAdapter {
     GameObject pauseButton;
     GameObject orderPageButton;
     GameObject orderPageCloseButton;
+    GameObject menuBackground;
     public static GameObject orderAlert;
     public static GameObject orderPage;
     boolean orderPageShown = false;
@@ -245,11 +246,12 @@ public class MyGdxGame extends ApplicationAdapter {
         orderAlert.transform.position.y = 4;
         orderAlert.negateVisibility();
 
+        menuBackground = new GameObject((Shape2D) new Rectangle(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), new BTexture("white.png",Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        menuBackground.negateVisibility();
+
         ShowOrderText showText = new ShowOrderText();
         DisplayOrders x = new DisplayOrders();
         GameWorld.Instantiate(gPart);
-
-
         interact = new RunInteract(GameWorld);
 
 
