@@ -33,40 +33,31 @@ public class ShowOrderText extends BlackScripts{
     }
 
     public static void displayText(){
-        LinkedList<Items> toAddToOrder = new LinkedList<Items>();
         String totalOrderString = new String();
-        toAddToOrder.add(Items.CheeseBurger);
-        toAddToOrder.add(Items.CheeseBurger);
-        toAddToOrder.add(Items.Burger);
-        toAddToOrder.add(Items.TomatoOnionLettuceSalad);
-        toAddToOrder.add(Items.CookedPatty);
-        DisplayOrders.displayOrders.orderDict.put(23,toAddToOrder);
-
         for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet()) {
             List<Items> value = entry.getValue();
             String orderString = new String();
             orderString = "- ";
             Set<Items> mySet = new HashSet<Items>(value);
-            for(Items s: mySet){
+            for(Items s: mySet) {
                 String separatedItem = String.join(" ", s.toString().split("(?=\\p{Lu})"));
-                orderString = orderString + Collections.frequency(value,s) + " x " + separatedItem + ",";
-
-            }
-            orderString = orderString.substring(0,orderString.length()-1);
-
-            String newToAddToOrderString = orderString;
-            Integer previousComma = null;
-            for(int j =0; j<orderString.length(); j++){
-                if(Character.compare(orderString.charAt(j), ",".charAt(0)) == 0){
-                    previousComma = j;
+                String FreqOfItems = Collections.frequency(value, s) + " x " + separatedItem;
+                String newStringToAdd = new String();
+                if(FreqOfItems.length() >= 20){
+                    Integer previousSpace = null;
+                    for(int j =0; j<orderString.length(); j++) {
+                        if (Character.compare(orderString.charAt(j), " ".charAt(0)) == 0) {
+                            previousSpace = j;
+                        }
+                        if (j % 20==0 && j!=0){
+                            newStringToAdd = newStringToAdd.substring(0, previousSpace) + "\n" + newStringToAdd.substring(previousSpace+1, newStringToAdd.length());
+                        }
+                    }
+                    FreqOfItems = newStringToAdd;
                 }
-                if (j % 20==0 && j!=0){
-                    newToAddToOrderString = newToAddToOrderString.substring(0, previousComma) + "\n" + newToAddToOrderString.substring(previousComma+1, newToAddToOrderString.length());
-                }
+                orderString = orderString + FreqOfItems + "\n";
             }
-            newToAddToOrderString = newToAddToOrderString.replace("\n", "\n  ");
-
-            totalOrderString = totalOrderString + newToAddToOrderString + "\n\n";
+            totalOrderString = totalOrderString + orderString;
         }
 
         sb.begin();
