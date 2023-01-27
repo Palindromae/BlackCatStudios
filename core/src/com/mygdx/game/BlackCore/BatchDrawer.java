@@ -49,9 +49,9 @@ public class BatchDrawer {
             }
             //make gamescale with window width - look at sams code
 
-            if (!object.IsActiveAndVisible)
+            if (!object.IsActiveAndVisible) {
                 continue; // Will not draw an object if it is set to be invisible
-
+            }
             //Y axis is transformed to z axis TODO think about adding a drop shadow to objects
             batch.draw(object.texture.texture,
                     object.transform.position.x - object.getMaintainedOffset().x, object.transform.position.z - object.getMaintainedOffset().z + object.transform.position.y * yAxisToZConversionRation,

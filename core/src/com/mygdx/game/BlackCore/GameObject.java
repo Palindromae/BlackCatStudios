@@ -22,7 +22,7 @@ public class GameObject implements Comparator<GameObject> {
     private Integer _UID;
 
     Boolean isDestroyed = false;
-    Boolean IsActiveAndVisible;
+    public Boolean IsActiveAndVisible;
     Integer textureWidth;
     Integer textureHeight;
 
@@ -207,7 +207,7 @@ public class GameObject implements Comparator<GameObject> {
      * Flips the visibility of the object
      */
     public void negateVisibility(){
-        IsActiveAndVisible = ! IsActiveAndVisible;
+        IsActiveAndVisible = !IsActiveAndVisible;
     }
 
     /**
