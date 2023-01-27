@@ -5,7 +5,7 @@ import com.mygdx.game.BlackCore.InteractInterface;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackScripts.ItemFactory;
 
-public class FoodCrate extends BlackScripts implements InteractInterface {
+public class FoodCrate extends BlackScripts implements InteractInterface{
     public Items ingredient;
 
 

@@ -15,15 +15,26 @@ public class BTexture {
 
    public int width,height;
 
+   private Texture.TextureWrap _U,_V;
+
    public Vector3 textureOrigin = Vector3.Zero.setZero();
 
 //Setting width or height to -1 will result in capturing the width or height exactly
     public BTexture(String path, Integer width, Integer height){
 
-        loadTexture(path,width,height);
+        loadTexture(path,width,height,1,1);
     }
 
-   public void loadTexture(String path,Integer width, Integer height){
+    public BTexture(String path, Integer width, Integer height, int Repeats){
+
+        loadTexture(path,width,height, Repeats,Repeats);
+    }
+
+    public BTexture(String path, Integer width, Integer height, int RepeatsU,int RepeatsV){
+
+        loadTexture(path,width,height, RepeatsU,RepeatsV);
+    }
+   public void loadTexture(String path,Integer width, Integer height, int RepeatsU, int RepeatsV){
         if(image != null){
             image.dispose();
 
@@ -31,13 +42,23 @@ public class BTexture {
 
        image = new Texture(path);
 
-       this.width = (width == null) ? image.getWidth() : width;
-       this.height = (height == null) ? image.getHeight() : height;
+        int RV = 1, RU = 1;
+
+        if(_V != Texture.TextureWrap.ClampToEdge)
+            RV = RepeatsV;
+        if(_U != Texture.TextureWrap.ClampToEdge)
+            RU = RepeatsU;
+
+       this.width = (width == null) ? image.getWidth() * RU: width* RU;
+       this.height = (height == null) ? image.getHeight() * RV: height* RV;
 
        texture = new TextureRegion(image, this.width,this.height);
    }
 
    public void setWrap(Texture.TextureWrap U, Texture.TextureWrap V){
+
+       _U = U;
+       _V = V;
         image.setWrap(U,V);
    }
 
