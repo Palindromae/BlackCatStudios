@@ -104,8 +104,17 @@ Vector3 spawnPos;
 
             obj.Destroy();
 
-            table.reset();
         }
+
+        for (GameObject obj: customerObjects
+        ) {
+
+            obj.Destroy();
+
+        }
+
+        table.reset();
+
     }
 
     void MoveCustomerToPos(GameObject obj, Vector3 pos){

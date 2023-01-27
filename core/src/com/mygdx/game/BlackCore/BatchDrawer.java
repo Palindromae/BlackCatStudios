@@ -44,7 +44,7 @@ public class BatchDrawer {
         for (GameObject object:ZOrderedObjects){
 
             if(object.isDestroyed) {
-                GameObjectsToRemove.add((object));
+                GameObjectsToRemove.add(object);
                 continue;
             }
             //make gamescale with window width - look at sams code
