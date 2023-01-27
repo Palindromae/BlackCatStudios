@@ -15,6 +15,7 @@ public abstract class WorkStation extends BlackScripts implements InteractInterf
     public static RecipeDict Recipes = new RecipeDict();
     public static CombinationDict combinations = new CombinationDict();
     public Recipe currentRecipe = null;
+    public int i = 0;
     public float workstationSpeed;
 
     int HowCloseDoesChefNeedToBe =45;

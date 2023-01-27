@@ -18,9 +18,7 @@ import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.*;
 
 import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
-import com.mygdx.game.CoreData.Items.Items;
-import jdk.javadoc.internal.doclets.formats.html.markup.Script;
-
+import com.badlogic.gdx.math.Rectangle;
 import java.awt.*;
 import java.util.List;
 
@@ -46,7 +44,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject obj3;
 	GameObject menu;
 
-	SoundFrame soundFrame = new SoundFrame();
 	LoadSounds soundLoader = new LoadSounds();
 
 
