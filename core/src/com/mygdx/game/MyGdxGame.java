@@ -76,7 +76,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject pauseButton;
 	boolean muteState = false;
 	Boolean isGameRunning = false;
-  HighScore highScore;
+    HighScore highScore;
 
 	@Override
 	public void create () {
@@ -326,6 +326,22 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	}
 
+
+	public void Restart(){
+
+		//Place chefs in area
+		//Destroy chefs items
+		masterChef.ResetSequence(GameWorld.SpawnPointChef1,GameWorld.SpawnPointChef2);
+		//Remove items from machines
+		GameWorld.Reset();
+		//Reset customers, seen customers, wave number
+		CustomerManager.customermanager.Reset();
+
+		//Go to menu or what ever it is suppose to
+		changeMenuVisbility();
+		isGameRunning = false;
+	}
+
 	@Override
 	public void render () {
 
@@ -393,9 +409,11 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 				// If the text is clicked or the X key is pressed the game will exit
 				if (Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched()){
-					this.dispose();
-					Gdx.app.exit();
-					System.exit(0);
+//					this.dispose();
+//					Gdx.app.exit();
+//					System.exit(0);
+					negatePauseMenu();
+					Restart();
 				}
 				// If the unmute/ mute icon or text is clicked, the music will be muted or unmuted
 				if (!menu.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
@@ -426,19 +444,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.RenderTextures(camera.combined);
 	}
 
-	public void Restart(){
-
-		//Place chefs in area
-		//Destroy chefs items
-		masterChef.ResetSequence(GameWorld.SpawnPointChef1,GameWorld.SpawnPointChef2);
-		//Remove items from machines
-		GameWorld.Reset();
-		//Reset customers, seen customers, wave number
-		CustomerManager.customermanager.Reset();
-
-		//Go to menu or what ever it is suppose to
-
-	}
 
 
 
