@@ -19,7 +19,7 @@ public class WSChopBoard extends WorkStation{
     boolean ready;
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
             Arrays.asList(Items.Lettuce, Items.Tomato, Items.Onion, Items.Mince));
-
+    float progress;
     Boolean playingChopSound = false;
     long soundID ;
 
@@ -108,6 +108,11 @@ public class WSChopBoard extends WorkStation{
         }
     }
 
+    public void ProgressBar(){
+        progress = Item.cookingProgress/Item.MaxProgress;
+
+    }
+
     @Override
     public void Reset(){
         super.Reset();
@@ -121,6 +126,7 @@ public class WSChopBoard extends WorkStation{
     public void FixedUpdate(float dt){
         if(RunInteract.interact.isChefClose(gameObject,HowCloseDoesChefNeedToBe) & currentRecipe!=null){
             Cut(dt);
+            ProgressBar();
         } else if (playingChopSound){
             playingChopSound = false;
             SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);

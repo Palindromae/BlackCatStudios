@@ -66,6 +66,7 @@ public class CreateGameWorld
     BTexture CombinationCounterTexture;
     BTexture CombinationCounterTextureEnd;
     BTexture CombinationCounterTextureEndDown;
+    BTexture ProgressBar;
 
     public float TableRadius = 75;
    public List<GameObject> InteractableObjects = new LinkedList<>();
@@ -103,7 +104,8 @@ public class CreateGameWorld
         ChoppingBoardTexture  = new BTexture("pictures/Chopping Board.png",null,null);
         ChoppingBoardTexture.setWrap(Texture.TextureWrap.ClampToEdge);
 
-
+        ProgressBar = new BTexture("pictures/ProgressBar.png",null,null);
+        ProgressBar.setWrap(Texture.TextureWrap.Repeat);
 
         CombinationCounterTexture = new BTexture("pictures/Counter.png",null,null);
         CombinationCounterTexture.setWrap(Texture.TextureWrap.ClampToEdge);

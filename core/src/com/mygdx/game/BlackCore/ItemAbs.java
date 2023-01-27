@@ -11,5 +11,3 @@ public abstract class ItemAbs {
 
 
 }
-
-}
