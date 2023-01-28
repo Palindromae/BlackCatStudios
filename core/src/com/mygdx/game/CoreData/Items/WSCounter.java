@@ -12,12 +12,16 @@ public class WSCounter extends WorkStation{
     @Override
     public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
             return true;
         }
         return combine(Item);
     }
 
+    public WSCounter(){
+        ItemSize = 20;
+        offset = 7.5f;
+    }
     @Override
     public boolean TestGetItem() {
         return true;
@@ -54,7 +58,7 @@ public class WSCounter extends WorkStation{
             temp = combinations.CombinationMap.get(Item.name.name()+NewItem.name.name());
         if(temp == null)
             return false;
-        Item = ItemFactory.factory.produceItem(temp);
+        changeItem(ItemFactory.factory.produceItem(temp));
         return true;
     }
 
