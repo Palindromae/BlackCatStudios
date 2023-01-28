@@ -19,9 +19,10 @@ public class WSChopBoard extends WorkStation{
     boolean ready;
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
             Arrays.asList(Items.Lettuce, Items.Tomato, Items.Onion, Items.Mince));
-
+    public float progress;
     Boolean playingChopSound = false;
     long soundID ;
+
 
 
     @Override
@@ -73,6 +74,8 @@ public class WSChopBoard extends WorkStation{
         if(ItemWhitelist.contains(Item.name)){
             currentRecipe = Recipes.RecipeMap.get(Item.name);
         }
+        else
+            currentRecipe = null;
     }
 
     // Checks if currentRecipe is null if not interacted is set to true and returns true, else false is returned
@@ -104,8 +107,14 @@ public class WSChopBoard extends WorkStation{
             Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
             System.out.println("Finished cutting");
             SoundFrame.SoundEngine.playSound("Step Achieved");
+            checkItem();
 
         }
+    }
+
+    public void ProgressBar(){
+        progress = Item.cookingProgress/ Item.MaxProgress;
+        obj.transform.scale.x=progress*width;
     }
 
     @Override
@@ -121,11 +130,13 @@ public class WSChopBoard extends WorkStation{
     public void FixedUpdate(float dt){
         if(RunInteract.interact.isChefClose(gameObject,HowCloseDoesChefNeedToBe) & currentRecipe!=null){
             Cut(dt);
+            ProgressBar();
         } else if (playingChopSound){
             playingChopSound = false;
             SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);
 
         }
+
         Interacted = false;
         }
 }

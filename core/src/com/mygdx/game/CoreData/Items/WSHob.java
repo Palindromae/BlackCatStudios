@@ -20,7 +20,7 @@ public class WSHob extends WorkStation{
 
     long burnerSoundID;
     long fryingSoundID;
-
+    float progress;
     Boolean playingBurner = false, playingFrying = false;
 
 
@@ -64,6 +64,8 @@ public class WSHob extends WorkStation{
         if(ItemWhitelist.contains(Item.name)){
             currentRecipe = Recipes.RecipeMap.get(Item.name);
         }
+        else
+            currentRecipe = null;
     }
 
     // Checks if currentRecipe is null if not interacted is set to true and returns true, else false is returned
@@ -124,6 +126,12 @@ public class WSHob extends WorkStation{
         //  burn()
         // }
     }
+
+    public void ProgressBar(){
+        progress = Item.cookingProgress/ Item.MaxProgress;
+        obj.transform.scale.x=progress*width;
+    }
+
     @Override
     public void Reset(){
         super.Reset();
@@ -138,8 +146,10 @@ public class WSHob extends WorkStation{
     // public void burn(){}
     @Override
     public void FixedUpdate(float dt){
-        if(currentRecipe != null)
+        if(currentRecipe != null) {
             Cook(dt);
+            ProgressBar();
+        }
         else {
             if(playingBurner){
                 SoundFrame.SoundEngine.stopSound("Cooker",burnerSoundID);
