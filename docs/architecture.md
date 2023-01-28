@@ -1,39 +1,39 @@
 <h1>Architecture</h1>
-[!TotalDiagram](img/TotalUMLDiagram.png)
+[Total UML Diagram](img/TotalUMLDiagram.png)
 
-[!JustItemsAndWorkShops](img/justItemsAndWorkshops.png)
+[Just Items And WorkShops](img/justItemsAndWorkshops.png)
 
-[!WithoutEveryItemShown](img/withoutEveryItem.png)
+[Without Every Item Being Shown](img/withoutEveryItem.png)
 
-[!JustEngine](img/justCoreEngine.png)
+[Just Core Engine](img/justCoreEngine.png)
 
-[!Sequence1](img/sequenceDiagram_1.png)
+[GameObject BatchDrawer Sequence](img/sequenceDiagram_1.png)
 
-[!Sequence2](img/sequenceDiagram_2.png)
+[MyGdxGame Sequence](img/sequenceDiagram_2.png)
 
-[!Sequence3](img/sequenceDiagram_3.png)
+[Chef Control Sequence](img/sequenceDiagram_3.png)
 
-[!SoundFrame1](img/soundFrame_1.png)
+[SoundFrame Class](img/soundFrame_1.png)
 
-[!SoundFrame1b](img/soundFrame_1_2.png)
+[Alternative Representation Of SoundFrame Class](img/soundFrame_1_2.png)
 
-[!CollisionDetection1](img/collisionDetection_1.png)
+[CollisionDetection Class Version 1](img/collisionDetection_1.png)
 
-[!CollisionDetection1b](img/collisionDetection_1_2.png)
+[Alternative Representation Of CollisionDetection Class Version 1](img/collisionDetection_1_2.png)
 
-[!CollisionDetection2](img/collisionDetection_2.png)
+[CollisionDetection Class Version 2](img/collisionDetection_2.png)
 
-[!CollisionDetection2b](img/collisionDetection_2_2.png)
+[Alternative Representation Of CollisionDetection Class Version 2](img/collisionDetection_2_2.png)
 
-[!collisionDetection3](img/collisionDetection_3.png)
+[CollisionDetection Class Version 3](img/collisionDetection_3.png)
 
-[!CollisionDetection3b](img/collisionDetection_3_2.png)
+[Alternative Representation Of CollisionDetection Class Version 3](img/collisionDetection_3_2.png)
 
-[!GameObject] (img/gameObject.png)
+[GameObject Class](img/gameObject.png)
 
-[!MyGdxGame] (img/myGdxGameInheritance.png)
+[MyGdxGame Class](img/myGdxGameInheritance.png)
 
-[!PauseState](img/pauseStateDiagram.png)
+[Pause State Diagram](img/pauseStateDiagram.png)
 
-[!PauseSequence](img/pauseSequenceDiagram.png)
+[Pause Sequence](img/pauseSequenceDiagram.png)
 
