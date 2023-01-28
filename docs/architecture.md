@@ -1,39 +1,101 @@
 <h1>Architecture</h1>
-[Total UML Diagram](img/TotalUMLDiagram.png)
+Right-click and open in new tab to zoom in
+<figure markdown>
+  ![Total UML Diagram](img/TotalUMLDiagram.png)
+  <figcaption>Total UML class diagram  </figcaption>
+</figure>
 
-[Just Items And WorkShops](img/justItemsAndWorkshops.png)
+<figure markdown>
+  ![Just Items And WorkShops](img/justItemsAndWorkshops.png)
+  <figcaption>Just Items and Workshops from previous diagram </figcaption>
+</figure>
 
-[Without Every Item Being Shown](img/withoutEveryItem.png)
+<figure markdown>
+  ![Without Every Item Being Shown](img/withoutEveryItem.png)
+  <figcaption>Without every item being shown from previous diagram </figcaption>
+</figure>
 
-[Just Core Engine](img/justCoreEngine.png)
+<figure markdown>
+  ![Just Core Engine](img/justCoreEngine.png)
+  <figcaption>UML class diagram of just the core engine </figcaption>
+ </figure>
+ 
+<figure markdown>
+  ![GameObject BatchDrawer Sequence](img/sequenceDiagram_1.png)
+  <figcaption>GameObject BatchDrawer sequence diagram </figcaption>
+</figure>
 
-[GameObject BatchDrawer Sequence](img/sequenceDiagram_1.png)
+<figure markdown>
+  ![MyGdxGame Sequence](img/sequenceDiagram_2.png)
+  <figcaption>MyGdxGame sequence diagram </figcaption>
+</figure>
 
-[MyGdxGame Sequence](img/sequenceDiagram_2.png)
+<figure markdown>
+  ![Chef Control Sequence](img/sequenceDiagram_3.png)
+  <figcaption>Control chef sequence diagram </figcaption>
+</figure>
 
-[Chef Control Sequence](img/sequenceDiagram_3.png)
+<figure markdown>
+  ![SoundFrame Class](img/soundFrame_1.png)
+  <figcaption>SoundFrame class diagram </figcaption>
+</figure>
 
-[SoundFrame Class](img/soundFrame_1.png)
+<figure markdown>
+  ![Alternative Representation Of SoundFrame Class](img/soundFrame_1_2.png)
+  <figcaption>Alternative representation of SoundFrame </figcaption>
+</figure>
 
-[Alternative Representation Of SoundFrame Class](img/soundFrame_1_2.png)
+<figure markdown>
+  ![CollisionDetection Class Version 1](img/collisionDetection_1.png)
+  <figcaption>CollisionDetection class diagram version 1</figcaption>
+</figure>
 
-[CollisionDetection Class Version 1](img/collisionDetection_1.png)
+<figure markdown>
+  ![Alternative Representation Of CollisionDetection Class Version 1](img/collisionDetection_1_2.png)
+  <figcaption>Alternative representation of previous diagram </figcaption>
+</figure>
 
-[Alternative Representation Of CollisionDetection Class Version 1](img/collisionDetection_1_2.png)
+<figure markdown>
+  ![CollisionDetection Class Version 2](img/collisionDetection_2.png)
+  <figcaption>CollisionDetection class diagram version 2 </figcaption>
+</figure>
 
-[CollisionDetection Class Version 2](img/collisionDetection_2.png)
+<figure markdown>
+  ![Alternative Representation Of CollisionDetection Class Version 2](img/collisionDetection_2_2.png)
+  <figcaption>Alternative representation of previous diagram </figcaption>
+</figure>
 
-[Alternative Representation Of CollisionDetection Class Version 2](img/collisionDetection_2_2.png)
+<figure markdown>
+  ![CollisionDetection Class Version 3](img/collisionDetection_3.png)
+  <figcaption>CollisionDetection class diagram version 3 </figcaption>
+</figure>
 
-[CollisionDetection Class Version 3](img/collisionDetection_3.png)
+<figure markdown>
+  ![Alternative Representation Of CollisionDetection Class Version 3](img/collisionDetection_3_2.png)
+  <figcaption>Alternative representation of previous diagram </figcaption>
+</figure>
 
-[Alternative Representation Of CollisionDetection Class Version 3](img/collisionDetection_3_2.png)
+<figure markdown>
+  ![Collision Detection Sequence Diagram](img/collisionDetectionSequenceDiagram.png)
+  <figcaption>CollisionDetection sequence diagram </figcaption>
+</figure>
 
-[GameObject Class](img/gameObject.png)
+<figure markdown>
+  ![GameObject Class](img/gameObject.png)
+  <figcaption>GameObject class diagram </figcaption>
+</figure>
 
-[MyGdxGame Class](img/myGdxGameInheritance.png)
+<figure markdown>
+  ![MyGdxGame Class](img/myGdxGameInheritance.png)
+  <figcaption>MyGdxGame class diagram </figcaption>
+</figure>
 
-[Pause State Diagram](img/pauseStateDiagram.png)
+<figure markdown>
+  ![Pause State Diagram](img/pauseStateDiagram.png)
+  <figcaption>Pause state diagram </figcaption>
+</figure>
 
-[Pause Sequence](img/pauseSequenceDiagram.png)
-
+<figure markdown>
+  ![Pause Sequence](img/pauseSequenceDiagram.png)
+  <figcaption>Pause sequence diagram </figcaption>
+</figure>
