@@ -351,7 +351,7 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     /**
-     * Function to change menu visibility when an action is taken from it
+     * Function to change start menu visibility when an action is taken from it
      */
     public void changeMenuVisbility() {
         settings.negateVisibility();
