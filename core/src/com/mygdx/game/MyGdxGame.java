@@ -277,7 +277,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		interact = new RunInteract(GameWorld);
 
 
-        GameWorld.Instantiate(gPart);
 
 
         camera = new OrthographicCamera();
@@ -312,7 +311,7 @@ public class MyGdxGame extends ApplicationAdapter {
         ///		System.out.print(a);
         //}
 
-        masterChef = new MasterChef();
+        masterChef = new MasterChef(GameWorld.SpawnPointChef1,GameWorld.SpawnPointChef2);
         masterChef.camera = camera;
         masterChef.chefTex = texture;
         masterChef.KitchenPartition = gPart;

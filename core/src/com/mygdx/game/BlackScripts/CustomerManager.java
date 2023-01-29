@@ -139,14 +139,12 @@ enum RandomisationStyle{
         if(ranStyle == RandomisationStyle.Random){
             allOrders = (LinkedList<Items>) CreatePureRandomOrder(count);
             displayOrders.orderDict.put(OrderID, allOrders);
-            displayOrders.completed.put(OrderID, false);
             OrderAlerts.checkIfToShowAlert();
             return allOrders;
         }
         if(ranStyle == RandomisationStyle.LimitedRandom){
             allOrders = (LinkedList<Items>) CreateLimitedRandomOrder(count);;
             displayOrders.orderDict.put(OrderID, allOrders);
-            displayOrders.completed.put(OrderID, false);
             OrderAlerts.checkIfToShowAlert();
             return allOrders;
         }

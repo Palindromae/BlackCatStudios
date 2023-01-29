@@ -3,6 +3,7 @@ package com.mygdx.game.BlackScripts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -44,7 +45,12 @@ public class MasterChef extends BlackScripts {
     String[] CharacterSheets = new String[]{
         "Characters/ChefMaleFull.png", "Characters/ChefFemFull.png"
     };
+    String[] CharacterSheetsSelected = new String[]{
+            "Characters/ChefMaleFullSelected.png", "Characters/ChefFemFullSelected.png"
+    };
 
+    List<BTexture> charSheets = new LinkedList<>();
+    List<BTexture> charSheetsSelected = new LinkedList<>();
 
     public MasterChef(Vector3... spawns){
     this.spawns = spawns;
@@ -59,6 +65,11 @@ public class MasterChef extends BlackScripts {
         List<FrameIDs> frameIDsList = new LinkedList<>();
 
 
+        for (int i = 0; i < CharacterSheets.length; i++) {
+            charSheets.add( new BTexture(CharacterSheets[i],null,null));
+            charSheetsSelected.add( new BTexture(CharacterSheetsSelected[i],null,null));
+
+        }
 
         for (int i = 0; i < numberOfChefs; i++) {
 
@@ -82,6 +93,8 @@ public class MasterChef extends BlackScripts {
 
         }
 
+
+        SelectChef(0);
         RunInteract.interact.chefs = chefs;
 
         ((com.badlogic.gdx.math.Rectangle) chefs[1].controller.getGameObject().shape).x = 460;
@@ -106,7 +119,10 @@ public class MasterChef extends BlackScripts {
 
         for (int i = 0; i < numberOfChefs; i++) {
             if(Gdx.input.isKeyPressed(Input.Keys.NUM_1 + i)) // increments to next number for each chef 1,2,3 ect (dont go above 9)
-                currentlySelectedChef = i;//Chef to select
+                 {
+                     SelectChef(i);
+
+                 }
 
 
         }
@@ -120,6 +136,19 @@ public class MasterChef extends BlackScripts {
     AllowTouch = true;
     }
 
+    void SelectChef(int i){
+        ((CharacterAnimator)chefs[i].controller.getGameObject().blackScripts.get(1)).setTex( charSheetsSelected.get(i));;
+        ((CharacterAnimator)chefs[i].controller.getGameObject().blackScripts.get(1)).SwapTextureToNewFrame();
+
+        for (int k = 0; k < numberOfChefs; k++) {
+
+            if(k==i)
+                continue;
+            ((CharacterAnimator)chefs[k].controller.getGameObject().blackScripts.get(1)).setTex(charSheets.get(k));
+
+        }
+        currentlySelectedChef = i;//Chef to select
+    }
     void TouchAllowedCurrently(){
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.B))
