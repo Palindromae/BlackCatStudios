@@ -10,9 +10,12 @@ public class WSServingCounter extends WorkStation{
     @Override
     public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
+            interact();
             return true;
         }
+        interact();
+
         return false;
     }
 

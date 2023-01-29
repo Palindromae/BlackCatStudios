@@ -184,7 +184,10 @@ public class GameObject implements Comparator<GameObject> {
 
     }
 
+    public void UpdateTexture(String path){
 
+        texture.loadTexture(path,null,null,1,1);
+    }
 
 
     @Override

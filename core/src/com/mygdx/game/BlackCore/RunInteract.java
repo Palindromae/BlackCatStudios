@@ -30,9 +30,11 @@ public class RunInteract {
     }
     public Optional<GameObject> GetInteractionObj(GameObject obj, float interactionDistance){
         GameObject closetObj = null;
-        float distance = interactionDistance;
+        float distance = interactionDistance+1000;
         float currentInteractionDistance = 0;
         Circle OverlapCircle = new Circle(obj.transform.position.x,obj.transform.position.z,interactionDistance);
+
+      float d1;
         for (GameObject inter : gameWorld.InteractableObjects
              ) {
 
@@ -41,9 +43,12 @@ public class RunInteract {
                 continue;
 
             currentInteractionDistance = inter.transform.position.dst(obj.transform.position);
+            if(currentInteractionDistance<distance)
+            {
+                distance = currentInteractionDistance;
+                closetObj = inter;
 
-            distance = currentInteractionDistance;
-            closetObj = inter;
+            }
 
 
 

@@ -61,6 +61,7 @@ public class ItemFactory extends BlackScripts {
         addNewItem(Items.LettuceOnionSalad, () -> new ItemLetOnSalad());
         addNewItem(Items.LettuceTomatoSalad, () -> new ItemLetTomSalad());
         addNewItem(Items.TomatoOnionSalad, () -> new ItemTomOnSalad());
+        addNewItem(Items.TomatoOnionLettuceSalad, () -> new ItemFullSalad());
         addNewItem(Items.Burger, () -> new ItemBurger());
         addNewItem(Items.CheeseBurger, () -> new ItemCheeseBurger());
 

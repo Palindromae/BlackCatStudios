@@ -22,11 +22,11 @@ public class FoodCrate extends BlackScripts implements InteractInterface{
     public void init(){
         BTexture tex = new BTexture(ItemAbs.getImagePath(ingredient),null,null);
 
-        ItemImage = new GameObject(new Rectangle(), tex,15,15);
+        ItemImage = new GameObject(new Rectangle(), tex,25,25);
 
         ItemImage.transform.position = new Vector3(gameObject.transform.position);
-        ItemImage.transform.position.x += 7.5;
-        ItemImage.transform.position.z += 7.5;
+        ItemImage.transform.position.x += 10;
+        ItemImage.transform.position.z += 12.5;
         ItemImage.transform.position.y += 1;
     }
 
