@@ -238,10 +238,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		closeHighscoresIcon.transform.position.z = 415;
 		closeHighscoresIcon.transform.position.y = 7;
 
-		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 400, 360));
+		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 252, 350));
 //		controlsText.negateVisibility();
-		controlsText.transform.position.x = 390;
-		controlsText.transform.position.z = 50;
+		controlsText.transform.position.x = 450;
+		controlsText.transform.position.z = 65;
 		controlsText.transform.position.y = 10;
 
 		orderPageButton = new GameObject((Shape2D) new Rectangle(0, 500, 30, 50), new BTexture("PullOut.png", 25, 50));
@@ -394,6 +394,10 @@ public class MyGdxGame extends ApplicationAdapter {
 			OrderAlerts.alertOn = false;
 		}
 	}
+
+	boolean shouldOpenSettings(){
+		return Gdx.input.isKeyJustPressed(InputsDefaults.settings) || settings.isObjectTouched();
+	}
 	@Override
 	public void render () {
 		boolean recentlyPaused = false;
@@ -413,6 +417,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			this.changeMenuVisbility();
 			isGameRunning = !isGameRunning;
 			Pause = !Pause;
+			masterChef.AllowTouch = false;
+
 
 		}
 
@@ -443,7 +449,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 
-		if(menu.getVisibility()  && !menuHighscores.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.settings)) || (settings.isObjectTouched()))){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
+		if(menu.getVisibility()  && !menuHighscores.getVisibility() && shouldOpenSettings() ){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
 			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
 			negatePauseMenu();
 			this.changeMenuVisbility();
@@ -493,10 +499,14 @@ public class MyGdxGame extends ApplicationAdapter {
 				if (!isGameRunning && !menuHighscores.getVisibility() && a){
 					negatePauseMenu(); // the pause menu is closed
 					changeMenuVisbility(); // the start menu is displayed again
+					masterChef.AllowTouch = false;
+
 				}
 				else if (!menuHighscores.getVisibility() && a){
 					Pause = !Pause;
 					negatePauseMenu();
+					masterChef.AllowTouch = false;
+
 				}
 				// If the text is clicked or the X key is pressed the game will exit
 				if (ShouldCloseGame() && closeGameText.getVisibility()){
