@@ -7,6 +7,7 @@ import com.mygdx.game.BlackCore.BlackScripts;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackCore.RayPoint;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
@@ -29,6 +30,10 @@ public class ChefController extends PathfindingAgent {
         UpdateMap = true;
     }
 
+    public List<ItemAbs> GetStack(){
+        return new LinkedList<>(ItemStack);
+    }
+
 
     @Override
     public void Update(float dt) {
@@ -40,6 +45,10 @@ public class ChefController extends PathfindingAgent {
         move(dt);
 
 
+    }
+
+    public int GetMaxStackSize(){
+        return maxStackSize;
     }
 
     public boolean canGiveChef(){

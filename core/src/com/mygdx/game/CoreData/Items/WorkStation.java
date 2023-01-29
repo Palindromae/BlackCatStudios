@@ -1,8 +1,8 @@
 package com.mygdx.game.CoreData.Items;
 
-import com.mygdx.game.BlackCore.BlackScripts;
-import com.mygdx.game.BlackCore.InteractInterface;
-import com.mygdx.game.BlackCore.ItemAbs;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackScripts.ItemFactory;
 
 /**
@@ -18,6 +18,11 @@ public abstract class WorkStation extends BlackScripts implements InteractInterf
     public int i = 0;
     public float workstationSpeed;
 
+    int ItemSize = 30;
+    float offset = 12.5f;
+
+    GameObject HeldItem;
+
     int HowCloseDoesChefNeedToBe =45;
 
     //Give workstation an item
@@ -25,13 +30,36 @@ public abstract class WorkStation extends BlackScripts implements InteractInterf
     public abstract ItemAbs GetItem();
 
     public void Reset(){
-        Item = null;
+        changeItem(null);
         returnItem = null;
         currentRecipe = null;
     }
 
     public void deleteItem(){
-        Item = null;
+        changeItem(null);
+
+
+    }
+    public void changeItem(ItemAbs item){
+        Item = item;
+        UpdateItem();
+    }
+
+    public void UpdateItem(){
+        if(Item == null) {
+            if(HeldItem == null)
+                return;
+            HeldItem.Destroy();
+            HeldItem = null;
+            return;
+        }
+        if(HeldItem == null){
+            BTexture B = new BTexture(Item.getImagePath(),null,null);
+            HeldItem = new GameObject(new Rectangle(),B, ItemSize, ItemSize);
+            HeldItem.transform.position = new Vector3(gameObject.transform.position).add(new Vector3(offset,1,offset));
+        }
+        else
+            HeldItem.UpdateTexture(Item.getImagePath());
 
     }
 

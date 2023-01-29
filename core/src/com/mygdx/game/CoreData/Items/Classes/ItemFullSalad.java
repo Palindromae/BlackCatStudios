@@ -6,7 +6,7 @@ import com.mygdx.game.CoreData.Items.Items;
 public class ItemFullSalad extends ItemAbs {
 
     public ItemFullSalad(){
-        name = Items.FullSalad;
+        name = Items.TomatoOnionLettuceSalad;
     }
 
 }

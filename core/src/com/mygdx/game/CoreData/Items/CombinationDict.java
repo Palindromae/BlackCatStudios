@@ -9,12 +9,12 @@ public class CombinationDict {
     public CombinationDict(){
 
         //Salads
-        CombinationMap.put(Items.CutLettuce.name()+Items.CutTomato.name(), Items.LetTomSalad);
-        CombinationMap.put(Items.CutLettuce.name()+Items.CutOnion.name(), Items.LetOnSalad);
-        CombinationMap.put(Items.CutTomato.name()+Items.CutOnion.name(), Items.TomOnSalad);
-        CombinationMap.put(Items.CutLettuce.name()+Items.TomOnSalad.name(), Items.FullSalad);
-        CombinationMap.put(Items.CutTomato.name()+Items.LetOnSalad.name(), Items.FullSalad);
-        CombinationMap.put(Items.CutOnion.name()+Items.LetTomSalad.name(), Items.FullSalad);
+        CombinationMap.put(Items.CutLettuce.name()+Items.CutTomato.name(), Items.LettuceTomatoSalad);
+        CombinationMap.put(Items.CutLettuce.name()+Items.CutOnion.name(), Items.LettuceOnionSalad);
+        CombinationMap.put(Items.CutTomato.name()+Items.CutOnion.name(), Items.TomatoOnionSalad);
+        CombinationMap.put(Items.CutLettuce.name()+Items.TomatoOnionSalad.name(), Items.TomatoOnionLettuceSalad);
+        CombinationMap.put(Items.CutTomato.name()+Items.LettuceOnionSalad.name(), Items.TomatoOnionLettuceSalad);
+        CombinationMap.put(Items.CutOnion.name()+Items.LettuceTomatoSalad.name(), Items.TomatoOnionLettuceSalad);
 
         //Burgers
         CombinationMap.put(Items.CookedPatty.name()+Items.ToastedBuns.name(), Items.Burger);

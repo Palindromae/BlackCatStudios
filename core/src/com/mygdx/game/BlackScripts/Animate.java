@@ -62,6 +62,12 @@ public class Animate extends BlackScripts {
 
     }
 
+    public void setTex(BTexture tex){
+        this.tex = tex;
+        setRegion();
+
+        gameObject.setTexture(tex);
+    }
     @Override
     public void Update(float dt){
         accumulated += dt;

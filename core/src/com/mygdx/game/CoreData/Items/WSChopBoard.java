@@ -23,11 +23,13 @@ public class WSChopBoard extends WorkStation{
     Boolean playingChopSound = false;
     long soundID ;
 
+    float speed = 1.2f;
+
 
     @Override
     public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
             checkItem();
             return true;
         }
@@ -84,7 +86,7 @@ public class WSChopBoard extends WorkStation{
 
     // Calls the current step and stores returned bool variable in ready, if true a new item is produced
     public void Cut(float dt){
-        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt*speed, Interacted);
 
     if(!canTakeItem()){
         if(!ready && ! playingChopSound)
@@ -101,7 +103,7 @@ public class WSChopBoard extends WorkStation{
     }
 
         if(ready && currentRecipe.endItem != Item.name){
-            Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
+            changeItem(ItemFactory.factory.produceItem(currentRecipe.endItem));
             System.out.println("Finished cutting");
             SoundFrame.SoundEngine.playSound("Step Achieved");
 
