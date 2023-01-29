@@ -176,11 +176,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		muteMusicText.transform.position.z = 195;
 		muteMusicText.transform.position.y = 10;
 
-//		menuControls = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 250, 350));
-//		menuControls.transform.position.y = 5;
-//		menuControls.transform.position.x = 500;
-//		menuControls.transform.position.z = 25;
-
 		settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 65, 70));
 		settings.transform.position.y = 5;
 		settings.transform.position.x = 75;
@@ -238,9 +233,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		closeHighscoresIcon.transform.position.z = 415;
 		closeHighscoresIcon.transform.position.y = 7;
 
-		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 252, 350));
+		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 400, 360));
 //		controlsText.negateVisibility();
-		controlsText.transform.position.x = 450;
+		controlsText.transform.position.x = 390;
 		controlsText.transform.position.z = 65;
 		controlsText.transform.position.y = 10;
 
