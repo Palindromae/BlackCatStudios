@@ -10,6 +10,7 @@ public class SoundFrame {
     public static SoundFrame SoundEngine;
     HashMap<String, Sound> sounds = new HashMap<String, Sound>();
     HashMap<String, List<Long>> ids = new HashMap<>();
+     public boolean muteState = false;
 
     float volume = 1.0f;
 
@@ -41,7 +42,7 @@ public class SoundFrame {
 
     public long playSound(String name){
 
-        if(!sounds.containsKey(name)){
+        if(!sounds.containsKey(name) || muteState){
             return 0;
         }
         long id = sounds.get(name).play(volume);
@@ -70,7 +71,7 @@ public class SoundFrame {
 
     }
     public void resumeSound(String name,long id){
-        if (!sounds.containsKey(name)){
+        if (!sounds.containsKey(name)|| muteState){
             return;
         }
         sounds.get(name).resume(id);

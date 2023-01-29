@@ -76,7 +76,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	public static GameObject orderAlert;
 	public static GameObject orderPage;
 	boolean orderPageShown = false;
-	boolean muteState = false;
 	Boolean isGameRunning = false;
 
 	boolean isHighscores = false;
@@ -341,7 +340,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		closeGameText.negateVisibility();
 		closeGameIcon.negateVisibility();
 		controlsText.negateVisibility();
-		if (!muteState) {
+		if (!soundFrame.muteState) {
 			muteMusicIcon.negateVisibility();
 			muteMusicText.negateVisibility();
 		} else {
@@ -499,16 +498,17 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 				// If the unmute/ mute icon or text is clicked, the music will be muted or unmuted
 				if (!menuHighscores.getVisibility() && ShouldMute()) {
-					if (muteState) {
+					if (soundFrame.muteState) {
 
+						soundFrame.unMuteSound();
 						negateSoundVisibility();
-						muteState = !muteState;
+						soundFrame.muteState = !soundFrame.muteState;
 
 					} else {
 						soundFrame.muteSound();
 
 						negateSoundVisibility();
-						muteState = !muteState;
+						soundFrame.muteState = !soundFrame.muteState;
 					}
 					System.out.print(soundFrame.volume);
 				}
@@ -552,7 +552,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	void negateSoundVisibility(){
-		soundFrame.unMuteSound();
 		unmuteMusicIcon.negateVisibility();
 		muteMusicIcon.negateVisibility();
 		unmuteMusicText.negateVisibility();
