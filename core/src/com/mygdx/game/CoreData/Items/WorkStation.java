@@ -18,12 +18,23 @@ public abstract class WorkStation extends BlackScripts implements InteractInterf
     public int i = 0;
     public float workstationSpeed;
 
+    public BTexture btexture;
+    public GameObject obj;
+    public Integer width;
+
     int ItemSize = 30;
     float offset = 12.5f;
 
     GameObject HeldItem;
 
     int HowCloseDoesChefNeedToBe =45;
+
+    public void init(){
+        btexture = new BTexture("Pictures/ProgressBar.png", null, null);
+        obj = new GameObject(new Rectangle(),btexture, 1, 10);
+        obj.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z+1);
+        width = gameObject.getTextureWidth();
+    }
 
     //Give workstation an item
     public abstract  boolean GiveItem(ItemAbs Item);

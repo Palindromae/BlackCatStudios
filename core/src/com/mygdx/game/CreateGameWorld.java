@@ -273,6 +273,7 @@ public class CreateGameWorld
         Stove1.addStaticCollider(partition, occupationID.Station);
         WSHob hob= new WSHob();
         Stove1.AppendScript(hob);
+        hob.init();
 
 
         ChoppingBoard = new GameObject(new Rectangle( 300+ KitchenFloor.transform.position.x ,150+KitchenFloor.transform.position.z, 50,50),ChoppingBoardTexture,50,50);
@@ -283,6 +284,7 @@ public class CreateGameWorld
         ChoppingBoard.addStaticCollider(partition, occupationID.Station);
         WSChopBoard chb = new WSChopBoard();
         ChoppingBoard.AppendScript(chb);
+        chb.init();
 
         Stove2 = new GameObject(new Rectangle( 300+ KitchenFloor.transform.position.x ,75+KitchenFloor.transform.position.z, 50,50),StoveTexture,50,50);
         Stove2.transform.position.x = 300 + KitchenFloor.transform.position.x;
@@ -292,6 +294,7 @@ public class CreateGameWorld
         Stove2.addStaticCollider(partition, occupationID.Station);
         hob= new WSHob();
         Stove2.AppendScript(hob);
+        hob.init();
 
         InteractableObjects.add(Stove1);
         InteractableObjects.add(Stove2);
