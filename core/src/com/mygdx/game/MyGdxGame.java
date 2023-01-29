@@ -1,8 +1,8 @@
 package com.mygdx.game;
 
 
-
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Gdx;
 
@@ -16,6 +16,11 @@ import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.*;
 
 import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
+import com.mygdx.game.CoreData.Items.Items;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.util.List;
+import java.util.Map;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -39,7 +44,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	LoadSounds soundLoader;
 	SoundFrame soundFrame;
 	GameObject settings;
-	GameObject highscores;
+	GameObject highscoresButton;
 	GameObject start;
 	GameObject exit;
 	BatchDrawer batch;
@@ -67,27 +72,32 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject pauseButton;
 	GameObject orderPageButton;
 	GameObject orderPageCloseButton;
+	GameObject closeHighscoresIcon;
 	public static GameObject orderAlert;
 	public static GameObject orderPage;
 	boolean orderPageShown = false;
 	boolean muteState = false;
 	Boolean isGameRunning = false;
-    HighScore highScore;
 
-	@Override
-	public void create () {
+	boolean isHighscores = false;
+
+	public GameObject menuHighscores;
+	HighScore highScores;
+
+    @Override
+    public void create() {
 
 		soundFrame = new SoundFrame();
 		soundLoader = new LoadSounds();
 		soundLoader.loadAllSounds(soundFrame);
 
 
-		long id = soundFrame.playSound("Main Screen");
-		soundFrame.setLooping(id, "Main Screen");
+        long id = soundFrame.playSound("Main Screen");
+        soundFrame.setLooping(id, "Main Screen");
 
-		collisionDetection = new CollisionDetection();
-		physicsController = new PhysicsSuperController();
-		batch = new BatchDrawer();
+        collisionDetection = new CollisionDetection();
+        physicsController = new PhysicsSuperController();
+        batch = new BatchDrawer();
 //		Gdx.graphics.setContinuousRendering(false);
 //		Gdx.graphics.requestRendering();
 		try {
@@ -133,7 +143,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		pauseMenu = new GameObject((Shape2D) new Rectangle(10,20,20,20),
 				new BTexture("pauseMenu.png", 800, 480));
 		pauseMenu.negateVisibility(); // makes it invisible initially, so it does not block the screen
-		pauseMenu.transform.position.y = 4;
+		pauseMenu.transform.position.y = 6;
 
 		pauseButton = new GameObject((Shape2D) new Rectangle(10,20,20,20),
 				new BTexture("pause.png", 64, 46));
@@ -177,10 +187,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		settings.transform.position.x = 75;
 		settings.transform.position.z = 125;
 
-		highscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("trophy-for-sports.png", 300, 70));
-		highscores.transform.position.y = 5;
-		highscores.transform.position.x = 75;
-		highscores.transform.position.z = 200;
+		highscoresButton = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("trophy-for-sports.png", 300, 70));
+		highscoresButton.transform.position.y = 5;
+		highscoresButton.transform.position.x = 75;
+		highscoresButton.transform.position.z = 200;
 
 		exit = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("exitIcon.png", 65, 70));
 		exit.transform.position.y = 5;
@@ -191,6 +201,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		start.transform.position.y = 5;
 		start.transform.position.x = 75;
 		start.transform.position.z = 275;
+
+		highScores = new HighScore();
+
+		menuHighscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("white.png", 800, 480));
+		menuHighscores.negateVisibility();
+		menuHighscores.transform.position.y = 6;
 
 
 		unmuteMusicIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
@@ -216,6 +232,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		closeGameIcon.transform.position.x = 50;
 		closeGameIcon.transform.position.z = 85;
 		closeGameIcon.transform.position.y = 10;
+
+		closeHighscoresIcon = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("cancel-button.png", 64, 64));
+		closeHighscoresIcon.negateVisibility();
+		closeHighscoresIcon.transform.position.x = 700;
+		closeHighscoresIcon.transform.position.z = 415;
+		closeHighscoresIcon.transform.position.y = 7;
 
 		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 252, 350));
 		controlsText.negateVisibility();
@@ -255,96 +277,92 @@ public class MyGdxGame extends ApplicationAdapter {
 		interact = new RunInteract(GameWorld);
 
 
+        GameWorld.Instantiate(gPart);
 
 
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 480);
 
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false,800,480);
+        //Try out script manager
+
+        BlackScriptTest testScript = new BlackScriptTest();
+
+        ScriptManager.tryAppendLooseScript(testScript);
+        ScriptManager.tryAppendLooseScript(physicsController);
 
 
-		//Try out script manager
+        BasicCharacterController characterController = new BasicCharacterController();
+        characterController.camera = camera;
 
-		BlackScriptTest testScript = new BlackScriptTest();
+        //obj.AppendScript(characterController);
 
-		ScriptManager.tryAppendLooseScript(testScript);
-		ScriptManager.tryAppendLooseScript(physicsController);
-
-
-		BasicCharacterController characterController = new BasicCharacterController();
-		characterController.camera = camera;
-
-		//obj.AppendScript(characterController);
-
-		ItemFactory factory = new ItemFactory();
-		ScriptManager.tryAppendLooseScript(factory);
+        ItemFactory factory = new ItemFactory();
+        ScriptManager.tryAppendLooseScript(factory);
 
 
-		ItemFactory.factory.implementItems();
+        ItemFactory.factory.implementItems();
 
-		//System.out.println(factory.produceItem(Items.Lettuce).name);
+        //System.out.println(factory.produceItem(Items.Lettuce).name);
 
-	//	List<Vector2> a = gPart.pathfindFrom(0,0,3,3,config);
-	//	System.out.println(a.size());
-	//	for (Vector2 v2: a
-	//		 ) {
-	///		System.out.print(a);
-		//}
+        //	List<Vector2> a = gPart.pathfindFrom(0,0,3,3,config);
+        //	System.out.println(a.size());
+        //	for (Vector2 v2: a
+        //		 ) {
+        ///		System.out.print(a);
+        //}
 
-		masterChef = new MasterChef(GameWorld.SpawnPointChef1,GameWorld.SpawnPointChef2);
-		masterChef.camera = camera;
-		masterChef.chefTex = texture;
-		masterChef.KitchenPartition = gPart;
+        masterChef = new MasterChef();
+        masterChef.camera = camera;
+        masterChef.chefTex = texture;
+        masterChef.KitchenPartition = gPart;
 
-		ScriptManager.tryAppendLooseScript(masterChef);
+        ScriptManager.tryAppendLooseScript(masterChef);
 
-		customerManager = new CustomerManager(GameWorld.Tables,gPart,GameWorld.TableRadius);
-		//CustomerManager.customermanager.setCustomerTexture(texture);
-		customerManager.EndGameCommand = this::FinishGame;
-		CustomerManager.customermanager.WaitingPositions = GameWorld.CustomerWaitingLocations;
-		CustomerManager.customermanager.spawningLocation = GameWorld.CustomerSpawnLocations;
-		customerManager.BossTableSeats = GameWorld.BossSeats;
+        customerManager = new CustomerManager(GameWorld.Tables, gPart, GameWorld.TableRadius);
+        //CustomerManager.customermanager.setCustomerTexture(texture);
+        customerManager.EndGameCommand = this::FinishGame;
+        CustomerManager.customermanager.WaitingPositions = GameWorld.CustomerWaitingLocations;
+        CustomerManager.customermanager.spawningLocation = GameWorld.CustomerSpawnLocations;
+        customerManager.BossTableSeats = GameWorld.BossSeats;
 
 
+        ScriptManager.tryAppendLooseScript(customerManager);
 
-		ScriptManager.tryAppendLooseScript(customerManager);
+    }
 
-	}
+    /**
+     * This method negates the visibility of everything on the pause menu
+     * so that it can be shown or hidden
+     */
+    public void negatePauseMenu() {
+        pauseMenu.negateVisibility();
+        closePauseMenuText.negateVisibility();
+        playIcon.negateVisibility();
+        closeGameText.negateVisibility();
+        closeGameIcon.negateVisibility();
+        controlsText.negateVisibility();
+        if (!muteState) {
+            muteMusicIcon.negateVisibility();
+            muteMusicText.negateVisibility();
+        } else {
+            unmuteMusicIcon.negateVisibility();
+            unmuteMusicText.negateVisibility();
+        }
+    }
 
-	/**
-	 * This method negates the visibility of everything on the pause menu
-	 * so that it can be shown or hidden
-	 */
-	public void negatePauseMenu(){
-		pauseMenu.negateVisibility();
-		closePauseMenuText.negateVisibility();
-		playIcon.negateVisibility();
-		if (isGameRunning){
-			closeGameText.negateVisibility();
-			closeGameIcon.negateVisibility();
-		}
-		controlsText.negateVisibility();
-		if (!muteState){
-			muteMusicIcon.negateVisibility();
-			muteMusicText.negateVisibility();
-		}else{
-			unmuteMusicIcon.negateVisibility();
-			unmuteMusicText.negateVisibility();
-		}
-	}
+    /**
+     * Function to change start menu visibility when an action is taken from it
+     */
+    public void changeMenuVisbility() {
+        settings.negateVisibility();
+        start.negateVisibility();
+        highscoresButton.negateVisibility();
+        exit.negateVisibility();
+        menuControls.negateVisibility();
+        menu.negateVisibility();
 
-	/**
-	 * Function to change menu visibility when an action is taken from it
-	 */
-	public void changeMenuVisbility() {
-		settings.negateVisibility();
-		start.negateVisibility();
-		highscores.negateVisibility();
-		exit.negateVisibility();
-		menuControls.negateVisibility();
-		menu.negateVisibility();
-
-	}
+    }
 
 
 
@@ -373,7 +391,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 
-		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.start)) || (start.isObjectTouched()))){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
+		if(menu.getVisibility() && !menuHighscores.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.start) || start.isObjectTouched())){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
 			// Music changes from main menu music to game music
 			// Main menu disappears and becomes invisible
 			this.changeMenuVisbility();
@@ -383,37 +401,60 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 		// if(Gdx.input.isKeyJustPressed(InputsDefaults.exit)){ // If the escape key is pressed in the main menu the game will shut down
-		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.exit)) || (exit.isObjectTouched()))){ // If the X key is pressed or the text is clicked in the main menu the game will shut down
+		if(menu.getVisibility() && !menuHighscores.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.exit)) || (exit.isObjectTouched()))){ // If the X key is pressed or the text is clicked in the main menu the game will shut down
 			Gdx.app.exit();
 			System.exit(0);
 		}
 
-		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.highscores)) || (highscores.isObjectTouched()))){ // If the H button is pressed or the text is clicked in the main menu the game will display the high scores
-			this.changeMenuVisbility();
+		if(menu.getVisibility() && (highscoresButton.isObjectTouched())){ // If the H button is pressed or the text is clicked in the main menu the game will display the high scores
+			changeMenuVisbility();
+			this.menuHighscores.negateVisibility();
+			closeHighscoresIcon.IsActiveAndVisible = true;
+			isHighscores = !isHighscores;
+			highScores.drawText();
+			ShowOrderText.displayText();
+
+//			if (isHighscores){
+//				changeMenuVisbility();
+//				menuHighscores.negateVisibility();
+//			}
+//			else{
+//				changeMenuVisbility();
+//				menuHighscores.negateVisibility();
+//			}
+
 			// code to display the highscores
 		}
 
-		if(menu.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.settings)) || (settings.isObjectTouched()))){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
+
+
+		if(menu.getVisibility()  && !menuHighscores.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.settings)) || (settings.isObjectTouched()))){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
 			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
 			negatePauseMenu();
 			this.changeMenuVisbility();
+			System.out.println("WORK");
 			// code to display the settings menu
 		}
 
-	
+		if (menuHighscores.getVisibility() && (closeHighscoresIcon.isObjectTouched())){
+			menuHighscores.negateVisibility();
+			closeHighscoresIcon.negateVisibility();
+			isHighscores = false;
+			Restart();
+		}
 
 
 		// If P is pressed while the game is running, the pause variable is negated and the menu will appear
-		if (!menu.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.pause)) {
+		if (!menu.getVisibility() && !menuHighscores.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.pause)) {
 			Pause = !Pause;
 			if (orderPageButton.transform.position.x == 200) {
 				orderPageButton.transform.position.x = 0;
 				orderPage.transform.position.x = -200;
 				orderPageShown = false;
-			}
-			negatePauseMenu();
-		}
-		if (!Pause && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || pauseButton.isObjectTouched())){
+            }
+            negatePauseMenu();
+        }
+        if (!Pause && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || pauseButton.isObjectTouched())){
 			if (!isGameRunning){
 				negatePauseMenu(); // the pause menu is closed
 				this.changeMenuVisbility(); // the main menu is opened again
@@ -422,7 +463,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				negatePauseMenu();
 			}
 		}
-		if(fixedTime.doTimeStep()){
+        if(fixedTime.doTimeStep()){
 			//the time step is within accumulator
 			while (fixedTime.accumulator> fixedTime.dt){
 				if (! Pause){ // pauses the game
@@ -431,20 +472,20 @@ public class MyGdxGame extends ApplicationAdapter {
 				fixedTime.accumulator-= fixedTime.dt;
 				}
 			}
-		if (!Pause){
-			ScriptManager.RunUpdate(); // this is run when the game is not paused
-		}else{
+        if (!Pause){
+            ScriptManager.RunUpdate();
+        }else{
 			if (!menu.getVisibility()){
-				if (!isGameRunning && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || playIcon.isObjectTouched() || closePauseMenuText.isObjectTouched())){
+				if (pauseMenu.getVisibility() && !isGameRunning && !menuHighscores.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || playIcon.isObjectTouched() || closePauseMenuText.isObjectTouched())){
 					negatePauseMenu(); // the pause menu is closed
 					changeMenuVisbility(); // the start menu is displayed again
 				}
-				else if (isGameRunning && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || playIcon.isObjectTouched() || closePauseMenuText.isObjectTouched())){
+				else if (pauseMenu.getVisibility() && !menuHighscores.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.pause) || playIcon.isObjectTouched() || closePauseMenuText.isObjectTouched())){
 					Pause = !Pause;
 					negatePauseMenu();
 				}
 				// If the text is clicked or the X key is pressed the game will exit
-				if (Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched()){
+				if (pauseMenu.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched()){
 //					this.dispose();
 //					Gdx.app.exit();
 //					System.exit(0);
@@ -452,7 +493,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					Restart();
 				}
 				// If the unmute/ mute icon or text is clicked, the music will be muted or unmuted
-				if (!menu.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
+				if (!menu.getVisibility() && !menuHighscores.getVisibility() && pauseMenu.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
 						|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched())) {
 					if (muteState) {
 						soundFrame.unMuteSound();
@@ -474,6 +515,17 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			}
 		}
+
+		if(isHighscores){
+			//if (menuHighscores.getVisibility() == false)
+			//	menuHighscores.negateVisibility();
+			if(menuHighscores.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.highscores))){
+				menuHighscores.IsActiveAndVisible = false;
+				closeHighscoresIcon.IsActiveAndVisible = false;
+				isHighscores = false;
+				Restart();
+			}
+		}
 		camera.update();
 		ScreenUtils.clear(1, 1, 1, 1);
 		batch.RenderTextures(camera.combined);
@@ -482,15 +534,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		if(orderPageShown && !Pause){
 			ShowOrderText.displayText();
 		}
-
-
-
-	}
+		if(isHighscores)
+			HighScore.drawText();
 
 
 
 	
 
+	}
 	public void Restart(){
 
 		//Place chefs in area
@@ -502,7 +553,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		CustomerManager.customermanager.Reset();
 
 		//Go to menu or what ever it is suppose to
-		changeMenuVisbility();
+		if (!menu.getVisibility()){
+			changeMenuVisbility();
+		}
+
 		isGameRunning = false;
 	}
 
