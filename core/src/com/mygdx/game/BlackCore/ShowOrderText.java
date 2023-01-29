@@ -35,15 +35,12 @@ public class ShowOrderText extends BlackScripts{
     public static void displayText(){
         LinkedList<Items> toAddToOrder = new LinkedList<Items>();
         String totalOrderString = new String();
-        toAddToOrder.add(Items.CheeseBurger);
-        toAddToOrder.add(Items.CheeseBurger);
-        toAddToOrder.add(Items.Burger);
-        toAddToOrder.add(Items.TomatoOnionLettuceSalad);
-        toAddToOrder.add(Items.CookedPatty);
-        DisplayOrders.displayOrders.orderDict.put(23,toAddToOrder);
 
         for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet()) {
             List<Items> value = entry.getValue();
+            if(value.isEmpty()){
+                continue;
+            }
             String orderString;
             orderString = "- ";
             String toAddOnEnd = "\n  ";
@@ -52,7 +49,7 @@ public class ShowOrderText extends BlackScripts{
                 List splitItems = Arrays.asList(s.toString().split("(?=\\p{Lu})"));
                 for(int j = 0; j<splitItems.size(); j++){
                     if(splitItems.get(j).toString().length() > 20){
-                        String updatedItem = splitItems.get(j).toString().substring(0,15) + "\n" + splitItems.get(j).toString().substring(15);
+                        String updatedItem;
                         StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < splitItems.get(j).toString().length(); i++) {
                             if (i > 0 && (i % 15 == 0)) {
@@ -89,7 +86,7 @@ public class ShowOrderText extends BlackScripts{
                 orderString = orderString + itemString + toAddOnEnd;
 
             }
-            totalOrderString += orderString.substring(0,orderString.length()-toAddToOrder.size()+2) + "\n\n";
+            totalOrderString += orderString + "\n\n";
         }
 
         sb.begin();
