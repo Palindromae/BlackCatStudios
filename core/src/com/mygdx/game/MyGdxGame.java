@@ -36,8 +36,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject obj2;
 	GameObject obj3;
 	GameObject menu;
-	LoadSounds soundLoader = new LoadSounds();
-	SoundFrame soundFrame = new SoundFrame();
+	LoadSounds soundLoader;
+	SoundFrame soundFrame;
 	GameObject settings;
 	GameObject highscores;
 	GameObject start;
@@ -78,6 +78,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 
 		soundFrame = new SoundFrame();
+		soundLoader = new LoadSounds();
 		soundLoader.loadAllSounds(soundFrame);
 
 

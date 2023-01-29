@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.DistanceCalculator;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
@@ -59,7 +60,7 @@ public class MasterChef extends BlackScripts {
             Collections.reverse(frameIDsList);
 
             ChefController controller = new ChefController();
-            Animate Animator = new CharacterAnimator(.125f,CharacterSheets[i], chefWidth,chefHeight,21,13,controller);
+            Animate Animator = new ChefAnimator(.125f,CharacterSheets[i], chefWidth,chefHeight,21,13,controller);
             GameObject obj = new GameObject(new Rectangle(0,0,chefWidth,chefHeight),Animator.tex,chefWidth*3,chefHeight*3);
             obj.setMaintainedOffset(16,0);
            // Animator.tex.textureOrigin = new Vector3(64,0,0);
@@ -157,7 +158,20 @@ public class MasterChef extends BlackScripts {
         if(scripts.size()==0)
             return null;
 
-        return (InteractInterface)scripts.get(0);
+        float distance = 100000;
+        float d1 = 0;
+        int ii = 0;
+        for (int i = 0; i < scripts.size(); i++)
+        {
+            d1 = scripts.get(i).getGameObject().transform.position.dst(getCurrentChef().controller.getGameObject().transform.position);
+
+            if(d1 < distance){
+                distance = d1;
+                ii= i;
+            }
+        }
+
+        return (InteractInterface)scripts.get(ii);
     }
     boolean GetItem(){
         System.out.println("Trying to Get");

@@ -27,7 +27,7 @@ public class WSHob extends WorkStation{
     @Override
     public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
             checkItem();
             return true;
         }
@@ -110,7 +110,7 @@ public class WSHob extends WorkStation{
 
             SoundFrame.SoundEngine.playSound("Step Achieved");
             if(i==currentRecipe.RecipeSteps.size()){
-                Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
+                changeItem(ItemFactory.factory.produceItem(currentRecipe.endItem));
                 i = 0;
 
                 checkItem();
