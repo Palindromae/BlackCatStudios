@@ -76,8 +76,8 @@ public class GameObject implements Comparator<GameObject> {
     public void addStaticCollider(GridPartition gridPartition, occupationID id){
         this.transform.gridPartition = gridPartition;
         gridPartition.place_static_object_on_grid_from_world(transform.position.x,transform.position.z,getTextureWidth()*transform.scale.x, getTextureHeight()*transform.scale.z, occupationID.Blocked);
-      //  setColliderState(true);
-      //  CollisionDetection.collisionMaster.addToStaticQueue(this);
+       // setColliderState(true);
+        //CollisionDetection.collisionMaster.addToStaticQueue(this);
 
     }
 

@@ -172,6 +172,24 @@ public class CreateGameWorld
 
         DivWalls.add(DivWalV);
 
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x+KitchenFloor.getTextureWidth(),KitchenFloor.transform.position.z-col_redct,50,KitchenFloor.getTextureHeight()), DividingWallTex,
+                50,KitchenFloor.getTextureHeight());
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x+KitchenFloor.getTextureWidth();
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
+
+        DivWalls.add(DivWalV);
+
+
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z-col_redct-25,500,25), DividingWallTex,
+                500,25);
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x-50;
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z-25;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
+
+        DivWalls.add(DivWalV);
 
         createCombinationCounters(partition);
 
@@ -202,9 +220,9 @@ public class CreateGameWorld
     void createCombinationCounters(GridPartition partition)
     {
 
-        int middleSections = 3;
+        int middleSections = 2;
         int width = 2;
-        int segmentHeight =  150/(middleSections+2);
+        int segmentHeight =  160/(middleSections+2);
         int segmentWidth = 75/2;
 
         GameObject CombinationCounter;
@@ -228,49 +246,49 @@ public class CreateGameWorld
             }
 
         }
-
-
         for (int i = 0; i < width; i++) {
 
-        _x = i*segmentWidth+120 + KitchenFloor.transform.position.x;
-        _y = 105 + KitchenFloor.transform.position.z;
-        CombinationCounter = new GameObject(new Rectangle( _x ,_y, 75,150),CombinationCounterTextureEnd,segmentWidth,segmentHeight);
-        CombinationCounter.transform.position.x =  _x;
-        CombinationCounter.transform.position.z =  _y;
-        CombinationCounter.transform.position.y = 1;
-        CombinationCounter.addStaticCollider(partition, occupationID.Station);
-        WSCounter CC = new WSCounter();
-        CombinationCounter.AppendScript(CC);
-        InteractableObjects.add(CombinationCounter);
-        CombinationCounters.add(CombinationCounter);
+            _x = i*segmentWidth+120 + KitchenFloor.transform.position.x;
+            _y = 105 + KitchenFloor.transform.position.z;
+            CombinationCounter = new GameObject(new Rectangle( _x ,_y, 75,150),CombinationCounterTextureEnd,segmentWidth,segmentHeight);
+            CombinationCounter.transform.position.x =  _x;
+            CombinationCounter.transform.position.z =  _y;
+            CombinationCounter.transform.position.y = 1;
+            CombinationCounter.addStaticCollider(partition, occupationID.Station);
+            WSCounter CC = new WSCounter();
+            CombinationCounter.AppendScript(CC);
+            InteractableObjects.add(CombinationCounter);
+            CombinationCounters.add(CombinationCounter);
 
-        WorkStations.add(CombinationCounter);
+            WorkStations.add(CombinationCounter);
 
-        _x = i*segmentWidth+120 + KitchenFloor.transform.position.x;
-        _y =  (middleSections+1)*segmentHeight + 105 + KitchenFloor.transform.position.z;
-        CombinationCounter = new GameObject(new Rectangle( _x ,_y, segmentWidth,segmentHeight),CombinationCounterTextureEndDown,segmentWidth,segmentHeight);
-        CombinationCounter.transform.position.x = _x;
-        CombinationCounter.transform.position.z = _y;
-        CombinationCounter.transform.position.y = 1;
-        CombinationCounter.addStaticCollider(partition, occupationID.Station);
-        CC = new WSCounter();
-        CombinationCounter.AppendScript(CC);
-        InteractableObjects.add(CombinationCounter);
-        CombinationCounters.add(CombinationCounter);
-        WorkStations.add(CombinationCounter);
+            _x = i*segmentWidth+120 + KitchenFloor.transform.position.x;
+            _y =  (middleSections+1)*segmentHeight + 105 + KitchenFloor.transform.position.z;
+            CombinationCounter = new GameObject(new Rectangle( _x ,_y, segmentWidth,segmentHeight),CombinationCounterTextureEndDown,segmentWidth,segmentHeight);
+            CombinationCounter.transform.position.x = _x;
+            CombinationCounter.transform.position.z = _y;
+            CombinationCounter.transform.position.y = 1;
+            CombinationCounter.addStaticCollider(partition, occupationID.Station);
+            CC = new WSCounter();
+            CombinationCounter.AppendScript(CC);
+            InteractableObjects.add(CombinationCounter);
+            CombinationCounters.add(CombinationCounter);
+            WorkStations.add(CombinationCounter);
         }
+
+
 
     }
 
 
     void createMachines(GridPartition partition){
 
-        Stove1 = new GameObject(new Rectangle( 300+ KitchenFloor.transform.position.x ,225+KitchenFloor.transform.position.z, 50,50),StoveTexture,50,50);
+        Stove1 = new GameObject(new Rectangle( 295+ KitchenFloor.transform.position.x ,225+KitchenFloor.transform.position.z, 50,50),StoveTexture,50,50);
         Stove1.transform.position.x = 300 + KitchenFloor.transform.position.x;
         Stove1.transform.position.z = 225 + KitchenFloor.transform.position.z;
         Stove1.transform.position.y = 2;
         Stove1.transform.scale.set(1,0,1);
-        Stove1.addStaticCollider(partition, occupationID.Station);
+        Stove1.addStaticCollider(partition, occupationID.Blocked);
         WSHob hob= new WSHob();
         Stove1.AppendScript(hob);
         hob.init();
@@ -280,18 +298,18 @@ public class CreateGameWorld
         ChoppingBoard.transform.position.x = 300 + KitchenFloor.transform.position.x;
         ChoppingBoard.transform.position.z = 150 + KitchenFloor.transform.position.z;
         ChoppingBoard.transform.position.y = 2;
-        ChoppingBoard.transform.scale.set(1,0,1);
-        ChoppingBoard.addStaticCollider(partition, occupationID.Station);
+        ChoppingBoard.addStaticCollider(partition, occupationID.Blocked);
         WSChopBoard chb = new WSChopBoard();
         ChoppingBoard.AppendScript(chb);
         chb.init();
+
 
         Stove2 = new GameObject(new Rectangle( 300+ KitchenFloor.transform.position.x ,75+KitchenFloor.transform.position.z, 50,50),StoveTexture,50,50);
         Stove2.transform.position.x = 300 + KitchenFloor.transform.position.x;
         Stove2.transform.position.z = 75 + KitchenFloor.transform.position.z;
         Stove2.transform.position.y = 2;
         Stove2.transform.scale.set(1,0,1);
-        Stove2.addStaticCollider(partition, occupationID.Station);
+        Stove2.addStaticCollider(partition, occupationID.Blocked);
         hob= new WSHob();
         Stove2.AppendScript(hob);
         hob.init();
