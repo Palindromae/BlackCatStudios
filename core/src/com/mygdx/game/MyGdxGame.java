@@ -291,7 +291,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	///		System.out.print(a);
 		//}
 
-		masterChef = new MasterChef();
+		masterChef = new MasterChef(GameWorld.SpawnPointChef1,GameWorld.SpawnPointChef2);
 		masterChef.camera = camera;
 		masterChef.chefTex = texture;
 		masterChef.KitchenPartition = gPart;
@@ -475,7 +475,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 		camera.update();
-		ScreenUtils.clear(1, 0, 0, 1);
+		ScreenUtils.clear(1, 1, 1, 1);
 		batch.RenderTextures(camera.combined);
 
 

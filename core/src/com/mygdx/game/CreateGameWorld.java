@@ -31,8 +31,8 @@ public class CreateGameWorld
     List<GameObject> CombinationCounters = new LinkedList<>();
     GameObject KitchenSouthWall;
 
-    public Vector3 SpawnPointChef1 = new Vector3 (0,0,0);
-    public Vector3 SpawnPointChef2 = new Vector3(50,0,0);
+    public Vector3 SpawnPointChef1 = new Vector3 (500,0,250);
+    public Vector3 SpawnPointChef2 = new Vector3(500,0,150);
 
     GameObject Table1;
     GameObject Table2;
@@ -66,6 +66,9 @@ public class CreateGameWorld
     BTexture CombinationCounterTexture;
     BTexture CombinationCounterTextureEnd;
     BTexture CombinationCounterTextureEndDown;
+    BTexture DividingWallTex;
+
+    List<GameObject> DivWalls = new LinkedList<>();
 
     public float TableRadius = 75;
    public List<GameObject> InteractableObjects = new LinkedList<>();
@@ -74,6 +77,7 @@ public class CreateGameWorld
     public void Instantiate(GridPartition partition){
         FloorTextureK = new BTexture("pictures/KitchenTiles.png",null,null,4);
         FloorTextureK.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
+        DividingWallTex = new BTexture("DividingWall.png", null,null);
 
         FloorTextureD = new BTexture("pictures/Carpet.png",null,null,4);
         FloorTextureD.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
@@ -139,7 +143,34 @@ public class CreateGameWorld
             CustomerWaitingLocations.add(new Vector3( ServingCounter.transform.position.x-25, (float) 0, (float) (Math.ceil(ServingCounter.transform.position.z*50f)/50.0f +i*CustomerOffsetDistance)));
         }
 
+        GameObject DivWalV;
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z+155-col_redct,50,200), DividingWallTex,
+                50,200);
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x-50;
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z+155;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
 
+        DivWalls.add(DivWalV);
+
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z-col_redct,50,105), DividingWallTex,
+                50,105);
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x-50;
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
+
+        DivWalls.add(DivWalV);
+
+
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z+355-col_redct,100,50), DividingWallTex,
+                500,50);
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x-50;
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z+355;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
+
+        DivWalls.add(DivWalV);
 
 
         createCombinationCounters(partition);
@@ -163,6 +194,8 @@ public class CreateGameWorld
         LightBeam.transform.position.y = 0;
         LightBeam.transform.scale.set(.8f,1,.8f);
         CustomerSpawnLocations =  new Vector3( LightBeam.transform.position).add(new Vector3(0,0,50));
+
+
 
     }
 

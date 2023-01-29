@@ -32,6 +32,8 @@ public class MasterChef extends BlackScripts {
     private int chefWidth = 20;
     private int chefHeight = 20;
 
+    Vector3[] spawns;
+
     float chefInteractionDistance = 45;
 
     public Boolean AllowTouch = true; //There will be a mouseMaster class that controls what the mouse clicks,
@@ -43,6 +45,10 @@ public class MasterChef extends BlackScripts {
         "Characters/ChefMaleFull.png", "Characters/ChefFemFull.png"
     };
 
+
+    public MasterChef(Vector3... spawns){
+    this.spawns = spawns;
+    }
     @Override
     public void Start() {
         super.Start();
@@ -71,11 +77,13 @@ public class MasterChef extends BlackScripts {
             obj.AppendScript(Animator);
 
             chefs[i] = new Chef(i, controller);
+
+            chefs[i].controller.getGameObject().transform.position = new Vector3(spawns[i]);
+
         }
 
         RunInteract.interact.chefs = chefs;
 
-       chefs[1].controller.getGameObject().transform.position = new Vector3(460,0,10);
         ((com.badlogic.gdx.math.Rectangle) chefs[1].controller.getGameObject().shape).x = 460;
         ((com.badlogic.gdx.math.Rectangle) chefs[1].controller.getGameObject().shape).y = 10;
 

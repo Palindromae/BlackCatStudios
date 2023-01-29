@@ -213,8 +213,6 @@ enum RandomisationStyle{
     public Boolean IsFoodInOrder(ItemAbs item){
     if(WaitingCustomers.get(0).TestAndRemoveItemFromOrders(item)){
 
-        displayOrders.completed.put(OrderID, true);
-        displayOrders.removeOrder(OrderID);
         return true;
     }
     return false;
