@@ -329,11 +329,14 @@ enum RandomisationStyle{
             Menu = new LinkedList<>();
             List<Items> ItemVar = new LinkedList<>();
             ItemVar.add(Items.Burger);
-            MenuItem burger = new MenuItem(Items.Burger,1, ItemVar);
+            ItemVar.add(Items.CheeseBurger);
+            MenuItem burger = new MenuItem(Items.Burger,MaxStockCapacity, ItemVar);
 
             ItemVar = new LinkedList<>();
             ItemVar.add(Items.TomatoOnionLettuceSalad);
-            MenuItem salad = new MenuItem(Items.TomatoOnionLettuceSalad,1,ItemVar);
+            ItemVar.add(Items.LettuceOnionSalad);
+            ItemVar.add(Items.LettuceTomatoSalad);
+            MenuItem salad = new MenuItem(Items.TomatoOnionLettuceSalad,MaxStockCapacity,ItemVar);
 
             Menu.add(burger);
             Menu.add(salad);

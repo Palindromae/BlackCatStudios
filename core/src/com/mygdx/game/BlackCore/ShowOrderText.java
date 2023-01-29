@@ -33,14 +33,24 @@ public class ShowOrderText extends BlackScripts{
     }
 
     public static void displayText(){
-        LinkedList<Items> toAddToOrder = new LinkedList<Items>();
         String totalOrderString = new String();
 
-        for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet()) {
-            List<Items> value = entry.getValue();
-            if(value.isEmpty()){
-                continue;
+        List<Integer> valuesToRemoved = new LinkedList<>();
+        for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet())
+        {
+            if(entry.getValue() == null || entry.getValue().size() == 0 )
+            {
+                valuesToRemoved.add(entry.getKey());
             }
+        }
+
+        for (Integer a: valuesToRemoved
+             ) {
+            DisplayOrders.displayOrders.orderDict.remove(a);
+        }
+            for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet()) {
+
+            List<Items> value = entry.getValue();
             String orderString;
             orderString = "- ";
             String toAddOnEnd = "\n  ";
@@ -49,7 +59,7 @@ public class ShowOrderText extends BlackScripts{
                 List splitItems = Arrays.asList(s.toString().split("(?=\\p{Lu})"));
                 for(int j = 0; j<splitItems.size(); j++){
                     if(splitItems.get(j).toString().length() > 20){
-                        String updatedItem;
+                        String updatedItem = splitItems.get(j).toString().substring(0,15) + "\n" + splitItems.get(j).toString().substring(15);
                         StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < splitItems.get(j).toString().length(); i++) {
                             if (i > 0 && (i % 15 == 0)) {
