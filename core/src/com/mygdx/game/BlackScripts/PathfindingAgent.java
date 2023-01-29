@@ -78,7 +78,7 @@ public class PathfindingAgent extends BlackScripts
 
     void move(float dt)
     {
-        if(currentPath == null || (currentPath.size()==0 && PrevPosition == NextPosition))
+        if(currentPath == null || (currentPath.size()==0 && PrevPosition.epsilonEquals(NextPosition) ))
         {
             return;
         }
@@ -89,7 +89,8 @@ public class PathfindingAgent extends BlackScripts
         rDir.sub(PrevPosition);
         RayPoint rp = NearestPointOnLine(PrevPosition, rDir,simulatedPosition);
         float nt = PrevPosition.dst(NextPosition);
-        if(rp.t >= nt )
+
+        if(Math.floor(rp.t*100)/100 >= Math.floor(nt*100)/100 )
             DequeueNext();
 
         float dst = NextPosition.dst(simulatedPosition);
