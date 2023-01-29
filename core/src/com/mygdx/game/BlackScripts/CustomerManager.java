@@ -139,13 +139,13 @@ enum RandomisationStyle{
         if(ranStyle == RandomisationStyle.Random){
             allOrders = (LinkedList<Items>) CreatePureRandomOrder(count);
             displayOrders.orderDict.put(OrderID, allOrders);
-            displayOrders.seen.put(OrderID, false);
+            OrderAlerts.checkIfToShowAlert();
             return allOrders;
         }
         if(ranStyle == RandomisationStyle.LimitedRandom){
             allOrders = (LinkedList<Items>) CreateLimitedRandomOrder(count);;
             displayOrders.orderDict.put(OrderID, allOrders);
-            displayOrders.seen.put(OrderID, false);
+            OrderAlerts.checkIfToShowAlert();
             return allOrders;
         }
         throw new IllegalArgumentException("you failed to set a correct to set a correct randomisation pattern");
@@ -164,7 +164,7 @@ enum RandomisationStyle{
 
         for (int i = 0; i < count; i++) {
             //find random index in the pot
-            int n = rand.nextInt(pot);
+            int n = rand.nextInt(pot+1);
             //Correct menu item
             MenuItem cmi = null;
             for (MenuItem mi: Menu
@@ -210,7 +210,7 @@ enum RandomisationStyle{
 
     public Boolean IsFoodInOrder(ItemAbs item){
     if(WaitingCustomers.get(0).TestAndRemoveItemFromOrders(item)){
-        displayOrders.removeOrder(OrderID);
+
         return true;
     }
     return false;
@@ -325,11 +325,14 @@ enum RandomisationStyle{
             Menu = new LinkedList<>();
             List<Items> ItemVar = new LinkedList<>();
             ItemVar.add(Items.Burger);
-            MenuItem burger = new MenuItem(Items.Burger,1, ItemVar);
+            ItemVar.add(Items.CheeseBurger);
+            MenuItem burger = new MenuItem(Items.Burger,MaxStockCapacity, ItemVar);
 
             ItemVar = new LinkedList<>();
-            ItemVar.add(Items.FullSalad);
-            MenuItem salad = new MenuItem(Items.FullSalad,1,ItemVar);
+            ItemVar.add(Items.TomatoOnionLettuceSalad);
+            ItemVar.add(Items.LettuceOnionSalad);
+            ItemVar.add(Items.LettuceTomatoSalad);
+            MenuItem salad = new MenuItem(Items.TomatoOnionLettuceSalad,MaxStockCapacity,ItemVar);
 
             Menu.add(burger);
             Menu.add(salad);

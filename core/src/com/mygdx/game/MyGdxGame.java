@@ -41,8 +41,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject obj2;
 	GameObject obj3;
 	GameObject menu;
-	LoadSounds soundLoader = new LoadSounds();
-	SoundFrame soundFrame = new SoundFrame();
+	LoadSounds soundLoader;
+	SoundFrame soundFrame;
 	GameObject settings;
 	GameObject highscoresButton;
 	GameObject start;
@@ -87,8 +87,9 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void create() {
 
-        soundFrame = new SoundFrame();
-        soundLoader.loadAllSounds(soundFrame);
+		soundFrame = new SoundFrame();
+		soundLoader = new LoadSounds();
+		soundLoader.loadAllSounds(soundFrame);
 
 
         long id = soundFrame.playSound("Main Screen");
@@ -276,7 +277,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		interact = new RunInteract(GameWorld);
 
 
-        GameWorld.Instantiate(gPart);
 
 
         camera = new OrthographicCamera();
@@ -311,7 +311,7 @@ public class MyGdxGame extends ApplicationAdapter {
         ///		System.out.print(a);
         //}
 
-        masterChef = new MasterChef();
+        masterChef = new MasterChef(GameWorld.SpawnPointChef1,GameWorld.SpawnPointChef2);
         masterChef.camera = camera;
         masterChef.chefTex = texture;
         masterChef.KitchenPartition = gPart;
@@ -351,7 +351,7 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     /**
-     * Function to change menu visibility when an action is taken from it
+     * Function to change start menu visibility when an action is taken from it
      */
     public void changeMenuVisbility() {
         settings.negateVisibility();
@@ -365,67 +365,30 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-	// @Override
-	// public void render () {
 
-
-		// if(orderPageButton.isObjectTouched() && !Pause){
-		// 	if(orderPageButton.transform.position.x != 200){
-		// 		masterChef.AllowTouch = false;
-		// 		orderPageButton.transform.position.x = 200;
-		// 		orderPage.transform.position.x = 0;
-		// 		orderPageCloseButton.transform.position.x = 200;
-		// 		orderPageButton.negateVisibility();
-		// 		orderPageShown = true;
-		// 		if(OrderAlerts.alertOn){
-		// 			OrderAlerts.changeAlertState();
-		// 			OrderAlerts.alertOn = false;
-		// 		}
-    @Override
-    public void render() {
-        if (orderPageShown) {
-            for (Map.Entry<Integer, Boolean> entry : DisplayOrders.displayOrders.seen.entrySet()) {
-                DisplayOrders.displayOrders.seen.put(entry.getKey(), true);
-            }
-        }
-		Boolean showAlertBool = false;
-		for (Map.Entry<Integer, Boolean> entry : DisplayOrders.displayOrders.seen.entrySet()) {
-			if(entry.getValue() == false){
-				showAlertBool = true;
-				break;
+	@Override
+	public void render () {
+		if(orderPageButton.isObjectTouched() && !Pause){
+			if(orderPageButton.transform.position.x != 200){
+				masterChef.AllowTouch = false;
+				orderPageButton.transform.position.x = 200;
+				orderPage.transform.position.x = 0;
+				orderPageCloseButton.transform.position.x = 200;
+				orderPageButton.negateVisibility();
+				orderPageShown = true;
+				if(OrderAlerts.alertOn){
+					OrderAlerts.changeAlertState();
+					OrderAlerts.alertOn = false;
+				}
 			}else{
-				showAlertBool = false;
+				masterChef.AllowTouch =false;
+				orderPageButton.transform.position.x = 0;
+				orderPage.transform.position.x = -200;
+				orderPageCloseButton.transform.position.x = -100;
+				orderPageShown = false;
+				orderPageButton.negateVisibility();
 			}
 		}
-        if(showAlertBool){
-			if(MyGdxGame.orderAlert.getVisibility() == false){
-				MyGdxGame.orderAlert.negateVisibility();
-			}
-		}else{
-            if(MyGdxGame.orderAlert.getVisibility()){
-				MyGdxGame.orderAlert.negateVisibility();
-			}
-		}
-
-        if (orderPageButton.isObjectTouched() && !Pause) {
-            if (orderPageButton.transform.position.x != 200) {
-                masterChef.AllowTouch = false;
-                orderPageButton.transform.position.x = 200;
-                orderPage.transform.position.x = 0;
-                orderPageCloseButton.transform.position.x = 200;
-                orderPageButton.negateVisibility();
-                orderPageShown = true;
-
-            } else {
-                masterChef.AllowTouch = false;
-                orderPageButton.transform.position.x = 0;
-                orderPage.transform.position.x = -200;
-                orderPageCloseButton.transform.position.x = -100;
-                orderPageShown = false;
-                orderPageButton.negateVisibility();
-                OrderAlerts.alertOn = false;
-            }
-        }
 
 		if(menu.getVisibility() && !menuHighscores.getVisibility() && (Gdx.input.isKeyJustPressed(InputsDefaults.start) || start.isObjectTouched())){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
 			// Music changes from main menu music to game music
@@ -563,8 +526,9 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 		camera.update();
-		ScreenUtils.clear(1, 0, 0, 1);
+		ScreenUtils.clear(1, 1, 1, 1);
 		batch.RenderTextures(camera.combined);
+
 
 		if(orderPageShown && !Pause){
 			ShowOrderText.displayText();
@@ -574,6 +538,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
+	
 
 	}
 	public void Restart(){

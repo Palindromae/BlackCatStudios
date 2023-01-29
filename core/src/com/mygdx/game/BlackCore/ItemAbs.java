@@ -8,7 +8,13 @@ public abstract class ItemAbs {
     public float MaxProgress = 5;
     public int currentStep = 0;
 
+    public static String getImagePath(Items item){
+        return "Items/" + item.name() + ".png";
 
+    }
+    public String getImagePath(){
+        return  getImagePath(name);
+    }
 
 }
 
