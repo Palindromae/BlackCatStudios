@@ -394,6 +394,10 @@ public class MyGdxGame extends ApplicationAdapter {
 			OrderAlerts.alertOn = false;
 		}
 	}
+
+	boolean shouldOpenSettings(){
+		return Gdx.input.isKeyJustPressed(InputsDefaults.settings) || settings.isObjectTouched();
+	}
 	@Override
 	public void render () {
 		boolean recentlyPaused = false;
@@ -413,6 +417,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			this.changeMenuVisbility();
 			isGameRunning = !isGameRunning;
 			Pause = !Pause;
+			masterChef.AllowTouch = false;
+
 
 		}
 
@@ -430,6 +436,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			highScores.drawText();
 			ShowOrderText.displayText();
 
+
 //			if (isHighscores){
 //				changeMenuVisbility();
 //				menuHighscores.negateVisibility();
@@ -443,7 +450,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 
-		if(menu.getVisibility()  && !menuHighscores.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.settings)) || (settings.isObjectTouched()))){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
+		if(menu.getVisibility()  && !menuHighscores.getVisibility() && shouldOpenSettings() ){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
 			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
 			negatePauseMenu();
 			this.changeMenuVisbility();
@@ -493,10 +500,14 @@ public class MyGdxGame extends ApplicationAdapter {
 				if (!isGameRunning && !menuHighscores.getVisibility() && a){
 					negatePauseMenu(); // the pause menu is closed
 					changeMenuVisbility(); // the start menu is displayed again
+					masterChef.AllowTouch = false;
+
 				}
 				else if (!menuHighscores.getVisibility() && a){
 					Pause = !Pause;
 					negatePauseMenu();
+					masterChef.AllowTouch = false;
+
 				}
 				// If the text is clicked or the X key is pressed the game will exit
 				if (ShouldCloseGame() && closeGameText.getVisibility()){

@@ -358,6 +358,11 @@ enum RandomisationStyle{
             cust.Destroy();
         }
 
+        for (Customers cust: SeatedCustomers
+        ) {
+            cust.Destroy();
+        }
+
         for (Customers cust:LeavingCustomers
              ) {
             cust.Destroy();
