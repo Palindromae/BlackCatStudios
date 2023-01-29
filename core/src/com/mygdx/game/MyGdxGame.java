@@ -337,8 +337,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		pauseMenu.negateVisibility();
 		closePauseMenuText.negateVisibility();
 		playIcon.negateVisibility();
-		closeGameText.negateVisibility();
-		closeGameIcon.negateVisibility();
+		if (isGameRunning){
+			closeGameText.negateVisibility();
+			closeGameIcon.negateVisibility();
+		}
 		controlsText.negateVisibility();
 		if (!soundFrame.muteState) {
 			muteMusicIcon.negateVisibility();
@@ -441,7 +443,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 
-
+		if(menu.getVisibility()  && !menuHighscores.getVisibility() && ((Gdx.input.isKeyJustPressed(InputsDefaults.settings)) || (settings.isObjectTouched()))){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
+			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
+			negatePauseMenu();
+			this.changeMenuVisbility();
+		}
 
 
 		if (menuHighscores.getVisibility() && (closeHighscoresIcon.isObjectTouched())){
@@ -491,7 +497,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					negatePauseMenu();
 				}
 				// If the text is clicked or the X key is pressed the game will exit
-				if (ShouldCloseGame() ){
+				if (ShouldCloseGame() && closeGameText.getVisibility()){
 
 					negatePauseMenu();
 					Restart();
@@ -503,14 +509,12 @@ public class MyGdxGame extends ApplicationAdapter {
 						soundFrame.unMuteSound();
 						negateSoundVisibility();
 						soundFrame.muteState = !soundFrame.muteState;
-
 					} else {
 						soundFrame.muteSound();
 
 						negateSoundVisibility();
 						soundFrame.muteState = !soundFrame.muteState;
 					}
-					System.out.print(soundFrame.volume);
 				}
 
 			}
