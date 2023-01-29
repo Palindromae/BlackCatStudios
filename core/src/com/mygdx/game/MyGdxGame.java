@@ -176,10 +176,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		muteMusicText.transform.position.z = 195;
 		muteMusicText.transform.position.y = 10;
 
-		menuControls = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 250, 350));
-		menuControls.transform.position.y = 5;
-		menuControls.transform.position.x = 500;
-		menuControls.transform.position.z = 25;
+//		menuControls = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 250, 350));
+//		menuControls.transform.position.y = 5;
+//		menuControls.transform.position.x = 500;
+//		menuControls.transform.position.z = 25;
 
 		settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 65, 70));
 		settings.transform.position.y = 5;
@@ -238,10 +238,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		closeHighscoresIcon.transform.position.z = 415;
 		closeHighscoresIcon.transform.position.y = 7;
 
-		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 252, 350));
-		controlsText.negateVisibility();
-		controlsText.transform.position.x = 450;
-		controlsText.transform.position.z = 65;
+		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 400, 360));
+//		controlsText.negateVisibility();
+		controlsText.transform.position.x = 390;
+		controlsText.transform.position.z = 50;
 		controlsText.transform.position.y = 10;
 
 		orderPageButton = new GameObject((Shape2D) new Rectangle(0, 500, 30, 50), new BTexture("PullOut.png", 25, 50));
@@ -359,7 +359,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		start.negateVisibility();
 		highscoresButton.negateVisibility();
 		exit.negateVisibility();
-		menuControls.negateVisibility();
+		controlsText.negateVisibility();
 		menu.negateVisibility();
 
 	}
@@ -583,6 +583,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public void FinishGame(Score p_s){
 		System.out.println("Ended the game with score: " + p_s.score + ", " + p_s.timing/1000.0 +" seconds elapsed");
+		Pause = true;
 	}
 
 	@Override
