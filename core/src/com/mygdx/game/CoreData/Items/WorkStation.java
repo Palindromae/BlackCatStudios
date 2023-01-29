@@ -3,7 +3,6 @@ package com.mygdx.game.CoreData.Items;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.BlackCore.*;
-import com.mygdx.game.BlackScripts.ItemFactory;
 
 /**
  * Abstract class for all Workstations.
@@ -19,7 +18,7 @@ public abstract class WorkStation extends BlackScripts implements InteractInterf
     public float workstationSpeed;
 
     public BTexture btexture;
-    public GameObject obj;
+    public GameObject ProgressMeter;
     public Integer width;
 
     int ItemSize = 30;
@@ -31,8 +30,9 @@ public abstract class WorkStation extends BlackScripts implements InteractInterf
 
     public void init(){
         btexture = new BTexture("Pictures/ProgressBar.png", null, null);
-        obj = new GameObject(new Rectangle(),btexture, 1, 10);
-        obj.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z+1);
+        ProgressMeter = new GameObject(new Rectangle(),btexture, 1, 10);
+        ProgressMeter.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z+1);
+        ProgressMeter.IsActiveAndVisible = false;
         width = gameObject.getTextureWidth();
     }
 

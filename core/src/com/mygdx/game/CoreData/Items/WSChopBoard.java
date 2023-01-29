@@ -1,5 +1,4 @@
 package com.mygdx.game.CoreData.Items;
-import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackCore.RunInteract;
 import com.mygdx.game.BlackScripts.ItemFactory;
@@ -116,7 +115,7 @@ public class WSChopBoard extends WorkStation{
 
     public void ProgressBar(){
         progress = Item.cookingProgress/ Item.MaxProgress;
-        obj.transform.scale.x=progress*width;
+        ProgressMeter.transform.scale.x=progress*width;
     }
 
     @Override
