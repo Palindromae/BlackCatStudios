@@ -1,5 +1,4 @@
 package com.mygdx.game.CoreData.Items;
-import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackScripts.ItemFactory;
 import com.mygdx.game.SoundFrame;
@@ -99,7 +98,7 @@ public class WSHob extends WorkStation{
            playingBurner = true;
         }
 
-        if(ready & Item.cookingProgress==0){
+        if(ready ){
 
             if(!playingFrying){
                 fryingSoundID =  SoundFrame.SoundEngine.playSound("Fryer");
@@ -129,7 +128,11 @@ public class WSHob extends WorkStation{
 
     public void ProgressBar(){
         progress = Item.cookingProgress/ Item.MaxProgress;
-        obj.transform.scale.x=progress*width;
+
+
+        ProgressMeter.IsActiveAndVisible = Item.cookingProgress != 0;
+
+        ProgressMeter.transform.scale.x=progress*width;
     }
 
     @Override

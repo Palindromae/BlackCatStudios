@@ -479,6 +479,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			while (fixedTime.accumulator> fixedTime.dt){
 				if (! Pause){ // pauses the game
 					ScriptManager.RunFixedUpdate((float)fixedTime.dt);
+				} else{
+					CustomerManager.customermanager.accumPauseTime+= fixedTime.dt;
 				}
 				fixedTime.accumulator-= fixedTime.dt;
 			}
@@ -579,8 +581,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		isGameRunning = false;
 	}
 
-	public void FinishGame(float score){
-		System.out.println("Ended the game with score: " + score);
+	public void FinishGame(Score p_s){
+		System.out.println("Ended the game with score: " + p_s.score + ", " + p_s.timing/1000.0 +" seconds elapsed");
 	}
 
 	@Override

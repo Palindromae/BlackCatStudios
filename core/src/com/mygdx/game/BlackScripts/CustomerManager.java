@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.btree.leaf.Wait;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
@@ -43,7 +44,12 @@ int bossAmount = 6;
 int currentWave = 0;
 int OrderID = 0;
 
-public Consumer<Float> EndGameCommand;
+private Date startTime;
+public double accumPauseTime = 0;
+
+
+
+public Consumer<Score> EndGameCommand;
 
 int NumberOfTables = 4;
  List<Customers> SeatedCustomers = new LinkedList<>();
@@ -102,6 +108,8 @@ enum RandomisationStyle{
         }
 
         Collections.shuffle(CustomerAvatars);
+
+        startTime = new Date(TimeUtils.millis());
     }
 
 
@@ -291,8 +299,10 @@ enum RandomisationStyle{
            // WaitingCustomers.add(customerGroup);
         } else{
             //end the game
-
-            EndGameCommand.accept(Score);
+            double ElapsedTime = startTime.getTime();
+            ElapsedTime = new Date(TimeUtils.millis()).getTime() - ElapsedTime;
+            ElapsedTime -= accumPauseTime;
+            EndGameCommand.accept(new Score(Score,ElapsedTime));
 
         }
 
@@ -355,6 +365,11 @@ enum RandomisationStyle{
 
         WaitingCustomers.clear();
         LeavingCustomers.clear();
+
+
+        Collections.shuffle(CustomerAvatars);
+
+        DisplayOrders.displayOrders.orderDict.clear();
 
         Score = 0;
 
