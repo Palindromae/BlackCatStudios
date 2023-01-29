@@ -183,6 +183,9 @@ public class MasterChef extends BlackScripts {
 
 
         }
+        if (Gdx.input.isKeyJustPressed(InputsDefaults.disposeHeldItem)) {
+            DisposeItem();
+        }
 
     }
 
@@ -248,7 +251,7 @@ public class MasterChef extends BlackScripts {
 
         Optional<ItemAbs> item = getCurrentChef().controller.GetItem();
 
-        //If the chef isnt holding anything return, shouldnt as check already done but just in case
+        //If the chef isnt holding anything return false, shouldnt as check already done but just in case
         if(!item.isPresent())
             return false;
 
@@ -267,6 +270,23 @@ public class MasterChef extends BlackScripts {
 
 
     }
+
+    /**
+     * Disposes of the item the chef is holding
+     * @return
+     */
+    boolean DisposeItem(){
+        InteractInterface inter = getInterface(false);
+        Optional<ItemAbs> item = getCurrentChef().controller.GetItem();
+        //If the chef isnt holding anything return false, shouldnt as check already done but just in case
+        if(Objects.isNull(item)||!item.isPresent()){
+            return false;
+        }else{
+            System.out.println("Trying to dispose");
+            return true;
+        }
+    }
+
     void CleanForKitchenObjects(List<BlackScripts> scripts)
     {
         BlackScripts a;

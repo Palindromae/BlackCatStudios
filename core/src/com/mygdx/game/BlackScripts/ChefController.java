@@ -74,6 +74,18 @@ public class ChefController extends PathfindingAgent {
         return Optional.ofNullable(ItemStack.pop());
     }
 
+    /**
+     * Disposes the item last put into the chef's hand
+     * @return the item that was disposed
+     */
+    public Optional<ItemAbs> DisposeItem(){
+        if (canGiveChef()){
+            return Optional.ofNullable(ItemStack.pop());
+        }else{
+            return null;
+        }
+    }
+
 
 
 
