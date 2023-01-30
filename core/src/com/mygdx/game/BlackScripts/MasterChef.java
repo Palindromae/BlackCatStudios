@@ -183,6 +183,7 @@ public class MasterChef extends BlackScripts {
 
 
         }
+        // If the player is holding an item and presses the dispose button (T), dispose of the item
         if (Gdx.input.isKeyJustPressed(InputsDefaults.disposeHeldItem)) {
             DisposeItem();
         }
@@ -273,7 +274,8 @@ public class MasterChef extends BlackScripts {
 
     /**
      * Disposes of the item the chef is holding
-     * @return
+     * @return true if the chef was holding an item and it
+     * was disposed of, false otherwise
      */
     boolean DisposeItem(){
         InteractInterface inter = getInterface(false);
@@ -282,7 +284,6 @@ public class MasterChef extends BlackScripts {
         if(Objects.isNull(item)||!item.isPresent()){
             return false;
         }else{
-            System.out.println("Trying to dispose");
             return true;
         }
     }
