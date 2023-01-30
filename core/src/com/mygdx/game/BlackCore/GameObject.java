@@ -20,6 +20,7 @@ public class GameObject implements Comparator<GameObject> {
 
    public List<BlackScripts> blackScripts;
     private Integer _UID;
+    public boolean InvisPressAllowed = false;
 
     Boolean isDestroyed = false;
     public Boolean IsActiveAndVisible;
@@ -163,7 +164,7 @@ public class GameObject implements Comparator<GameObject> {
             touchpos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             MyGdxGame.camera.unproject(touchpos);
             return ((touchpos.x >= this.transform.position.x) && (touchpos.x <= (this.transform.position.x + this.getTextureWidth())) &&
-                    (touchpos.y >= this.transform.position.z) && (touchpos.y <= (this.transform.position.z + this.getTextureHeight())));
+                    (touchpos.y >= this.transform.position.z) && (touchpos.y <= (this.transform.position.z + this.getTextureHeight()))) && (IsActiveAndVisible || InvisPressAllowed);
         }
         return false;
     }

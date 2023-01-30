@@ -70,7 +70,7 @@ public class GameOver {
         Save.load();
 
         newHighScore = Save.gd.isHighScore(Save.gd.getTentativeScore());
-        if(newHighScore){
+        if(!newHighScore){
             newName = new char[] {'A','A','A'};
             currentChar = 0;
         }
@@ -101,17 +101,18 @@ public class GameOver {
 
         gameOverFont.draw(sb, s, 250, 300);
 
-        if(!newHighScore){
+        if(newHighScore){
             sb.end();
             return;
         }
 
-        String q = "New High Score: " + Save.gd.getTentativeScore();
+        String q = "Your Score: " + Save.gd.getTentativeScore() + " and took: " + Math.round(Save.gd.getTiming()*100.0)/100.0 +"s";
         String x = (newName[0] + " " + newName[1] + " "+ newName[2]);
 
         font.draw(sb, q, 250, 250);
         font.draw(sb, x, 250,200);
         font.draw(sb, "_ _ _",250,195);
+        font.draw(sb, "Press enter to continue", 250, 140);
         sb.end();
 
         sr.begin(ShapeRenderer.ShapeType.Line);
@@ -131,6 +132,7 @@ public class GameOver {
                     Save.gd.getTentativeScore(),
                     new String(newName)
             );
+            Save.gd.setName(String.valueOf(newName));
             Save.save();
             MyGdxGame.gameEnded = false;
             MyGdxGame.menuHighscores.negateVisibility();

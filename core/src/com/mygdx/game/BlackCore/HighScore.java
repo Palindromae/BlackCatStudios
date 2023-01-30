@@ -51,6 +51,7 @@ public class HighScore extends MyGdxGame {
         params.size = 50;
         params.color = Color.BLACK;
         font = gen.generateFont(params);
+        Save.init();
 
         Save.load();
         highScores = Save.gd.getHighScores();
@@ -69,7 +70,24 @@ public class HighScore extends MyGdxGame {
         s = "High Scores";
 
         font.draw(sb,s, 250, MyGdxGame.menuHighscores.transform.position.z+(MyGdxGame.menuHighscores.textureHeight-40));
-        for (int i = 0; i< highScores.length; i++){
+        int i =0;
+        for(String key: Save.gd.SortedHighScoreMap.keySet()){
+            s = String.format("%2d. %7s %s",
+                    i+1, Save.gd.SortedHighScoreMap.get(key), key
+            );
+            font.draw(sb,s, 250, 300-50 * i);
+            i += 1;
+        }
+        if(i < 5){
+            for(i = i; i < 5; i++){
+                s = String.format("%2d. %7s %s",
+                        i+1, 0, "---"
+                        );
+                font.draw(sb,s, 250, 300-50 * i);
+            }
+        }
+        /*for (int i = 0; i< 5; i++){
+
            s = String.format(
                    "%2d. %7s %s",
                    i + 1,
@@ -79,7 +97,7 @@ public class HighScore extends MyGdxGame {
 
             font.draw(sb,s, 250, 300-50 * i);
 
-        }
+        }*/
 
         sb.end();
     }

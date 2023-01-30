@@ -106,6 +106,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		soundFrame.setLooping(id, "Main Screen");
 
 		Runnable runnable = () -> Restart();
+
+		highScores = new HighScore();
 		gameOver = new GameOver(runnable);
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
@@ -209,7 +211,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		start.transform.position.x = 75;
 		start.transform.position.z = 275;
 
-		highScores = new HighScore();
 
 		menuHighscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("white.png", 800, 480));
 		menuHighscores.negateVisibility();
@@ -260,6 +261,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		orderPageCloseButton.transform.position.z = Gdx.graphics.getHeight()/2;
 		orderPageCloseButton.transform.position.y = 1;
 		orderPageCloseButton.transform.position.x = -100;
+		orderPageButton.InvisPressAllowed = true;
 
 
 
@@ -374,7 +376,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	boolean ShouldPause(){
-		return pauseButton.isObjectTouched() || Gdx.input.isKeyJustPressed(InputsDefaults.pause);
+		return pauseButton.isObjectTouched()  || Gdx.input.isKeyJustPressed(InputsDefaults.pause);
 	}
 
 	boolean CanStartGameFromMainMenu(){
@@ -442,6 +444,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			this.menuHighscores.negateVisibility();
 			closeHighscoresIcon.IsActiveAndVisible = true;
 			isHighscores = !isHighscores;
+			Save.gd.sortHighScoreMap();
 			highScores.drawText();
 			ShowOrderText.displayText();
 
@@ -623,6 +626,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void FinishGame(Score p_s){
 		System.out.println("Ended the game with score: " + p_s.score + ", " + p_s.timing +" seconds elapsed");
 		Save.gd.setTentativeScore((long) p_s.score);
+		Save.gd.setTiming(p_s.timing);
 		gameEnded = true;
 		Pause = true;
 	}
