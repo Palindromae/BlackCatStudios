@@ -179,29 +179,29 @@ public class MyGdxGame extends ApplicationAdapter {
 		muteMusicText.transform.position.z = 195;
 		muteMusicText.transform.position.y = 10;
 
-		settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 65, 70));
+		settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 300, 64));
 		settings.transform.position.y = 5;
 		settings.transform.position.x = 75;
-		settings.transform.position.z = 125;
+		settings.transform.position.z = 170;
 
-		highscoresButton = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("trophy-for-sports.png", 300, 70));
+		highscoresButton = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("trophy-for-sports.png", 300, 64));
 		highscoresButton.transform.position.y = 5;
 		highscoresButton.transform.position.x = 75;
-		highscoresButton.transform.position.z = 200;
+		highscoresButton.transform.position.z = 255;
 
-		exit = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("exitIcon.png", 65, 70));
+		exit = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("exitIcon.png", 300, 64));
 		exit.transform.position.y = 5;
 		exit.transform.position.x = 75;
-		exit.transform.position.z = 50;
+		exit.transform.position.z = 95;
 
-		start = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("play-button-arrowhead.png", 300, 70));
+		start = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("StartGame.png", 300, 64));
 		start.transform.position.y = 5;
 		start.transform.position.x = 75;
-		start.transform.position.z = 275;
+		start.transform.position.z = 340;
 
 		highScores = new HighScore();
 
-		menuHighscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("white.png", 800, 480));
+		menuHighscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("White.png", 800, 480));
 		menuHighscores.negateVisibility();
 		menuHighscores.transform.position.y = 6;
 
