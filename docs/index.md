@@ -6,6 +6,5 @@ See updates tab for weekly progress updates
 
 <h1>Documents</h1>
 - [Requirements](https://docs.google.com/document/d/1izRZ3wWkZdL_tQ_WeqrUskQ_uOJtTWpQYp3gPSHcLRw/edit#)
-- [TestPdf](pdfs/requirementQuestions.pdf)
 - [Risk Assessment and Mitigation](https://docs.google.com/document/d/11zbCqMJSwWLNGctY3VrOxRfDYr4boOS_GUtpX5gQahQ/edit)
 
