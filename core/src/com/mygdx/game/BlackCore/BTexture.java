@@ -1,5 +1,6 @@
 package com.mygdx.game.BlackCore;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -40,7 +41,7 @@ public class BTexture {
 
         }
 
-       image = new Texture(path);
+       image = new Texture(Gdx.files.internal(path));
 
         int RV = 1, RU = 1;
 

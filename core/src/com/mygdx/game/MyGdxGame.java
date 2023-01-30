@@ -95,8 +95,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		soundLoader.loadAllSounds(soundFrame);
 
 
-		long id = soundFrame.playSound("Main Screen");
-		soundFrame.setLooping(id, "Main Screen");
+		long mainScreenID = soundFrame.playSound("Main Screen");
+		soundFrame.setLooping(mainScreenID, "Main Screen");
 
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
@@ -202,7 +202,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		highScores = new HighScore();
 
-		menuHighscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("white.png", 800, 480));
+		menuHighscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("White.png", 800, 480));
 		menuHighscores.negateVisibility();
 		menuHighscores.transform.position.y = 6;
 
