@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 
 import java.util.*;
 
@@ -17,8 +16,8 @@ public class SoundFrame {
     public SoundFrame(){
         if(SoundEngine != null){
 
-            throw new ValueException("Cannot have two sound frames");
-
+            // throw new ValueException("Cannot have two sound frames");
+                return;
         }
         SoundEngine = this;
     }
