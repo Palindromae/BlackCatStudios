@@ -19,4 +19,5 @@ public static final int mute = Input.Keys.M;
 
     public static final int interactGet = Input.Keys.F;
     public static final int interactGive = Input.Keys.G;
+    public static final int disposeHeldItem = Input.Keys.T;
 }

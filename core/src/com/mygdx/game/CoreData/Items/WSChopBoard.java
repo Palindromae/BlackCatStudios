@@ -1,5 +1,4 @@
 package com.mygdx.game.CoreData.Items;
-import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackCore.RunInteract;
 import com.mygdx.game.BlackScripts.ItemFactory;
@@ -19,15 +18,18 @@ public class WSChopBoard extends WorkStation{
     boolean ready;
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
             Arrays.asList(Items.Lettuce, Items.Tomato, Items.Onion, Items.Mince));
-    float progress;
+    public float progress;
     Boolean playingChopSound = false;
     long soundID ;
+
+    float speed = 1.2f;
+
 
 
     @Override
     public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
             checkItem();
             return true;
         }
@@ -73,6 +75,8 @@ public class WSChopBoard extends WorkStation{
         if(ItemWhitelist.contains(Item.name)){
             currentRecipe = Recipes.RecipeMap.get(Item.name);
         }
+        else
+            currentRecipe = null;
     }
 
     // Checks if currentRecipe is null if not interacted is set to true and returns true, else false is returned
@@ -84,7 +88,7 @@ public class WSChopBoard extends WorkStation{
 
     // Calls the current step and stores returned bool variable in ready, if true a new item is produced
     public void Cut(float dt){
-        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt*speed, Interacted);
 
     if(!canTakeItem()){
         if(!ready && ! playingChopSound)
@@ -101,16 +105,17 @@ public class WSChopBoard extends WorkStation{
     }
 
         if(ready && currentRecipe.endItem != Item.name){
-            Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
+            changeItem(ItemFactory.factory.produceItem(currentRecipe.endItem));
             System.out.println("Finished cutting");
             SoundFrame.SoundEngine.playSound("Step Achieved");
+            checkItem();
 
         }
     }
 
     public void ProgressBar(){
-        progress = Item.cookingProgress/Item.MaxProgress;
-
+        progress = Item.cookingProgress/ Item.MaxProgress;
+        ProgressMeter.transform.scale.x=progress*width;
     }
 
     @Override
@@ -132,6 +137,7 @@ public class WSChopBoard extends WorkStation{
             SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);
 
         }
+
         Interacted = false;
         }
 }

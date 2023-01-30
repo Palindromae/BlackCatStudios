@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+//import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 
 import java.util.*;
 
@@ -9,12 +10,17 @@ public class SoundFrame {
     public static SoundFrame SoundEngine;
     HashMap<String, Sound> sounds = new HashMap<String, Sound>();
     HashMap<String, List<Long>> ids = new HashMap<>();
+     public boolean muteState = false;
 
     float volume = 1.0f;
 
     public SoundFrame(){
-        if(SoundEngine != null)
+        if(SoundEngine != null){
+
+           //throw new ValueException("Cannot have two sound frames");
             return;
+
+        }
         SoundEngine = this;
     }
 
@@ -37,7 +43,7 @@ public class SoundFrame {
 
     public long playSound(String name){
 
-        if(!sounds.containsKey(name)){
+        if(!sounds.containsKey(name) || muteState){
             return 0;
         }
         long id = sounds.get(name).play(volume);
@@ -66,7 +72,7 @@ public class SoundFrame {
 
     }
     public void resumeSound(String name,long id){
-        if (!sounds.containsKey(name)){
+        if (!sounds.containsKey(name)|| muteState){
             return;
         }
         sounds.get(name).resume(id);

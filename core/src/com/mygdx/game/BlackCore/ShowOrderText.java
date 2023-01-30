@@ -33,40 +33,70 @@ public class ShowOrderText extends BlackScripts{
     }
 
     public static void displayText(){
-        LinkedList<Items> toAddToOrder = new LinkedList<Items>();
         String totalOrderString = new String();
-        toAddToOrder.add(Items.CheeseBurger);
-        toAddToOrder.add(Items.CheeseBurger);
-        toAddToOrder.add(Items.Burger);
-        toAddToOrder.add(Items.FullSalad);
-        toAddToOrder.add(Items.CookedPatty);
-        DisplayOrders.displayOrders.orderDict.put(23,toAddToOrder);
 
-        for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet()) {
+        List<Integer> valuesToRemoved = new LinkedList<>();
+        for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet())
+        {
+            if(entry.getValue() == null || entry.getValue().size() == 0 )
+            {
+                valuesToRemoved.add(entry.getKey());
+            }
+        }
+
+        for (Integer a: valuesToRemoved
+             ) {
+            DisplayOrders.displayOrders.orderDict.remove(a);
+        }
+            for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet()) {
+
             List<Items> value = entry.getValue();
-            String orderString = new String();
+            String orderString;
             orderString = "- ";
+            String toAddOnEnd = "\n  ";
             Set<Items> mySet = new HashSet<Items>(value);
-            for(Items s: mySet){
-                String separatedItem = String.join(" ", s.toString().split("(?=\\p{Lu})"));
-                orderString = orderString + Collections.frequency(value,s) + " x " + separatedItem + ",";
+            for (Items s : mySet) {
+                List splitItems = Arrays.asList(s.toString().split("(?=\\p{Lu})"));
+                for(int j = 0; j<splitItems.size(); j++){
+                    if(splitItems.get(j).toString().length() > 20){
+                        String updatedItem = splitItems.get(j).toString().substring(0,15) + "\n" + splitItems.get(j).toString().substring(15);
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < splitItems.get(j).toString().length(); i++) {
+                            if (i > 0 && (i % 15 == 0)) {
+                                sb.append("\n     -");
+                            }
+
+                            sb.append(splitItems.get(j).toString().charAt(i));
+                        }
+
+                        updatedItem = sb.toString();
+                        splitItems.set(j,updatedItem);
+                    }
+
+
+                }
+
+                String separatedItem = String.join(" ", splitItems);
+                String itemString = Collections.frequency(value, s) + " x " + separatedItem;
+                if(itemString.length()>20 && !itemString.contains("\n")){
+                    Integer previousSpace = itemString.length();
+                    String newItemString = itemString;
+                    Integer numOfSpaces = 0;
+                    for(int i = 0; i<itemString.length();i++){
+                        if(itemString.charAt(i)==" ".charAt(0)){
+                            previousSpace = i;
+                        }
+                        if(i%20 == 0 && i!=0 ){
+                            newItemString = newItemString.substring(0,previousSpace + numOfSpaces) + "\n   " + itemString.substring(previousSpace);
+                            numOfSpaces += 4;
+                        }
+                    }
+                    itemString = newItemString;
+                }
+                orderString = orderString + itemString + toAddOnEnd;
 
             }
-            orderString = orderString.substring(0,orderString.length()-1);
-
-            String newToAddToOrderString = orderString;
-            Integer previousComma = null;
-            for(int j =0; j<orderString.length(); j++){
-                if(Character.compare(orderString.charAt(j), ",".charAt(0)) == 0){
-                    previousComma = j;
-                }
-                if (j % 20==0 && j!=0){
-                    newToAddToOrderString = newToAddToOrderString.substring(0, previousComma) + "\n" + newToAddToOrderString.substring(previousComma+1, newToAddToOrderString.length());
-                }
-            }
-            newToAddToOrderString = newToAddToOrderString.replace("\n", "\n  ");
-
-            totalOrderString = totalOrderString + newToAddToOrderString + "\n\n";
+            totalOrderString += orderString + "\n\n";
         }
 
         sb.begin();

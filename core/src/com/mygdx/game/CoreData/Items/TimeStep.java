@@ -22,7 +22,6 @@ public class TimeStep extends Step{
 
         item.cookingProgress = min(item.cookingProgress + dt,item.MaxProgress);
         if(item.cookingProgress==item.MaxProgress){
-            item.cookingProgress=0;
             return true;
         }
 

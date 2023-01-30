@@ -3,9 +3,11 @@ package com.mygdx.game.BlackScripts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.DistanceCalculator;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
@@ -31,6 +33,8 @@ public class MasterChef extends BlackScripts {
     private int chefWidth = 20;
     private int chefHeight = 20;
 
+    Vector3[] spawns;
+
     float chefInteractionDistance = 45;
 
     public Boolean AllowTouch = true; //There will be a mouseMaster class that controls what the mouse clicks,
@@ -41,7 +45,16 @@ public class MasterChef extends BlackScripts {
     String[] CharacterSheets = new String[]{
         "Characters/ChefMaleFull.png", "Characters/ChefFemFull.png"
     };
+    String[] CharacterSheetsSelected = new String[]{
+            "Characters/ChefMaleFullSelected.png", "Characters/ChefFemFullSelected.png"
+    };
 
+    List<BTexture> charSheets = new LinkedList<>();
+    List<BTexture> charSheetsSelected = new LinkedList<>();
+
+    public MasterChef(Vector3... spawns){
+    this.spawns = spawns;
+    }
     @Override
     public void Start() {
         super.Start();
@@ -52,6 +65,11 @@ public class MasterChef extends BlackScripts {
         List<FrameIDs> frameIDsList = new LinkedList<>();
 
 
+        for (int i = 0; i < CharacterSheets.length; i++) {
+            charSheets.add( new BTexture(CharacterSheets[i],null,null));
+            charSheetsSelected.add( new BTexture(CharacterSheetsSelected[i],null,null));
+
+        }
 
         for (int i = 0; i < numberOfChefs; i++) {
 
@@ -59,7 +77,7 @@ public class MasterChef extends BlackScripts {
             Collections.reverse(frameIDsList);
 
             ChefController controller = new ChefController();
-            Animate Animator = new CharacterAnimator(.125f,CharacterSheets[i], chefWidth,chefHeight,21,13,controller);
+            Animate Animator = new ChefAnimator(.125f,CharacterSheets[i], chefWidth,chefHeight,21,13,controller);
             GameObject obj = new GameObject(new Rectangle(0,0,chefWidth,chefHeight),Animator.tex,chefWidth*3,chefHeight*3);
             obj.setMaintainedOffset(16,0);
            // Animator.tex.textureOrigin = new Vector3(64,0,0);
@@ -70,11 +88,15 @@ public class MasterChef extends BlackScripts {
             obj.AppendScript(Animator);
 
             chefs[i] = new Chef(i, controller);
+
+            chefs[i].controller.getGameObject().transform.position = new Vector3(spawns[i]);
+
         }
 
+
+        SelectChef(0);
         RunInteract.interact.chefs = chefs;
 
-       chefs[1].controller.getGameObject().transform.position = new Vector3(460,0,10);
         ((com.badlogic.gdx.math.Rectangle) chefs[1].controller.getGameObject().shape).x = 460;
         ((com.badlogic.gdx.math.Rectangle) chefs[1].controller.getGameObject().shape).y = 10;
 
@@ -97,7 +119,10 @@ public class MasterChef extends BlackScripts {
 
         for (int i = 0; i < numberOfChefs; i++) {
             if(Gdx.input.isKeyPressed(Input.Keys.NUM_1 + i)) // increments to next number for each chef 1,2,3 ect (dont go above 9)
-                currentlySelectedChef = i;//Chef to select
+                 {
+                     SelectChef(i);
+
+                 }
 
 
         }
@@ -111,6 +136,19 @@ public class MasterChef extends BlackScripts {
     AllowTouch = true;
     }
 
+    void SelectChef(int i){
+        ((CharacterAnimator)chefs[i].controller.getGameObject().blackScripts.get(1)).setTex( charSheetsSelected.get(i));;
+        ((CharacterAnimator)chefs[i].controller.getGameObject().blackScripts.get(1)).SwapTextureToNewFrame();
+
+        for (int k = 0; k < numberOfChefs; k++) {
+
+            if(k==i)
+                continue;
+            ((CharacterAnimator)chefs[k].controller.getGameObject().blackScripts.get(1)).setTex(charSheets.get(k));
+
+        }
+        currentlySelectedChef = i;//Chef to select
+    }
     void TouchAllowedCurrently(){
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.B))
@@ -145,6 +183,10 @@ public class MasterChef extends BlackScripts {
 
 
         }
+        // If the player is holding an item and presses the dispose button (T), dispose of the item
+        if (Gdx.input.isKeyJustPressed(InputsDefaults.disposeHeldItem)) {
+            DisposeItem();
+        }
 
     }
 
@@ -157,7 +199,20 @@ public class MasterChef extends BlackScripts {
         if(scripts.size()==0)
             return null;
 
-        return (InteractInterface)scripts.get(0);
+        float distance = 100000;
+        float d1 = 0;
+        int ii = 0;
+        for (int i = 0; i < scripts.size(); i++)
+        {
+            d1 = scripts.get(i).getGameObject().transform.position.dst(getCurrentChef().controller.getGameObject().transform.position);
+
+            if(d1 < distance){
+                distance = d1;
+                ii= i;
+            }
+        }
+
+        return (InteractInterface)scripts.get(ii);
     }
     boolean GetItem(){
         System.out.println("Trying to Get");
@@ -197,7 +252,7 @@ public class MasterChef extends BlackScripts {
 
         Optional<ItemAbs> item = getCurrentChef().controller.GetItem();
 
-        //If the chef isnt holding anything return, shouldnt as check already done but just in case
+        //If the chef isnt holding anything return false, shouldnt as check already done but just in case
         if(!item.isPresent())
             return false;
 
@@ -216,6 +271,23 @@ public class MasterChef extends BlackScripts {
 
 
     }
+
+    /**
+     * Disposes of the item the chef is holding
+     * @return true if the chef was holding an item and it
+     * was disposed of, false otherwise
+     */
+    boolean DisposeItem(){
+        InteractInterface inter = getInterface(false);
+        Optional<ItemAbs> item = getCurrentChef().controller.GetItem();
+        //If the chef isnt holding anything return false, shouldnt as check already done but just in case
+        if(Objects.isNull(item)||!item.isPresent()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     void CleanForKitchenObjects(List<BlackScripts> scripts)
     {
         BlackScripts a;

@@ -30,10 +30,12 @@ public class GameData implements Serializable {
     public String[] getNames(){ return names;}
 
     public long getTentativeScore(){ return tentativeScore;}
-    public void setTentativeScore(int i){ tentativeScore = i;}
+    public void setTentativeScore(long i){ tentativeScore = i;}
 
     public boolean isHighScore(long score){
+
         return score > highScores[MAX_SCORES - 1];
+
     }
 
     public void addHighScore(long newScore, String name){
@@ -49,7 +51,7 @@ public class GameData implements Serializable {
             long score = highScores[1];
             String name = names[i];
             int j;
-            for (j = i-1; j >= 0 && highScores[j] < score; j++){
+            for (j = i-1; j >= 0 && highScores[j] < score; j--){
                 highScores[j + 1] = highScores[j];
                 names[j + 1] = names[j];
             }

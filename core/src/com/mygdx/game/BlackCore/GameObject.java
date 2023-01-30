@@ -22,7 +22,7 @@ public class GameObject implements Comparator<GameObject> {
     private Integer _UID;
 
     Boolean isDestroyed = false;
-    Boolean IsActiveAndVisible;
+    public Boolean IsActiveAndVisible;
     Integer textureWidth;
     Integer textureHeight;
 
@@ -76,8 +76,8 @@ public class GameObject implements Comparator<GameObject> {
     public void addStaticCollider(GridPartition gridPartition, occupationID id){
         this.transform.gridPartition = gridPartition;
         gridPartition.place_static_object_on_grid_from_world(transform.position.x,transform.position.z,getTextureWidth()*transform.scale.x, getTextureHeight()*transform.scale.z, occupationID.Blocked);
-      //  setColliderState(true);
-      //  CollisionDetection.collisionMaster.addToStaticQueue(this);
+       // setColliderState(true);
+        //CollisionDetection.collisionMaster.addToStaticQueue(this);
 
     }
 
@@ -184,7 +184,10 @@ public class GameObject implements Comparator<GameObject> {
 
     }
 
+    public void UpdateTexture(String path){
 
+        texture.loadTexture(path,null,null,1,1);
+    }
 
 
     @Override
@@ -207,7 +210,7 @@ public class GameObject implements Comparator<GameObject> {
      * Flips the visibility of the object
      */
     public void negateVisibility(){
-        IsActiveAndVisible = ! IsActiveAndVisible;
+        IsActiveAndVisible = !IsActiveAndVisible;
     }
 
     /**

@@ -1,11 +1,9 @@
 package com.mygdx.game.BlackScripts;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ai.btree.leaf.Wait;
 import com.badlogic.gdx.math.Vector3;
-import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
 import com.mygdx.game.CoreData.Items.Items;
@@ -43,7 +41,12 @@ int bossAmount = 6;
 int currentWave = 0;
 int OrderID = 0;
 
-public Consumer<Float> EndGameCommand;
+private static Date startTime;
+public double accumPauseTime = 0;
+
+
+
+public Consumer<Score> EndGameCommand;
 
 int NumberOfTables = 4;
  List<Customers> SeatedCustomers = new LinkedList<>();
@@ -67,6 +70,7 @@ int MaxStockCapacity = 15;
 int refillCapability = 5;
 public static int minGroupSize = 1;
 public static int maxGroupSize = 3;
+public double ElapsedTime = 0;
 enum RandomisationStyle{
     Random,
     LimitedRandom
@@ -102,9 +106,13 @@ enum RandomisationStyle{
         }
 
         Collections.shuffle(CustomerAvatars);
+
+//        startTime = new Date(TimeUtils.millis());
     }
 
-
+    public void setStartTime(){
+        startTime = new Date(TimeUtils.millis());
+    }
 
 
     Table getNextFreeTable(){
@@ -139,14 +147,12 @@ enum RandomisationStyle{
         if(ranStyle == RandomisationStyle.Random){
             allOrders = (LinkedList<Items>) CreatePureRandomOrder(count);
             displayOrders.orderDict.put(OrderID, allOrders);
-            displayOrders.completed.put(OrderID, false);
             OrderAlerts.checkIfToShowAlert();
             return allOrders;
         }
         if(ranStyle == RandomisationStyle.LimitedRandom){
             allOrders = (LinkedList<Items>) CreateLimitedRandomOrder(count);;
             displayOrders.orderDict.put(OrderID, allOrders);
-            displayOrders.completed.put(OrderID, false);
             OrderAlerts.checkIfToShowAlert();
             return allOrders;
         }
@@ -166,7 +172,7 @@ enum RandomisationStyle{
 
         for (int i = 0; i < count; i++) {
             //find random index in the pot
-            int n = rand.nextInt(pot);
+            int n = rand.nextInt(pot+1);
             //Correct menu item
             MenuItem cmi = null;
             for (MenuItem mi: Menu
@@ -213,8 +219,6 @@ enum RandomisationStyle{
     public Boolean IsFoodInOrder(ItemAbs item){
     if(WaitingCustomers.get(0).TestAndRemoveItemFromOrders(item)){
 
-        displayOrders.completed.put(OrderID, true);
-        displayOrders.removeOrder(OrderID);
         return true;
     }
     return false;
@@ -295,8 +299,17 @@ enum RandomisationStyle{
            // WaitingCustomers.add(customerGroup);
         } else{
             //end the game
+            if (MyGdxGame.getGameRunning()){
+                // Gets the time when the game started (user pressed play)
+                ElapsedTime = startTime.getTime();
+                // Calculates the time elapsed since the game started (in seconds)
+                ElapsedTime = (new Date(TimeUtils.millis()).getTime() - ElapsedTime)/1000;
+                // Subtracts the time paused from the total time elapsed (in seconds)
+                ElapsedTime -= accumPauseTime;
+                // Passes the score to the end game function
+                EndGameCommand.accept(new Score(Score,ElapsedTime));
+            }
 
-            EndGameCommand.accept(Score);
 
         }
 
@@ -329,23 +342,34 @@ enum RandomisationStyle{
             Menu = new LinkedList<>();
             List<Items> ItemVar = new LinkedList<>();
             ItemVar.add(Items.Burger);
-            MenuItem burger = new MenuItem(Items.Burger,1, ItemVar);
+            ItemVar.add(Items.CheeseBurger);
+            MenuItem burger = new MenuItem(Items.Burger,MaxStockCapacity, ItemVar);
 
             ItemVar = new LinkedList<>();
-            ItemVar.add(Items.FullSalad);
-            MenuItem salad = new MenuItem(Items.FullSalad,1,ItemVar);
+            ItemVar.add(Items.TomatoOnionLettuceSalad);
+            ItemVar.add(Items.LettuceOnionSalad);
+            ItemVar.add(Items.LettuceTomatoSalad);
+            MenuItem salad = new MenuItem(Items.TomatoOnionLettuceSalad,MaxStockCapacity,ItemVar);
 
             Menu.add(burger);
             Menu.add(salad);
         }
     public void Reset()
     {
+        Score = 0;
+        accumPauseTime = 0;
+        ElapsedTime = 0;
         NumberOfCustomersSeen = 0;
         currentWave = 0;
         CreateMenu();
 
         for (Customers cust: WaitingCustomers
              ) {
+            cust.Destroy();
+        }
+
+        for (Customers cust: SeatedCustomers
+        ) {
             cust.Destroy();
         }
 
@@ -356,8 +380,7 @@ enum RandomisationStyle{
 
         WaitingCustomers.clear();
         LeavingCustomers.clear();
-
-        Score = 0;
-
+        Collections.shuffle(CustomerAvatars);
+        DisplayOrders.displayOrders.orderDict.clear();
     }
 }

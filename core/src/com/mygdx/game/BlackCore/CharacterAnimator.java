@@ -26,7 +26,7 @@ public class CharacterAnimator extends Animate
 
         //try and find the best fit
 
-        Vector3 nextPosition = agent.getNextPosition();
+        Vector3 nextPosition = new Vector3(agent.getNextPosition());
         Vector3 up = new Vector3(0,0,1);
         Vector3 right=  new Vector3(1,0,0);
 

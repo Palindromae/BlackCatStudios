@@ -31,8 +31,8 @@ public class CreateGameWorld
     List<GameObject> CombinationCounters = new LinkedList<>();
     GameObject KitchenSouthWall;
 
-    public Vector3 SpawnPointChef1 = new Vector3 (0,0,0);
-    public Vector3 SpawnPointChef2 = new Vector3(50,0,0);
+    public Vector3 SpawnPointChef1 = new Vector3 (500,0,250);
+    public Vector3 SpawnPointChef2 = new Vector3(500,0,150);
 
     GameObject Table1;
     GameObject Table2;
@@ -66,7 +66,9 @@ public class CreateGameWorld
     BTexture CombinationCounterTexture;
     BTexture CombinationCounterTextureEnd;
     BTexture CombinationCounterTextureEndDown;
-    BTexture ProgressBar;
+    BTexture DividingWallTex;
+
+    List<GameObject> DivWalls = new LinkedList<>();
 
     public float TableRadius = 75;
    public List<GameObject> InteractableObjects = new LinkedList<>();
@@ -75,6 +77,7 @@ public class CreateGameWorld
     public void Instantiate(GridPartition partition){
         FloorTextureK = new BTexture("pictures/KitchenTiles.png",null,null,4);
         FloorTextureK.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
+        DividingWallTex = new BTexture("DividingWall.png", null,null);
 
         FloorTextureD = new BTexture("pictures/Carpet.png",null,null,4);
         FloorTextureD.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
@@ -104,8 +107,7 @@ public class CreateGameWorld
         ChoppingBoardTexture  = new BTexture("pictures/Chopping Board.png",null,null);
         ChoppingBoardTexture.setWrap(Texture.TextureWrap.ClampToEdge);
 
-        ProgressBar = new BTexture("pictures/ProgressBar.png",null,null);
-        ProgressBar.setWrap(Texture.TextureWrap.Repeat);
+
 
         CombinationCounterTexture = new BTexture("pictures/Counter.png",null,null);
         CombinationCounterTexture.setWrap(Texture.TextureWrap.ClampToEdge);
@@ -126,11 +128,13 @@ public class CreateGameWorld
         DiningFloor.transform.position.y = -1;
 
 
-        ServingCounter = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z+100-col_redct,50-col_redct*2,100-col_redct*2), ServingCounterTexture,50,100);
+        WSServingCounter servingCounter = new WSServingCounter();
+        ServingCounter = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z+105-col_redct,50,100), ServingCounterTexture,50,100);
         ServingCounter.transform.position.x = KitchenFloor.transform.position.x-50;
-        ServingCounter.transform.position.z = KitchenFloor.transform.position.z+100;
+        ServingCounter.transform.position.z = KitchenFloor.transform.position.z+105;
         ServingCounter.transform.position.y = 1;
         ServingCounter.addStaticCollider(partition, occupationID.Station);
+        ServingCounter.AppendScript(servingCounter);
         InteractableObjects.add(ServingCounter);
 
         CustomerWaitingLocations = new ArrayList<>(CustomerManager.maxGroupSize);
@@ -139,8 +143,53 @@ public class CreateGameWorld
             CustomerWaitingLocations.add(new Vector3( ServingCounter.transform.position.x-25, (float) 0, (float) (Math.ceil(ServingCounter.transform.position.z*50f)/50.0f +i*CustomerOffsetDistance)));
         }
 
+        GameObject DivWalV;
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z+155-col_redct,50,200), DividingWallTex,
+                50,200);
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x-50;
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z+155;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
+
+        DivWalls.add(DivWalV);
+
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z-col_redct,50,105), DividingWallTex,
+                50,105);
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x-50;
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
+
+        DivWalls.add(DivWalV);
 
 
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z+355-col_redct,100,50), DividingWallTex,
+                500,50);
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x-50;
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z+355;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
+
+        DivWalls.add(DivWalV);
+
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x+KitchenFloor.getTextureWidth(),KitchenFloor.transform.position.z-col_redct,50,KitchenFloor.getTextureHeight()), DividingWallTex,
+                50,KitchenFloor.getTextureHeight());
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x+KitchenFloor.getTextureWidth();
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
+
+        DivWalls.add(DivWalV);
+
+
+        DivWalV = new GameObject(new Rectangle(KitchenFloor.transform.position.x-50+col_redct,KitchenFloor.transform.position.z-col_redct-25,500,25), DividingWallTex,
+                500,25);
+        DivWalV.transform.position.x = KitchenFloor.transform.position.x-50;
+        DivWalV.transform.position.z = KitchenFloor.transform.position.z-25;
+        DivWalV.transform.position.y = 1;
+        DivWalV.addStaticCollider(partition, occupationID.Station);
+
+        DivWalls.add(DivWalV);
 
         createCombinationCounters(partition);
 
@@ -164,25 +213,29 @@ public class CreateGameWorld
         LightBeam.transform.scale.set(.8f,1,.8f);
         CustomerSpawnLocations =  new Vector3( LightBeam.transform.position).add(new Vector3(0,0,50));
 
+
+
     }
 
     void createCombinationCounters(GridPartition partition)
     {
 
-        int middleSections = 3;
+        int middleSections = 2;
         int width = 2;
-        int segmentHeight =  150/(middleSections+2);
+        int segmentHeight =  160/(middleSections+2);
         int segmentWidth = 75/2;
 
         GameObject CombinationCounter;
+        float _x,_y = 0;
         for (int i = 1; i <= middleSections; i++)
         {
             for (int j = 0; j < 2; j++) {
 
-
-                CombinationCounter = new GameObject(new Rectangle(j*segmentWidth+120 + KitchenFloor.transform.position.x, i * segmentHeight + KitchenFloor.transform.position.z, segmentWidth, segmentHeight), CombinationCounterTexture, segmentWidth, segmentHeight);
-                CombinationCounter.transform.position.x = j*segmentWidth+120 + KitchenFloor.transform.position.x;
-                CombinationCounter.transform.position.z = i * segmentHeight + 105 + KitchenFloor.transform.position.z;
+                _x = j*segmentWidth+120 + KitchenFloor.transform.position.x;
+                _y = i * segmentHeight + 105 + KitchenFloor.transform.position.z;
+                CombinationCounter = new GameObject(new Rectangle(_x, _y, segmentWidth, segmentHeight), CombinationCounterTexture, segmentWidth, segmentHeight);
+                CombinationCounter.transform.position.x = _x;
+                CombinationCounter.transform.position.z = _y;
                 CombinationCounter.transform.position.y = 1;
                 CombinationCounter.addStaticCollider(partition, occupationID.Station);
                 WSCounter CC = new WSCounter();
@@ -193,68 +246,73 @@ public class CreateGameWorld
             }
 
         }
-
-
         for (int i = 0; i < width; i++) {
 
+            _x = i*segmentWidth+120 + KitchenFloor.transform.position.x;
+            _y = 105 + KitchenFloor.transform.position.z;
+            CombinationCounter = new GameObject(new Rectangle( _x ,_y, 75,150),CombinationCounterTextureEnd,segmentWidth,segmentHeight);
+            CombinationCounter.transform.position.x =  _x;
+            CombinationCounter.transform.position.z =  _y;
+            CombinationCounter.transform.position.y = 1;
+            CombinationCounter.addStaticCollider(partition, occupationID.Station);
+            WSCounter CC = new WSCounter();
+            CombinationCounter.AppendScript(CC);
+            InteractableObjects.add(CombinationCounter);
+            CombinationCounters.add(CombinationCounter);
 
-        CombinationCounter = new GameObject(new Rectangle( i*segmentWidth+segmentWidth+120+ KitchenFloor.transform.position.x ,105+KitchenFloor.transform.position.z, 75,150),CombinationCounterTextureEnd,segmentWidth,segmentHeight);
-        CombinationCounter.transform.position.x =  i*segmentWidth+120 + KitchenFloor.transform.position.x;
-        CombinationCounter.transform.position.z = 105 + KitchenFloor.transform.position.z;
-        CombinationCounter.transform.position.y = 1;
-        CombinationCounter.addStaticCollider(partition, occupationID.Station);
-        WSCounter CC = new WSCounter();
-        CombinationCounter.AppendScript(CC);
-        InteractableObjects.add(CombinationCounter);
-        CombinationCounters.add(CombinationCounter);
+            WorkStations.add(CombinationCounter);
 
-        WorkStations.add(CombinationCounter);
-
-
-        CombinationCounter = new GameObject(new Rectangle( i*segmentWidth+120+ KitchenFloor.transform.position.x ,(middleSections+1)*segmentHeight +KitchenFloor.transform.position.z, segmentWidth,segmentHeight),CombinationCounterTextureEndDown,segmentWidth,segmentHeight);
-        CombinationCounter.transform.position.x =  i*segmentWidth+120 + KitchenFloor.transform.position.x;
-        CombinationCounter.transform.position.z =  (middleSections+1)*segmentHeight + 105 + KitchenFloor.transform.position.z;
-        CombinationCounter.transform.position.y = 1;
-        CombinationCounter.addStaticCollider(partition, occupationID.Station);
-        CC = new WSCounter();
-        CombinationCounter.AppendScript(CC);
-        InteractableObjects.add(CombinationCounter);
-        CombinationCounters.add(CombinationCounter);
-        WorkStations.add(CombinationCounter);
+            _x = i*segmentWidth+120 + KitchenFloor.transform.position.x;
+            _y =  (middleSections+1)*segmentHeight + 105 + KitchenFloor.transform.position.z;
+            CombinationCounter = new GameObject(new Rectangle( _x ,_y, segmentWidth,segmentHeight),CombinationCounterTextureEndDown,segmentWidth,segmentHeight);
+            CombinationCounter.transform.position.x = _x;
+            CombinationCounter.transform.position.z = _y;
+            CombinationCounter.transform.position.y = 1;
+            CombinationCounter.addStaticCollider(partition, occupationID.Station);
+            CC = new WSCounter();
+            CombinationCounter.AppendScript(CC);
+            InteractableObjects.add(CombinationCounter);
+            CombinationCounters.add(CombinationCounter);
+            WorkStations.add(CombinationCounter);
         }
+
+
 
     }
 
 
     void createMachines(GridPartition partition){
 
-        Stove1 = new GameObject(new Rectangle( 300+ KitchenFloor.transform.position.x ,225+KitchenFloor.transform.position.z, 50,50),StoveTexture,50,50);
+        Stove1 = new GameObject(new Rectangle( 295+ KitchenFloor.transform.position.x ,225+KitchenFloor.transform.position.z, 50,50),StoveTexture,50,50);
         Stove1.transform.position.x = 300 + KitchenFloor.transform.position.x;
         Stove1.transform.position.z = 225 + KitchenFloor.transform.position.z;
         Stove1.transform.position.y = 2;
         Stove1.transform.scale.set(1,0,1);
-        Stove1.addStaticCollider(partition, occupationID.Station);
+        Stove1.addStaticCollider(partition, occupationID.Blocked);
         WSHob hob= new WSHob();
         Stove1.AppendScript(hob);
+        hob.init();
 
 
         ChoppingBoard = new GameObject(new Rectangle( 300+ KitchenFloor.transform.position.x ,150+KitchenFloor.transform.position.z, 50,50),ChoppingBoardTexture,50,50);
         ChoppingBoard.transform.position.x = 300 + KitchenFloor.transform.position.x;
         ChoppingBoard.transform.position.z = 150 + KitchenFloor.transform.position.z;
         ChoppingBoard.transform.position.y = 2;
-        ChoppingBoard.transform.scale.set(1,0,1);
-        ChoppingBoard.addStaticCollider(partition, occupationID.Station);
+        ChoppingBoard.addStaticCollider(partition, occupationID.Blocked);
         WSChopBoard chb = new WSChopBoard();
         ChoppingBoard.AppendScript(chb);
+        chb.init();
+
 
         Stove2 = new GameObject(new Rectangle( 300+ KitchenFloor.transform.position.x ,75+KitchenFloor.transform.position.z, 50,50),StoveTexture,50,50);
         Stove2.transform.position.x = 300 + KitchenFloor.transform.position.x;
         Stove2.transform.position.z = 75 + KitchenFloor.transform.position.z;
         Stove2.transform.position.y = 2;
         Stove2.transform.scale.set(1,0,1);
-        Stove2.addStaticCollider(partition, occupationID.Station);
+        Stove2.addStaticCollider(partition, occupationID.Blocked);
         hob= new WSHob();
         Stove2.AppendScript(hob);
+        hob.init();
 
         InteractableObjects.add(Stove1);
         InteractableObjects.add(Stove2);
@@ -265,6 +323,8 @@ public class CreateGameWorld
         WorkStations.add(ChoppingBoard);
 
 
+
+
     }
 
     void createFoodCrates(GridPartition partition){
@@ -272,19 +332,24 @@ public class CreateGameWorld
 
 
 
-        int CrateWidth =30;
-        int CrateHeight =30;
+        int CrateWidth =45;
+        int CrateHeight =50;
         int TopOfKitchen = 326;
         int CrateOffset = 50;
         int CrateStart = 75;
-        String CratePath = "Crate.png";
-        CreateCrate(LettuceCrate,Items.Lettuce,new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,TopOfKitchen),"lettuce"+CratePath,CrateWidth,CrateHeight, partition);
-        CreateCrate(OnionCrate,Items.Onion,  new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,TopOfKitchen),"onion"  +CratePath,CrateWidth,CrateHeight,partition);
-        CreateCrate(TomatoCrate,Items.Tomato, new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,TopOfKitchen),"tomato" +CratePath,CrateWidth,CrateHeight,partition);
+        String CratePath = "pictures/Crate.png";
+        CreateCrate(LettuceCrate,Items.Lettuce, new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,TopOfKitchen-CrateHeight/2+5),CratePath,CrateWidth,CrateHeight, partition);
+        CreateCrate(OnionCrate,Items.Onion,     new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,TopOfKitchen-CrateHeight/2+5),  CratePath,CrateWidth,CrateHeight,partition);
+        CreateCrate(TomatoCrate,Items.Tomato,   new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,TopOfKitchen-CrateHeight/2+5),CratePath,CrateWidth,CrateHeight,partition);
 
-        CreateCrate(MeatCrate,Items.Mince,  new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,0),"mince"  +CratePath,CrateWidth,CrateHeight,partition);
-        CreateCrate(CheeseCrate,Items.Cheese, new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,0),"cheese" +CratePath,CrateWidth,CrateHeight,partition);
-        CreateCrate(BunsCrate,Items.Buns,   new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,0),"buns"   +CratePath,CrateWidth,CrateHeight,partition);
+
+        CreateCrate(MeatCrate,Items.Mince, new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,5),CratePath,CrateWidth,CrateHeight, partition);
+        CreateCrate(CheeseCrate,Items.Cheese,     new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,5),  CratePath,CrateWidth,CrateHeight,partition);
+        CreateCrate(BunsCrate,Items.Buns,   new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,5),CratePath,CrateWidth,CrateHeight,partition);
+
+        //  CreateCrate(MeatCrate,Items.Mince,      new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,50),CratePath,CrateWidth,CrateHeight,partition);
+        //CreateCrate(CheeseCrate,Items.Cheese,   new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,50),CratePath,CrateWidth,CrateHeight,partition);
+      //  CreateCrate(BunsCrate,Items.Buns,       new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,50),CratePath,CrateWidth,CrateHeight,partition);
 
     }
 
@@ -292,13 +357,15 @@ public class CreateGameWorld
 
         position.x += KitchenFloor.transform.position.x;
         position.z += KitchenFloor.transform.position.z;
-        BTexture tex = new BTexture(texture,width,height);
-        crate = new GameObject(new Rectangle(position.x,position.z,width,height),tex);
+        BTexture tex = new BTexture(texture,null,null);
+        crate = new GameObject(new Rectangle(position.x,position.z,width,height),tex,width,height);
         crate.transform.position.set(position);
         FoodCrate fCrate = new FoodCrate(item);
         crate.addStaticCollider(partition, occupationID.Station);
         crate.AppendScript(fCrate);
         WorkStations.add(crate);
+
+        fCrate.init();
 
 
 

@@ -1,5 +1,4 @@
 package com.mygdx.game.CoreData.Items;
-import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackScripts.ItemFactory;
 import com.mygdx.game.SoundFrame;
@@ -20,14 +19,14 @@ public class WSHob extends WorkStation{
 
     long burnerSoundID;
     long fryingSoundID;
-
+    float progress;
     Boolean playingBurner = false, playingFrying = false;
 
 
     @Override
     public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
             checkItem();
             return true;
         }
@@ -64,6 +63,8 @@ public class WSHob extends WorkStation{
         if(ItemWhitelist.contains(Item.name)){
             currentRecipe = Recipes.RecipeMap.get(Item.name);
         }
+        else
+            currentRecipe = null;
     }
 
     // Checks if currentRecipe is null if not interacted is set to true and returns true, else false is returned
@@ -97,7 +98,7 @@ public class WSHob extends WorkStation{
            playingBurner = true;
         }
 
-        if(ready & Item.cookingProgress==0){
+        if(ready ){
 
             if(!playingFrying){
                 fryingSoundID =  SoundFrame.SoundEngine.playSound("Fryer");
@@ -110,7 +111,7 @@ public class WSHob extends WorkStation{
 
             SoundFrame.SoundEngine.playSound("Step Achieved");
             if(i==currentRecipe.RecipeSteps.size()){
-                Item = ItemFactory.factory.produceItem(currentRecipe.endItem);
+                changeItem(ItemFactory.factory.produceItem(currentRecipe.endItem));
                 i = 0;
 
                 checkItem();
@@ -124,6 +125,16 @@ public class WSHob extends WorkStation{
         //  burn()
         // }
     }
+
+    public void ProgressBar(){
+        progress = Item.cookingProgress/ Item.MaxProgress;
+
+
+        ProgressMeter.IsActiveAndVisible = Item.cookingProgress != 0;
+
+        ProgressMeter.transform.scale.x=progress*width;
+    }
+
     @Override
     public void Reset(){
         super.Reset();
@@ -138,8 +149,10 @@ public class WSHob extends WorkStation{
     // public void burn(){}
     @Override
     public void FixedUpdate(float dt){
-        if(currentRecipe != null)
+        if(currentRecipe != null) {
             Cook(dt);
+            ProgressBar();
+        }
         else {
             if(playingBurner){
                 SoundFrame.SoundEngine.stopSound("Cooker",burnerSoundID);

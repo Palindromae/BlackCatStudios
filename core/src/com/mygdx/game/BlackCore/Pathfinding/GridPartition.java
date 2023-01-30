@@ -37,7 +37,7 @@ public class GridPartition {
         if (i == -1)
             return -1;
 
-        int b = (int) ((i -offset)/sizeOfGridSpaces);
+        int b = (int) Math.round((i -offset)/sizeOfGridSpaces);
 
         return (b<0)? -1 : b; //if outside of bounds default to -1
     }
@@ -225,8 +225,8 @@ public class GridPartition {
         height = (float) (Math.ceil(height/sizeOfGridSpaces));
 
         place_static_object_on_grid(
-                translateToLocal((int)x, gridsWorldPosition_BOTTOMLEFT.x),
-                translateToLocal((int)y, gridsWorldPosition_BOTTOMLEFT.y),
+                translateToLocal((int)Math.ceil(x), gridsWorldPosition_BOTTOMLEFT.x),
+                translateToLocal((int)Math.ceil(y), gridsWorldPosition_BOTTOMLEFT.y),
                 (int) width, (int) height,ID);
 
     }
