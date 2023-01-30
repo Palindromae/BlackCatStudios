@@ -393,13 +393,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		orderPage.transform.position.x = -200;
 		orderPageCloseButton.transform.position.x = -100;
 		orderPageShown = false;
-		orderPageButton.negateVisibility();
+		orderPageButton.setVisibility(true);
 	}
 	void OpenOrderMenu(){
 		orderPageButton.transform.position.x = 200;
 		orderPage.transform.position.x = 0;
 		orderPageCloseButton.transform.position.x = 200;
-		orderPageButton.negateVisibility();
+		orderPageButton.setVisibility(false);
 		orderPageShown = true;
 		if(OrderAlerts.alertOn){
 			OrderAlerts.changeAlertState();
@@ -593,7 +593,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		return Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched();
 	}
 	boolean ShouldMute(){
-		return Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
+		return pauseMenu.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
 				|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched();
 	}
 
@@ -633,6 +633,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	 * @param p_s The score of the game
 	 */
 	public void FinishGame(Score p_s){
+		if (orderPage.getVisibility()){
+			this.CloseOrderMenu();
+		}
 		System.out.println("Ended the game with score: " + p_s.score + ", " + p_s.timing +" seconds elapsed");
 		Save.gd.setTentativeScore((long) p_s.score);
 		Save.gd.setTiming(p_s.timing);

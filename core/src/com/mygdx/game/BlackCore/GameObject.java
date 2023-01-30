@@ -273,6 +273,14 @@ public class GameObject implements Comparator<GameObject> {
         return  IsActiveAndVisible;
     }
 
+    /**
+     * Sets the visibility of the object
+     * @param state true if the object is visible, false otherwise
+     */
+    public void setVisibility(Boolean state){
+        IsActiveAndVisible = state;
+    }
+
     public Vector3 getMaintainedOffset() {
         return MaintainedOffset;
     }
