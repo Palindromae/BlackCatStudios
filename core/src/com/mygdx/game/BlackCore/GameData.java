@@ -33,7 +33,9 @@ public class GameData implements Serializable {
     public void setTentativeScore(long i){ tentativeScore = i;}
 
     public boolean isHighScore(long score){
+
         return score > highScores[MAX_SCORES - 1];
+
     }
 
     public void addHighScore(long newScore, String name){

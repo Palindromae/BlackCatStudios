@@ -49,7 +49,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	BatchDrawer batch;
 
 	public static PathfindingConfig pathfindingConfig;
-
+	private static Integer fixedTimeCount = 0;
 	CustomerManager customerManager;
 	public Boolean gameRestart = false;
 	Boolean Pause = true;
@@ -75,12 +75,16 @@ public class MyGdxGame extends ApplicationAdapter {
 	public static GameObject orderAlert;
 	public static GameObject orderPage;
 	boolean orderPageShown = false;
-	Boolean isGameRunning = false;
+	public static Boolean isGameRunning = false;
 
 	boolean isHighscores = false;
 
-	public GameObject menuHighscores;
+	public static GameObject menuHighscores;
 	HighScore highScores;
+
+	public static Boolean getGameRunning(){
+		return isGameRunning;
+	}
 
 	@Override
 	public void create() {
@@ -175,11 +179,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		muteMusicText.transform.position.z = 195;
 		muteMusicText.transform.position.y = 10;
 
-		menuControls = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("controls.png", 250, 350));
-		menuControls.transform.position.y = 5;
-		menuControls.transform.position.x = 500;
-		menuControls.transform.position.z = 25;
-
 		settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 65, 70));
 		settings.transform.position.y = 5;
 		settings.transform.position.x = 75;
@@ -237,9 +236,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		closeHighscoresIcon.transform.position.z = 415;
 		closeHighscoresIcon.transform.position.y = 7;
 
-		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 252, 350));
-		controlsText.negateVisibility();
-		controlsText.transform.position.x = 450;
+		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 400, 380));
+//		controlsText.negateVisibility();
+		controlsText.transform.position.x = 390;
 		controlsText.transform.position.z = 65;
 		controlsText.transform.position.y = 10;
 
@@ -358,7 +357,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		start.negateVisibility();
 		highscoresButton.negateVisibility();
 		exit.negateVisibility();
-		menuControls.negateVisibility();
+		controlsText.negateVisibility();
 		menu.negateVisibility();
 
 	}
@@ -413,9 +412,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		if(menu.getVisibility() && !menuHighscores.getVisibility() && CanStartGameFromMainMenu()){ // If ENTER is pressed or the test is clicked, the game will be unpaused and the menu will disappear
 			// Music changes from main menu music to game music
 			// Main menu disappears and becomes invisible
+			customerManager.setStartTime();
 			this.changeMenuVisbility();
-			isGameRunning = !isGameRunning;
 			Pause = !Pause;
+			isGameRunning = true;
 			masterChef.AllowTouch = false;
 
 
@@ -486,7 +486,9 @@ public class MyGdxGame extends ApplicationAdapter {
 				if (! Pause){ // pauses the game
 					ScriptManager.RunFixedUpdate((float)fixedTime.dt);
 				} else{
-					CustomerManager.customermanager.accumPauseTime+= fixedTime.dt;
+					if (isGameRunning) {
+						CustomerManager.customermanager.accumPauseTime += fixedTime.dt;
+					}
 				}
 				fixedTime.accumulator-= fixedTime.dt;
 			}
@@ -551,7 +553,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			ShowOrderText.displayText();
 		}
 		if(isHighscores)
-			HighScore.drawText();
+			highScores.drawText();
 
 
 
@@ -582,7 +584,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		GameWorld.Reset();
 		//Reset customers, seen customers, wave number
 		CustomerManager.customermanager.Reset();
-
+		isGameRunning = false;
 		//Go to menu or what ever it is suppose to
 		if (!menu.getVisibility()){
 			changeMenuVisbility();
@@ -591,8 +593,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		isGameRunning = false;
 	}
 
+	/**
+	 * This method is called when the game is paused
+	 * @param p_s The score of the game
+	 */
 	public void FinishGame(Score p_s){
-		System.out.println("Ended the game with score: " + p_s.score + ", " + p_s.timing/1000.0 +" seconds elapsed");
+		System.out.println("Ended the game with score: " + p_s.score + ", " + p_s.timing +" seconds elapsed");
+		Pause = true;
 	}
 
 	@Override
