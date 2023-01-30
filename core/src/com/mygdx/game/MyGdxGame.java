@@ -80,7 +80,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	boolean isHighscores = false;
 
-	public GameObject menuHighscores;
+	public static GameObject menuHighscores;
 	HighScore highScores;
 
 	public static Boolean getGameRunning(){
@@ -436,6 +436,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			highScores.drawText();
 			ShowOrderText.displayText();
 
+
 //			if (isHighscores){
 //				changeMenuVisbility();
 //				menuHighscores.negateVisibility();
@@ -553,7 +554,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			ShowOrderText.displayText();
 		}
 		if(isHighscores)
-			HighScore.drawText();
+			highScores.drawText();
 
 
 
@@ -589,6 +590,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (!menu.getVisibility()){
 			changeMenuVisbility();
 		}
+
+		isGameRunning = false;
 	}
 
 	/**

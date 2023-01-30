@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g3d.particles.ResourceData;
 import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
 import com.mygdx.game.MyGdxGame;
 
-public class HighScore extends BlackScripts {
+public class HighScore extends MyGdxGame {
 
     public SpriteBatch getSb() {
         return sb;
@@ -35,6 +35,7 @@ public class HighScore extends BlackScripts {
     private static long[] highScores;
     private static String[] names;
 
+
     public static FreeTypeFontGenerator.FreeTypeFontParameter params;
 
     public static FreeTypeFontGenerator gen;
@@ -57,23 +58,17 @@ public class HighScore extends BlackScripts {
 
     }
 
-    public void update(float dt){
-        handleInput();
-    }
-
-    public static void drawText(){
-//        sb.setProjectionMatrix(MyGdxGame.camera.combined);
 
 
+    public void drawText(){
+
+        sb.begin();
 
         String s;
-        float w;
 
         s = "High Scores";
-        w = font.getScaleX();
-        sb.begin();
-        font.draw(sb, s, 20, 20);
 
+        font.draw(sb,s, 250, MyGdxGame.menuHighscores.transform.position.z+(MyGdxGame.menuHighscores.textureHeight-40));
         for (int i = 0; i< highScores.length; i++){
            s = String.format(
                    "%2d. %7s %s",
@@ -81,23 +76,14 @@ public class HighScore extends BlackScripts {
                    highScores[i],
                    names[i]
            );
-           w = font.getScaleX();
-            font.draw(sb,s, 800, 270-20 * i);
+
+            font.draw(sb,s, 250, 300-50 * i);
 
         }
 
         sb.end();
-
-
     }
 
-    private void handleInput() {
-            //path to go back to main menu
-
-        //changeMenuVisbility();
-        //menuHighscores.negateVisibility();
-
-    }
 
 
 }
