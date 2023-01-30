@@ -10,6 +10,7 @@ theme:
 nav:
     - Home: index.md
     - Weekly Updates: updates.md
+    - Initial Customer Meeting Responses: initialCustomerMeetingQuestions
     - Architecture: architecture.md
     - Diagrams: Diagrams.md
     - Attributions: attributions.md

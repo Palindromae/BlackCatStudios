@@ -99,3 +99,9 @@ Right-click and open in new tab to zoom in
   ![Pause Sequence](img/pauseSequenceDiagram.png)
   <figcaption>Pause sequence diagram </figcaption>
 </figure>
+
+<figure markdown>
+  ![StartPauseSequence](img/highscoresSequenceDiagram.png)
+  <figcaption>Highscores sequence diagram </figcaption>
+</figure>
+
