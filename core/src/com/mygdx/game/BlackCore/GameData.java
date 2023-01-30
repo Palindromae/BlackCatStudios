@@ -1,6 +1,7 @@
 package com.mygdx.game.BlackCore;
 
 import java.io.Serializable;
+import java.util.*;
 
 public class GameData implements Serializable {
 
@@ -12,6 +13,11 @@ public class GameData implements Serializable {
     private String[] names;
 
     private long tentativeScore;
+    private double timing;
+    private String name;
+
+    private Map highScoresMap = new HashMap<String, Integer>();
+    LinkedHashMap<String, Integer> SortedHighScoreMap = new LinkedHashMap<String, Integer>();
 
     public GameData(){
         highScores = new long[MAX_SCORES];
@@ -29,8 +35,15 @@ public class GameData implements Serializable {
     public long[] getHighScores(){ return highScores;}
     public String[] getNames(){ return names;}
 
+    public void PutScoreToList(String name, Integer score){highScoresMap.put(name, score);};
+
     public long getTentativeScore(){ return tentativeScore;}
+    public double getTiming(){ return timing;}
+
+    public String getName(){return name;};
+    public void setName(String nameToSet){name = nameToSet;}
     public void setTentativeScore(long i){ tentativeScore = i;}
+    public void setTiming(double i){ timing = i;}
 
     public boolean isHighScore(long score){
 
@@ -57,6 +70,28 @@ public class GameData implements Serializable {
             }
             highScores[j + 1] = score;
             names[j + 1] = name;
+        }
+    }
+
+    public void sortHighScoreMap(){
+        Save.gd.SortedHighScoreMap = new LinkedHashMap<String, Integer>();
+        List<Integer> highScoreByScore = new ArrayList<>(Save.gd.highScoresMap.values());
+        Collections.sort(highScoreByScore);
+        Collections.reverse(highScoreByScore);
+        for(int i = 0; i < highScoreByScore.size(); i++){
+            Integer toCheck = highScoreByScore.get(i);
+            //Create map to store, check if its 5 or more etc
+            if(SortedHighScoreMap.size() == 5){
+                continue;
+            }
+            for(Object x : Save.gd.highScoresMap.entrySet()){
+                String key = x.toString().split("=")[0];
+                Integer value = Integer.valueOf(x.toString().split("=")[1]);
+                if((int) value == toCheck){
+                    SortedHighScoreMap.put(key, value);
+                    continue;
+                }
+            }
         }
     }
 

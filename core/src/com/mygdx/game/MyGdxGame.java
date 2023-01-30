@@ -48,10 +48,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject exit;
 	BatchDrawer batch;
 
+	GameOver gameOver;
+
 	public static PathfindingConfig pathfindingConfig;
 	private static Integer fixedTimeCount = 0;
+
 	CustomerManager customerManager;
 	public Boolean gameRestart = false;
+	public static Boolean gameEnded = false;
 	Boolean Pause = true;
 	BTexture pauseTexture;
 	GameObject pauseMenu;
@@ -80,6 +84,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	boolean isHighscores = false;
 
 	public static GameObject menuHighscores;
+
+
+
 	HighScore highScores;
 
 	public static Boolean getGameRunning(){
@@ -100,6 +107,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		long id = soundFrame.playSound("Main Screen");
 		soundFrame.setLooping(id, "Main Screen");
 
+		Runnable runnable = () -> Restart();
+
+		highScores = new HighScore();
+		gameOver = new GameOver(runnable);
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
 		batch = new BatchDrawer();
@@ -202,7 +213,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		start.transform.position.x = 75;
 		start.transform.position.z = 340;
 
-		highScores = new HighScore();
 
 		menuHighscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("White.png", 800, 480));
 		menuHighscores.negateVisibility();
@@ -253,6 +263,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		orderPageCloseButton.transform.position.z = Gdx.graphics.getHeight()/2;
 		orderPageCloseButton.transform.position.y = 1;
 		orderPageCloseButton.transform.position.x = -100;
+		orderPageButton.InvisPressAllowed = true;
 
 
 
@@ -367,7 +378,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	boolean ShouldPause(){
-		return pauseButton.isObjectTouched() || Gdx.input.isKeyJustPressed(InputsDefaults.pause);
+		return pauseButton.isObjectTouched()  || Gdx.input.isKeyJustPressed(InputsDefaults.pause);
 	}
 
 	boolean CanStartGameFromMainMenu(){
@@ -435,6 +446,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			this.menuHighscores.negateVisibility();
 			closeHighscoresIcon.IsActiveAndVisible = true;
 			isHighscores = !isHighscores;
+			Save.gd.sortHighScoreMap();
 			highScores.drawText();
 			ShowOrderText.displayText();
 
@@ -450,6 +462,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			// code to display the highscores
 		}
+
+
 
 
 		if(menu.getVisibility()  && !menuHighscores.getVisibility() && shouldOpenSettings() ){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
@@ -558,6 +572,17 @@ public class MyGdxGame extends ApplicationAdapter {
 		if(isHighscores)
 			highScores.drawText();
 
+		if(gameEnded){
+
+			if(menuHighscores.getVisibility() == false){
+				menuHighscores.negateVisibility();
+
+			}
+			gameOver.drawText();
+			gameOver.update(Gdx.graphics.getDeltaTime());
+
+		}
+
 
 
 
@@ -609,6 +634,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	 */
 	public void FinishGame(Score p_s){
 		System.out.println("Ended the game with score: " + p_s.score + ", " + p_s.timing +" seconds elapsed");
+		Save.gd.setTentativeScore((long) p_s.score);
+		Save.gd.setTiming(p_s.timing);
+		gameEnded = true;
 		Pause = true;
 	}
 

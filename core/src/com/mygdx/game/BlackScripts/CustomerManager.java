@@ -354,11 +354,11 @@ enum RandomisationStyle{
                 LeavingCustomers.remove(i);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S)){
-            if(WaitingCustomers.size()>0)
-            WaitingCustomers.get(0).RemoveFirstCustomer();
+     //   if (Gdx.input.isKeyJustPressed(Input.Keys.S)){
+       //     if(WaitingCustomers.size()>0)
+         //   WaitingCustomers.get(0).RemoveFirstCustomer();
 
-        }
+     //   }
     }
         public void CreateMenu(){
             Menu = new LinkedList<>();
