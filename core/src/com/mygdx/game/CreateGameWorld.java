@@ -101,7 +101,7 @@ public class CreateGameWorld
         DoorTexture = new BTexture("Door.png",49,49);
         DoorTexture.setWrap(Texture.TextureWrap.ClampToEdge);
 
-        LightBeamTexture = new BTexture("lightBeam.png",101,112);
+        LightBeamTexture = new BTexture("LightBeam.png",101,112);
         LightBeamTexture.setWrap(Texture.TextureWrap.ClampToEdge);
 
         StoveTexture = new BTexture("Pictures/Hob.png",null,null);
