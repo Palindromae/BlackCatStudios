@@ -49,10 +49,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject exit;
 	BatchDrawer batch;
 
+	GameOver gameOver;
+
 	public static PathfindingConfig pathfindingConfig;
 	private static Integer fixedTimeCount = 0;
+
 	CustomerManager customerManager;
 	public Boolean gameRestart = false;
+	public static Boolean gameEnded = false;
 	Boolean Pause = true;
 	BTexture pauseTexture;
 	GameObject pauseMenu;
@@ -81,6 +85,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	boolean isHighscores = false;
 
 	public static GameObject menuHighscores;
+
+
+
 	HighScore highScores;
 
 	public static Boolean getGameRunning(){
@@ -98,6 +105,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		long id = soundFrame.playSound("Main Screen");
 		soundFrame.setLooping(id, "Main Screen");
 
+		Runnable runnable = () -> Restart();
+		gameOver = new GameOver(runnable);
 		collisionDetection = new CollisionDetection();
 		physicsController = new PhysicsSuperController();
 		batch = new BatchDrawer();
@@ -450,6 +459,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 
+
+
 		if(menu.getVisibility()  && !menuHighscores.getVisibility() && shouldOpenSettings() ){ // If the S button is pressed or the text is clicked in the main menu, the game will display settings over the menu
 			// The main menu is at position y = 3 so that the settings menu can be rendered over it if needed in position y = 4
 			negatePauseMenu();
@@ -556,6 +567,17 @@ public class MyGdxGame extends ApplicationAdapter {
 		if(isHighscores)
 			highScores.drawText();
 
+		if(gameEnded){
+
+			if(menuHighscores.getVisibility() == false){
+				menuHighscores.negateVisibility();
+
+			}
+			gameOver.drawText();
+			gameOver.update(Gdx.graphics.getDeltaTime());
+
+		}
+
 
 
 
@@ -600,6 +622,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	 */
 	public void FinishGame(Score p_s){
 		System.out.println("Ended the game with score: " + p_s.score + ", " + p_s.timing +" seconds elapsed");
+		Save.gd.setTentativeScore((long) p_s.score);
+		gameEnded = true;
 		Pause = true;
 	}
 

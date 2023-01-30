@@ -9,7 +9,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
 
-public class GameOver extends MyGdxGame {
+import java.util.function.Consumer;
+
+public class GameOver {
+
+    Runnable Restart;
 
     public static SpriteBatch getSb() {
         return sb;
@@ -30,6 +34,8 @@ public class GameOver extends MyGdxGame {
     public boolean isNewHighScore() {
         return newHighScore;
     }
+
+
 
     public char[] getNewName() {
         return newName;
@@ -55,10 +61,13 @@ public class GameOver extends MyGdxGame {
     public static FreeTypeFontGenerator.FreeTypeFontParameter paramsGameOverFont;
     public static FreeTypeFontGenerator.FreeTypeFontParameter paramsFont;
 
-    public GameOver(){
+    public GameOver(Runnable restart){
 
+        Restart = restart;
         sb = new SpriteBatch();
         sr = new ShapeRenderer();
+
+        Save.load();
 
         newHighScore = Save.gd.isHighScore(Save.gd.getTentativeScore());
         if(newHighScore){
@@ -67,10 +76,13 @@ public class GameOver extends MyGdxGame {
         }
 
         gen = new FreeTypeFontGenerator(Gdx.files.internal("PixelArt.ttf"));
+
+        paramsGameOverFont = new FreeTypeFontGenerator.FreeTypeFontParameter();
         paramsGameOverFont.size = 50;
         paramsGameOverFont.color = Color.BLACK;
-        gameOverFont = gen.generateFont(paramsGameOverFont);
 
+        gameOverFont = gen.generateFont(paramsGameOverFont);
+        paramsFont = new FreeTypeFontGenerator.FreeTypeFontParameter();
         paramsFont.size = 25;
         paramsFont.color = Color.BLACK;
         font = gen.generateFont(paramsFont);
@@ -95,19 +107,21 @@ public class GameOver extends MyGdxGame {
         }
 
         String q = "New High Score: " + Save.gd.getTentativeScore();
+        String x = (newName[0] + " " + newName[1] + " "+ newName[2]);
 
         font.draw(sb, q, 250, 250);
-
-        for(int i = 0; i < newName.length; i++){
-            font.draw(sb, Character.toString(newName[i]),250 + 14 * i,200);
-        }
-
+        font.draw(sb, x, 250,200);
+        font.draw(sb, "_ _ _",250,195);
         sb.end();
 
         sr.begin(ShapeRenderer.ShapeType.Line);
+
         sr.line(250 + 14 * currentChar, 100, 260 + 14 * currentChar, 100);
 
         sr.end();
+
+
+
 
     }
 
@@ -118,6 +132,9 @@ public class GameOver extends MyGdxGame {
                     new String(newName)
             );
             Save.save();
+            MyGdxGame.gameEnded = false;
+            MyGdxGame.menuHighscores.negateVisibility();
+            Restart.run();
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)){
