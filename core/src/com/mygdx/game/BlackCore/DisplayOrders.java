@@ -27,6 +27,10 @@ public class DisplayOrders extends MyGdxGame {
         displayOrders.orderDict.remove(id);
     }
 
+    /**
+     * Get all orders
+     * @return List of Lists of orders
+     */
     public List<List<Items>> getAllOrders() {
         LinkedList<List<Items>> allOrders = new LinkedList<>();
         for (Map.Entry<Integer, List<Items>> entry : displayOrders.orderDict.entrySet()) {

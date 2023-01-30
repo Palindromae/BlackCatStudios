@@ -38,6 +38,12 @@ public class CollisionDetection {
         staticColliders.add(object);
     }
 
+    /**
+     * Sees if there is sa static collision with the current gameobject
+     * @param MovedObject
+     * @param staticObjects
+     * @return
+     */
     List<GameObject> staticCollision(GameObject MovedObject, List<GameObject> staticObjects){
         List<GameObject> collisions = new LinkedList<GameObject>();
             Shape2D dynamicShape = MovedObject.shape;
@@ -51,6 +57,13 @@ public class CollisionDetection {
         }
         return collisions;
     }
+
+    /**
+     * Sees if there is a collision with a dyniamic object
+     * @param dynamicObjects
+     * @param toCheck
+     * @return list of collided GameObjects
+     */
 
     List<GameObject> dynamicCollision(List<GameObject> dynamicObjects, GameObject toCheck) {
         List<GameObject> collisions = new LinkedList<>();
@@ -68,6 +81,13 @@ public class CollisionDetection {
         }
         return collisions;
     }
+
+    /**
+     * Runs the collisions allowing for 2d Circle 2d Rectangle
+     * @param obj1
+     * @param obj2
+     * @return
+     */
 
     public static boolean collider(Shape2D obj1,Shape2D obj2){
         if (obj1 instanceof Rectangle && obj2 instanceof Rectangle) return Intersector.overlaps((Rectangle) obj1, (Rectangle)obj2);

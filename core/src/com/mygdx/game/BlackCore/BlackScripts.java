@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 public abstract class BlackScripts {
 
     public Boolean isActive = true;
+    //This is the GameObject the script is attached to
     protected GameObject gameObject;
     //These are all virtual functions that can be overloaded for convience
     //This should get called every frame

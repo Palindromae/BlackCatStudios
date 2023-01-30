@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+This file creates all world game objects and stores them in case of future use
+ */
 public class CreateGameWorld
 {
     int col_redct = 5;

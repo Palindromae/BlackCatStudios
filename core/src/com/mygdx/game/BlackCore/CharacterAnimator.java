@@ -14,12 +14,24 @@ public class CharacterAnimator extends Animate
 
     int Direction = 0;
 
-
+        /**
+         * Creates the animator
+         * @param timeToNextFrame, how long each frame holds for
+         * @param path, path to image
+         * @param width
+         * @param height
+         * @param ImagesPerHeight images sequence length
+         * @param ImagesPerWidth max number of animations
+         * @param agent what agent is being used to walk
+         */
     public CharacterAnimator(float timeToNextFrame, String path, int width, int height, int ImagesPerHeight, int ImagesPerWidth, PathfindingAgent agent) {
         super(timeToNextFrame, path, width, height, ImagesPerHeight, ImagesPerWidth);
  this.agent = agent;
     }
 
+        /**
+         * Calculate the move direction for the animations
+         */
     void calculateMoveDirection()
     {
         //Assumes animation pattern of 0 top  1 left 2 down 3 right
@@ -34,7 +46,7 @@ public class CharacterAnimator extends Animate
 
         nextPosition.nor();
 
-
+        //Find which ever axis its walking closets to
         float dotUp = up.dot(nextPosition);
         float dotRight = right.dot(nextPosition);
 

@@ -1,5 +1,9 @@
 package com.mygdx.game;
 public class LoadSounds {
+    /**
+     * Loads in all sounds
+     * @param soundFrame
+     */
     public void loadAllSounds(SoundFrame soundFrame){
         soundFrame.addSound("Main Screen", "Sound/MainScreen.wav");
         soundFrame.addSound("Knife Chop", "Sound/knife_chop.wav");

@@ -19,6 +19,11 @@ public class BlackScriptManager {
 
     }
 
+    /**
+     * This tries append a script to be run unattached to a gameobject
+     * @param script, script to attach
+     * @return
+     */
     public boolean tryAppendLooseScript(BlackScripts script){
         if (LooseScripts.contains(script))
             return  false;
@@ -28,6 +33,9 @@ public class BlackScriptManager {
         return true;
     }
 
+    /**
+     * runs update on all scripts
+     */
     public void RunUpdate(){
         //System.out.println("UPDATE!");
         for (BlackScripts script:LooseScripts
@@ -42,6 +50,10 @@ public class BlackScriptManager {
         }
     }
 
+    /**
+     * Runs FixedUpdate on all scripts
+     * @param FixedDeltaTime
+     */
     public void RunFixedUpdate(float FixedDeltaTime){
         //System.out.println("Fixed Step!");
         for (BlackScripts script:LooseScripts

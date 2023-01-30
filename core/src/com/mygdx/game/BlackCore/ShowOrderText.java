@@ -32,9 +32,13 @@ public class ShowOrderText extends BlackScripts{
         this.gen = gen;
     }
 
+    /**
+     * Displays text to the screen based on current orders
+     */
     public static void displayText(){
         String totalOrderString = new String();
 
+        //Removes empty lists from the hashmap
         List<Integer> valuesToRemoved = new LinkedList<>();
         for (Map.Entry<Integer, List<Items>> entry : DisplayOrders.displayOrders.orderDict.entrySet())
         {

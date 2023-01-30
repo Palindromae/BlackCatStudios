@@ -31,6 +31,14 @@ public class Customers {
 Vector3 spawnPos;
     Table table;
 
+    /**
+     * Createsa  group of customers
+     * @param centralLocation Spawn location
+     * @param orders orders they are making
+     * @param cusTex Textures
+     * @param partition The grid partition they are standingon
+     * @param table Table they have "resevered"
+     */
     public Customers(Vector3 centralLocation, List<Items> orders, List<String> cusTex, GridPartition partition, Table table){
 
         int count = orders.size();
@@ -56,10 +64,17 @@ Vector3 spawnPos;
         frustration = 0;
     }
 
+    /**
+     * Returns the score
+     * @return the score as a flow
+     */
     public float getScore(){
         return MaxFrustration - frustration;
     }
 
+    /**
+     * Moves customers to be lined up correctly
+     */
     void MoveCustomersToLinePosition(){
         int i = 0;
         for (GameObject obj :customerObjects
@@ -72,7 +87,9 @@ Vector3 spawnPos;
         }
     }
 
-
+    /**
+     * Move customer to exit
+     */
     public void MoveCustomersToExit(){
         for (GameObject obj: satisfiedCustomers
              ) {
@@ -80,6 +97,10 @@ Vector3 spawnPos;
         }
     }
 
+    /**
+     * Try and delete the customers when they reach the exit or any empty path
+     * @return whether it was successfully able to delete all customers
+     */
     public boolean TryDestroyOnEmptyPaths(){
 
 
@@ -95,6 +116,9 @@ Vector3 spawnPos;
     return  true;
     }
 
+    /**
+     * Move customers to seats around tables
+     */
     void MoveCustomerToSeat(){
         GameObject obj  = customerObjects.get(0);
         customerObjects.remove(0);
@@ -104,6 +128,9 @@ Vector3 spawnPos;
         satisfiedCustomers.add(obj);
     }
 
+    /**
+     * Destory everything and reset it all
+     */
     public void Destroy(){
         for (GameObject obj: satisfiedCustomers
         ) {
@@ -123,24 +150,38 @@ Vector3 spawnPos;
 
     }
 
+    /**
+     * Move Customer to specific location
+     * @param obj obj to move
+     * @param pos, position to go to
+     */
     void MoveCustomerToPos(GameObject obj, Vector3 pos){
         PathfindingAgent agent = ((PathfindingAgent) obj.blackScripts.get(0));
         agent.updatePath(obj.transform.gridPartition.pathfindFromWorldCoord(obj.transform.position.x,obj.transform.position.z,pos.x,pos.z, MyGdxGame.pathfindingConfig,DistanceCalculator.Manhatten));
         MoveCustomersToLinePosition();
     }
-    public void GetCustomersToLeave(){
 
-    }
-
-
+    /**
+     * Updates the frustration
+     * @param delta_frustration how much it should increase by
+     */
     public void updateFrustration(float delta_frustration){
         frustration = Math.min(MaxFrustration, frustration + delta_frustration);
     }
 
+    /**
+     * Have the customer group been satisified
+     * @return truth value to this
+     */
     public Boolean IsSatisfied(){
        return orderList.size()==0;
     }
 
+    /**
+     * See if the item is part of there order, if so delete the item and remove it from order. Reduces frustration
+     * @param item
+     * @return If it was in the order
+     */
     public Boolean TestAndRemoveItemFromOrders(ItemAbs item){
         for (int i = 0; i < orderList.size(); i++) {
             if(orderList.get(i) == item.name)

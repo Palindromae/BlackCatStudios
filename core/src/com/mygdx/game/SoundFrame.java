@@ -13,6 +13,9 @@ public class SoundFrame {
 
     float volume = 1.0f;
 
+    /**
+     * Create a new sound frame
+     */
     public SoundFrame(){
         if(SoundEngine != null){
 
@@ -22,6 +25,11 @@ public class SoundFrame {
         SoundEngine = this;
     }
 
+    /**
+     * add a new sound to this
+     * @param name name of sound
+     * @param filepath path of sound
+     */
     public void addSound(String name,String filepath){
         if(sounds.containsKey(name)){
             return;
@@ -32,12 +40,22 @@ public class SoundFrame {
         ids.put(name, new LinkedList<Long>());
     }
 
+    /**
+     * Remove a sound from dico
+     * @param name
+     */
     public void removeSound(String name){
         if (!sounds.containsKey(name)){
             return;
         }
         sounds.remove(name);
     }
+
+    /**
+     * Play a sound
+     * @param name
+     * @return returns a long ID for the sound being played
+     */
 
     public long playSound(String name){
 
@@ -51,6 +69,11 @@ public class SoundFrame {
 
     }
 
+    /**
+     * Stop a sound given its name and id
+     * @param name
+     * @param id
+     */
     public void stopSound(String name, long id) {
         if (!sounds.containsKey(name) || id == -1){
             return;
@@ -60,8 +83,11 @@ public class SoundFrame {
     }
 
 
-
-
+    /**
+     * sets the looping state
+     * @param id
+     * @param name
+     */
     public void setLooping(long id, String name){
         if (!sounds.containsKey(name)|| id == -1){
             return;
@@ -69,6 +95,12 @@ public class SoundFrame {
         sounds.get(name).setLooping(id, true);
 
     }
+
+    /**
+     * resume a sound given name and id
+     * @param name
+     * @param id
+     */
     public void resumeSound(String name,long id){
         if (!sounds.containsKey(name)|| muteState){
             return;
@@ -76,6 +108,11 @@ public class SoundFrame {
         sounds.get(name).resume(id);
     }
 
+    /**
+     * Pause a sound
+     * @param name
+     * @param id
+     */
     public void pauseSound(String name, long id){
         if (!sounds.containsKey(name)|| id == -1){
             return;
@@ -84,6 +121,10 @@ public class SoundFrame {
     }
 
 
+    /**
+     * set the current volume
+     * @param volumeToSet
+     */
     void setVolume(float volumeToSet){
         for (Map.Entry<String, List<Long>> entry : ids.entrySet()) {
             String key = entry.getKey();
@@ -94,10 +135,18 @@ public class SoundFrame {
         }
 
     }
+
+    /**
+     * Mute all sound
+     */
     public void muteSound()
     {
         setVolume(0.0f);
     }
+
+    /**
+     * UnMute all sounds
+     */
 
     public void unMuteSound() {
         setVolume(1.0f);

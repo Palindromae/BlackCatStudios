@@ -76,7 +76,12 @@ enum RandomisationStyle{
     LimitedRandom
     }
 
-
+    /**
+     * Create a customer manager
+     * @param _RealTables list of all tables
+     * @param Partition GridPartition customers walk on
+     * @param TableRadius Size of table
+     */
     public CustomerManager(List<GameObject> _RealTables, GridPartition Partition, float TableRadius){
         if (customermanager != null)
             return;
@@ -89,6 +94,8 @@ enum RandomisationStyle{
         RealTables = _RealTables;
 
         int i = 0;
+
+        //Sets up each table
         for (GameObject t: RealTables
              ) {
             i++;
@@ -115,6 +122,10 @@ enum RandomisationStyle{
     }
 
 
+    /**
+     * Returns the next table
+     * @return
+     */
     Table getNextFreeTable(){
         for (Table t: Tables
         ) {
@@ -125,6 +136,10 @@ enum RandomisationStyle{
 
         return null;
     }
+
+    /**
+     * Fully create a new customer
+     */
     public void invokeNewCustomer(){
         int count = GetNumberOfCustomersInWave();
 
@@ -133,14 +148,17 @@ enum RandomisationStyle{
 
         List<String> textures = new LinkedList<>();
 
+        //Get new image
         for (int i = 0; i < count; i++) {
             textures.add(CustomerAvatars.get(i-count+NumberOfCustomersSeen));
         }
 
+        //Create a customer group and give it a limited random orders
         Customers customerGroup = new Customers(spawningLocation, CreateRandomOrder(count,RandomisationStyle.LimitedRandom),textures,gridPartition,tableToUse);
         WaitingCustomers.add(customerGroup);
     }
 
+    //Randomly chooses each item in order
     List<Items> CreateRandomOrder(int count, RandomisationStyle ranStyle){
         LinkedList<Items> allOrders = new LinkedList<>();
         OrderID = ThreadLocalRandom.current().nextInt(1,1000);
@@ -160,7 +178,11 @@ enum RandomisationStyle{
     }
 
 
-
+    /**
+     * Creates a limited random order where each time a type is selected its less likely to be selected
+     * @param count number of orders
+     * @return
+     */
     List<Items> CreateLimitedRandomOrder(int count){
         List<Items> _items = new LinkedList<>();
         int pot = 0;

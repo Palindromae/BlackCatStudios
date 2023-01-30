@@ -24,7 +24,15 @@ public class Animate extends BlackScripts {
     public int FrameID = 0;
 
 
-
+    /**
+     * Create an animator scriopt
+     * @param timeToNextFrame, hang time for frames
+     * @param path
+     * @param width
+     * @param height
+     * @param ImagesPerHeight
+     * @param ImagesPerWidth
+     */
     public Animate(float timeToNextFrame, String path, int width, int height, int ImagesPerHeight,int ImagesPerWidth){
 
         tex = new BTexture(path,null,null);
@@ -51,17 +59,28 @@ public class Animate extends BlackScripts {
 
         FrameID = frameID.ordinal();
     }
+
+    /**
+     * Rotates the current texture in circular queue
+     */
     public void SwapTextureToNewFrame()
     {
         keyFrame = (keyFrame+1)%CurrentTexturesInTextures;
         setRegion();
     }
 
+    /**
+     * updates the Texture Region
+     */
     public void setRegion(){
         tex.texture.setRegion((int)(keyFrame*TexWidth), FrameID *TexHeight,TexWidth,TexHeight);
 
     }
 
+    /**
+     * sets the current texture
+     * @param tex
+     */
     public void setTex(BTexture tex){
         this.tex = tex;
         setRegion();

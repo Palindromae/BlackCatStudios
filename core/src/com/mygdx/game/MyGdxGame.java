@@ -86,6 +86,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		return isGameRunning;
 	}
 
+	/**
+	 * Creates the game and sets everything up
+	 */
 	@Override
 	public void create() {
 
@@ -569,12 +572,19 @@ public class MyGdxGame extends ApplicationAdapter {
 				|| muteMusicText.isObjectTouched() || unmuteMusicText.isObjectTouched();
 	}
 
+	/**
+	 * Flips the sound icons visibility
+	 */
 	void negateSoundVisibility(){
 		unmuteMusicIcon.negateVisibility();
 		muteMusicIcon.negateVisibility();
 		unmuteMusicText.negateVisibility();
 		muteMusicText.negateVisibility();
 	}
+
+	/**
+	 * This reset everything in the game to a new game state
+	 */
 	public void Restart(){
 
 		//Place chefs in area
@@ -602,6 +612,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		Pause = true;
 	}
 
+	/*
+	Dispose of contained info
+	 */
 	@Override
 	public void dispose () {
 		gameObjectHandler.dispose();

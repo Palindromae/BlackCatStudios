@@ -28,6 +28,13 @@ public class RunInteract {
         this.gameWorld = gameWorld;
         interact = this;
     }
+
+    /**
+     * Get the object to interact with
+     * @param obj
+     * @param interactionDistance
+     * @return
+     */
     public Optional<GameObject> GetInteractionObj(GameObject obj, float interactionDistance){
         GameObject closetObj = null;
         float distance = interactionDistance+1000;
@@ -57,6 +64,11 @@ public class RunInteract {
         return Optional.ofNullable(closetObj);
     }
 
+    /**
+     * Cleans the script by a function
+     * @param scripts
+     * @param operation operation to clean the list
+     */
     private void Clean(List<BlackScripts> scripts, Function<InteractInterface,Boolean> operation)
     {
         for (int i = scripts.size()-1; i >=0; i--)
@@ -71,6 +83,12 @@ public class RunInteract {
 
     }
 
+    /**
+     * Is the chef close enough to the obj
+     * @param obj
+     * @param distance
+     * @return
+     */
     public boolean isChefClose(GameObject obj, float distance){
 
         for (Chef chef:chefs
@@ -82,6 +100,13 @@ public class RunInteract {
 
     }
 
+    /**
+     * Run an interaction check and return a script
+     * @param obj
+     * @param interactionDistance
+     * @param GiveOrGet false is Give and true is get
+     * @return BlackScript that is able to be interacted with
+     */
     public List<BlackScripts> Interact(GameObject obj, float interactionDistance, boolean GiveOrGet){
 
         Optional<GameObject> interactObj = GetInteractionObj(obj,interactionDistance);
