@@ -75,46 +75,46 @@ public class CreateGameWorld
 
 
     public void Instantiate(GridPartition partition){
-        FloorTextureK = new BTexture("pictures/KitchenTiles.png",null,null,4);
+        FloorTextureK = new BTexture("Pictures/KitchenTiles.png",null,null,4);
         FloorTextureK.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         DividingWallTex = new BTexture("DividingWall.png", null,null);
 
-        FloorTextureD = new BTexture("pictures/Carpet.png",null,null,4);
+        FloorTextureD = new BTexture("Pictures/Carpet.png",null,null,4);
         FloorTextureD.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
 
-        BlackTexture = new BTexture("black.png",380,350);
+        BlackTexture = new BTexture("Black.png",380,350);
         BlackTexture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
 
-        ServingCounterTexture = new BTexture("pictures/Serving Counter.png",null, null, 1,3);
+        ServingCounterTexture = new BTexture("Pictures/ServingCounter.png",null, null, 1,3);
         ServingCounterTexture.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
 
 
-        BossTableTexture = new BTexture("pictures/Boss table.png",null,null);
+        BossTableTexture = new BTexture("Pictures/BossTable.png",null,null);
         BossTableTexture.setWrap(Texture.TextureWrap.ClampToEdge,Texture.TextureWrap.ClampToEdge);
 
-        TableTexture = new BTexture("pictures/Round Table.png", null , null);
+        TableTexture = new BTexture("Pictures/RoundTable.png", null , null);
         TableTexture.setWrap(Texture.TextureWrap.ClampToEdge,Texture.TextureWrap.ClampToEdge);
 
-        DoorTexture = new BTexture("door.png",49,49);
+        DoorTexture = new BTexture("Door.png",49,49);
         DoorTexture.setWrap(Texture.TextureWrap.ClampToEdge);
 
         LightBeamTexture = new BTexture("lightBeam.png",101,112);
         LightBeamTexture.setWrap(Texture.TextureWrap.ClampToEdge);
 
-        StoveTexture = new BTexture("pictures/hob.png",null,null);
+        StoveTexture = new BTexture("Pictures/Hob.png",null,null);
         StoveTexture.setWrap(Texture.TextureWrap.ClampToEdge);
 
-        ChoppingBoardTexture  = new BTexture("pictures/Chopping Board.png",null,null);
+        ChoppingBoardTexture  = new BTexture("Pictures/ChoppingBoard.png",null,null);
         ChoppingBoardTexture.setWrap(Texture.TextureWrap.ClampToEdge);
 
 
 
-        CombinationCounterTexture = new BTexture("pictures/Counter.png",null,null);
+        CombinationCounterTexture = new BTexture("Pictures/Counter.png",null,null);
         CombinationCounterTexture.setWrap(Texture.TextureWrap.ClampToEdge);
 
-        CombinationCounterTextureEnd = new BTexture("pictures/Counter-end.png",null,null);
+        CombinationCounterTextureEnd = new BTexture("Pictures/Counter-end.png",null,null);
         CombinationCounterTextureEnd.setWrap(Texture.TextureWrap.ClampToEdge);
-        CombinationCounterTextureEndDown = new BTexture("pictures/Counter-endDown.png",null,null);
+        CombinationCounterTextureEndDown = new BTexture("Pictures/Counter-endDown.png",null,null);
         CombinationCounterTextureEndDown.setWrap(Texture.TextureWrap.ClampToEdge);
 
         KitchenFloor = new GameObject(new Rectangle(400,25,350,300), FloorTextureK,350,350);
@@ -337,7 +337,7 @@ public class CreateGameWorld
         int TopOfKitchen = 326;
         int CrateOffset = 50;
         int CrateStart = 75;
-        String CratePath = "pictures/Crate.png";
+        String CratePath = "Pictures/Crate.png";
         CreateCrate(LettuceCrate,Items.Lettuce, new Vector3(CrateStart + (CrateWidth +  CrateOffset)*0,1,TopOfKitchen-CrateHeight/2+5),CratePath,CrateWidth,CrateHeight, partition);
         CreateCrate(OnionCrate,Items.Onion,     new Vector3(CrateStart + (CrateWidth +  CrateOffset)*1,1,TopOfKitchen-CrateHeight/2+5),  CratePath,CrateWidth,CrateHeight,partition);
         CreateCrate(TomatoCrate,Items.Tomato,   new Vector3(CrateStart + (CrateWidth +  CrateOffset)*2,1,TopOfKitchen-CrateHeight/2+5),CratePath,CrateWidth,CrateHeight,partition);

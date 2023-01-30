@@ -31,7 +31,7 @@ List<String> CustomerAvatars = new LinkedList<>();
 
 public float Score = 0;
 
-int wavesOfCustomers = 3;
+int wavesOfCustomers = 5;
 
 int NumberOfCustomersSeen = 0;
 int MaxNumberOfCustomers = 5;//(int)Math.round(wavesOfCustomers * (minGroupSize+ maxGroupSize)/2.0f)
