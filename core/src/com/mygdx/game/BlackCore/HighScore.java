@@ -10,20 +10,39 @@ import com.badlogic.gdx.graphics.g3d.particles.ResourceData;
 import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
 import com.mygdx.game.MyGdxGame;
 
-public class HighScore extends MyGdxGame {
+/*
+The HighScore class draws the text and displays it on the menuHighscores
+ */
+public class HighScore {
 
+    /**
+     * Gets SpriteBatch
+     * @return sb
+     */
     public SpriteBatch getSb() {
         return sb;
     }
 
+    /**
+     * Gets Bitmapfont font
+     * @return font
+     */
     public BitmapFont getFont() {
         return font;
     }
 
+    /**
+     * Gets highScores
+     * @return highscores
+     */
     public long[] getHighScores() {
         return highScores;
     }
 
+    /**
+     * Gets names
+     * @return names
+     */
     public String[] getNames() {
         return names;
     }
@@ -40,7 +59,9 @@ public class HighScore extends MyGdxGame {
 
     public static FreeTypeFontGenerator gen;
 
-    public HighScore(){
+
+
+    public HighScore(){   // sets the parameter for the text rendering
 
         sb = new SpriteBatch();
 
@@ -51,9 +72,9 @@ public class HighScore extends MyGdxGame {
         params.size = 50;
         params.color = Color.BLACK;
         font = gen.generateFont(params);
-        Save.init();
+        Save.init(); // saves to the Save class
 
-        Save.load();
+        Save.load(); // loads up scores from the highscores.json file
         highScores = Save.gd.getHighScores();
         names = Save.gd.getNames();
 
@@ -61,7 +82,7 @@ public class HighScore extends MyGdxGame {
 
 
 
-    public void drawText(){
+    public void drawText(){ // function to draw text that displays the highscores in the menuHighscores
 
         sb.begin();
 
@@ -78,7 +99,7 @@ public class HighScore extends MyGdxGame {
             font.draw(sb,s, 250, 300-50 * i);
             i += 1;
         }
-        if(i < 5){
+        if(i < 5){  // prints only the top 5 highscores
             for(i = i; i < 5; i++){
                 s = String.format("%2d. %7s %s",
                         i+1, 0, "---"

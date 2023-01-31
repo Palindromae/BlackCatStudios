@@ -15,32 +15,37 @@ public class GameOver {
 
     Runnable Restart;
 
+    /**
+     * Gets spritebatch
+     * @return sb, the spritebatch
+     */
     public static SpriteBatch getSb() {
         return sb;
     }
 
+    /**
+     * Gets shaperenderer
+     * @return sr, the shaperenderer
+     */
     public static ShapeRenderer getSr() {
         return sr;
     }
+
+    /**
+     * Gets the font format
+     * @return gameOverFont, the font format
+     */
 
     public static BitmapFont getGameOverFont() {
         return gameOverFont;
     }
 
+    /**
+     * Gets the font writer
+     * @return gameOverFont, the font writer
+     */
     public static BitmapFont getFont() {
         return font;
-    }
-
-    public boolean isNewHighScore() {
-        return newHighScore;
-    }
-
-    public char[] getNewName() {
-        return newName;
-    }
-
-    public int getCurrentChar() {
-        return currentChar;
     }
 
     private static SpriteBatch sb;
@@ -59,6 +64,11 @@ public class GameOver {
     public static FreeTypeFontGenerator.FreeTypeFontParameter paramsGameOverFont;
     public static FreeTypeFontGenerator.FreeTypeFontParameter paramsFont;
 
+
+    /**
+     * Intialises all the required variables
+     * @param restart
+     */
     public GameOver(Runnable restart){
 
         Restart = restart;
@@ -88,10 +98,18 @@ public class GameOver {
 
     }
 
+    /**
+     * Runs the update function, causing handleInput to run on each update, allowing the name to be chosen at game over
+     * @param dt
+     */
     public void update(float dt){
         handleInput();
     }
 
+    /**
+     * Draws the game over text, the score
+     * If its a high score allow the user to choose a name and add their high score
+     */
     public void drawText(){
         sb.begin();
 
@@ -122,12 +140,12 @@ public class GameOver {
 
     }
 
+
+    /**
+     * Processes the key presses to change the characters for the name setting when high score achieved
+     */
     public void handleInput(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-            Save.gd.addHighScore(
-                    Save.gd.getTentativeScore(),
-                    new String(newName)
-            );
             Save.gd.setName(String.valueOf(newName));
             Save.save();
             MyGdxGame.gameEnded = false;
