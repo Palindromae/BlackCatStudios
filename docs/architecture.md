@@ -120,5 +120,52 @@ Right-click and open in new tab to zoom in
   <figcaption>Highscores sequence diagram </figcaption>
 </figure>
 
+<figure markdown>
+  ![Highscorev2](img/highscoresSequenceDiagram_2.png)
+  <figcaption>Highscores sequence diagram version 2</figcaption>
+</figure>
 
+<figure markdown>
+  ![startMenuStateDiagram](img/startMenuStateDiagram.png)
+  <figcaption> Start menu state diagram</figcaption>
+</figure>
 
+<figure markdown>
+  ![Save](img/save_1.png)
+  <figcaption>Save class diagram</figcaption>
+</figure>
+
+<figure markdown>
+  ![SaveSequence](img/saveSequenceDiagram.png)
+  <figcaption>Save sequence class diagram </figcaption>
+</figure>
+
+<figure markdown>
+  ![LoadSequence](img/loadSequenceDiagram.png)
+  <figcaption>Load sequence class diagram </figcaption>
+</figure>
+
+<figure markdown>
+  ![showOrderText](img/showOrderText.png)
+  <figcaption> ShowOrderText class diagram </figcaption>
+</figure>
+
+<figure markdown>
+  ![displayTextSequence](img/displayTextSequenceDiagram.png)
+  <figcaption>Display text sequence diagram </figcaption>
+</figure>
+
+<figure markdown>
+  ![DiaplsyOrders](img/displayOrders.png)
+  <figcaption>DisplayOrders class diagram </figcaption>
+</figure>
+
+<figure markdown>
+  ![MyGdxPackage](img/myGdxGamePackageDiagram.png)
+  <figcaption>com.mygdx.game package diagram </figcaption>
+</figure>
+
+<figure markdown>
+  ![HighScoreClass](img/highScore.png)
+  <figcaption>HighScore class diagram </figcaption>
+</figure>
