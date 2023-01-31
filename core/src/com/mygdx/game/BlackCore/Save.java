@@ -11,9 +11,11 @@ import java.util.Scanner;
 
 public class Save {
 
+
     static String filePath = Gdx.files.internal("highscores.json").path();
 
     public static GameData gd;
+    File myObj = new File(filePath);
 
     public static void save() {
         HashMap<String, Integer> myMap = new HashMap<String, Integer>();
