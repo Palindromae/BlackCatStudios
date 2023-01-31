@@ -2,9 +2,9 @@
 Responses from customer in bold
 
 - Stakeholders - Who is this game for? What is the target audience?
-	- Cooking game playable by anyone in the audience, parents, children but mainly sixth
+	- **Cooking game playable by anyone in the audience, parents, children but mainly sixth
 formers who want to joining the university as an advertisement scheme to show off the comp
-sci department. Below-average users
+sci department. Below-average users**
  - What do you want to happen in a scenario?
 	- Do they order the same food each attempt?
 		- **Random (same every time acceptable)**

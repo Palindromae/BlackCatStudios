@@ -21,6 +21,21 @@ Right-click and open in new tab to zoom in
  </figure>
  
 <figure markdown>
+  ![WorkstationV1](img/workStation_1.png)
+  <figcaption>Workstation class diagram version 1</figcaption>
+</figure>
+
+<figure markdown>
+  ![WorkstationV2](img/workStation_2.png)
+  <figcaption>Workstation class diagram version 2</figcaption>
+</figure>
+
+<figure markdown>
+  ![WorkstationV3](img/workStation_3.png)
+  <figcaption>Workstation class diagram version 3</figcaption>
+</figure>
+ 
+<figure markdown>
   ![GameObject BatchDrawer Sequence](img/sequenceDiagram_1.png)
   <figcaption>GameObject BatchDrawer sequence diagram </figcaption>
 </figure>
@@ -104,4 +119,6 @@ Right-click and open in new tab to zoom in
   ![StartPauseSequence](img/highscoresSequenceDiagram.png)
   <figcaption>Highscores sequence diagram </figcaption>
 </figure>
+
+
 
