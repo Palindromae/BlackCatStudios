@@ -107,10 +107,11 @@ public class GameOver {
         String q = "Your Score: " + Save.gd.getTentativeScore() + " and took: " + Math.round(Save.gd.getTiming()*100.0)/100.0 +"s";
         String x = (newName[0] + " " + newName[1] + " "+ newName[2]);
 
-        font.draw(sb, q, 250, 250);
-        font.draw(sb, x, 250,200);
+        font.draw(sb, q, 220, 250);
+        font.draw(sb, x, 220,200);
         font.draw(sb, "_ _ _",250,195);
-        font.draw(sb, "Press enter to continue", 250, 140);
+        font.draw(sb, "Use the arrow keys to change the letters", 100, 140);
+        font.draw(sb, "Press Enter to submit your score", 150, 120);
         sb.end();
 
         sr.begin(ShapeRenderer.ShapeType.Line);
