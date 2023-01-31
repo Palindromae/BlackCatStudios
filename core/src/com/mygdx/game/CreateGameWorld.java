@@ -253,7 +253,7 @@ public class CreateGameWorld
 
             _x = i*segmentWidth+120 + KitchenFloor.transform.position.x;
             _y = 105 + KitchenFloor.transform.position.z;
-            CombinationCounter = new GameObject(new Rectangle( _x ,_y, 75,150),CombinationCounterTextureEnd,segmentWidth,segmentHeight);
+            CombinationCounter = new GameObject(new Rectangle( _x ,_y, segmentWidth,segmentHeight),CombinationCounterTextureEnd,segmentWidth,segmentHeight);
             CombinationCounter.transform.position.x =  _x;
             CombinationCounter.transform.position.z =  _y;
             CombinationCounter.transform.position.y = 1;
