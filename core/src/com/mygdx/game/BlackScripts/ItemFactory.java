@@ -2,24 +2,7 @@ package com.mygdx.game.BlackScripts;
 
 import com.mygdx.game.BlackCore.BlackScripts;
 import com.mygdx.game.BlackCore.ItemAbs;
-import com.mygdx.game.CoreData.Items.Classes.ItemLettuce;
-import com.mygdx.game.CoreData.Items.Classes.ItemCutLettuce;
-import com.mygdx.game.CoreData.Items.Classes.ItemTomato;
-import com.mygdx.game.CoreData.Items.Classes.ItemCutTomato;
-import com.mygdx.game.CoreData.Items.Classes.ItemOnion;
-import com.mygdx.game.CoreData.Items.Classes.ItemCutOnion;
-import com.mygdx.game.CoreData.Items.Classes.ItemMince;
-import com.mygdx.game.CoreData.Items.Classes.ItemRawPatty;
-import com.mygdx.game.CoreData.Items.Classes.ItemCookedPatty;
-import com.mygdx.game.CoreData.Items.Classes.ItemBuns;
-import com.mygdx.game.CoreData.Items.Classes.ItemToastedBuns;
-import com.mygdx.game.CoreData.Items.Classes.ItemCheese;
-import com.mygdx.game.CoreData.Items.Classes.ItemLetOnSalad;
-import com.mygdx.game.CoreData.Items.Classes.ItemLetTomSalad;
-import com.mygdx.game.CoreData.Items.Classes.ItemTomOnSalad;
-import com.mygdx.game.CoreData.Items.Classes.ItemFullSalad;
-import com.mygdx.game.CoreData.Items.Classes.ItemBurger;
-import com.mygdx.game.CoreData.Items.Classes.ItemCheeseBurger;
+import com.mygdx.game.CoreData.Items.Classes.*;
 import com.mygdx.game.CoreData.Items.Items;
 
 import java.util.HashMap;
@@ -51,24 +34,24 @@ public class ItemFactory extends BlackScripts {
     public void implementItems(){
 
 
-        addNewItem(Items.Lettuce, () -> new ItemLettuce());
-        addNewItem(Items.CutLettuce, () -> new ItemCutLettuce());
-        addNewItem(Items.Tomato, () -> new ItemTomato());
-        addNewItem(Items.CutTomato, () -> new ItemCutTomato());
-        addNewItem(Items.Onion, () -> new ItemOnion());
-        addNewItem(Items.CutOnion, () -> new ItemCutOnion());
-        addNewItem(Items.Mince, () -> new ItemMince());
-        addNewItem(Items.RawPatty, () -> new ItemRawPatty());
-        addNewItem(Items.CookedPatty, () -> new ItemCookedPatty());
-        addNewItem(Items.Buns, () -> new ItemBuns());
-        addNewItem(Items.ToastedBuns, () -> new ItemToastedBuns());
-        addNewItem(Items.Cheese, () -> new ItemCheese());
-        addNewItem(Items.LettuceOnionSalad, () -> new ItemLetOnSalad());
-        addNewItem(Items.LettuceTomatoSalad, () -> new ItemLetTomSalad());
-        addNewItem(Items.TomatoOnionSalad, () -> new ItemTomOnSalad());
-        addNewItem(Items.TomatoOnionLettuceSalad, () -> new ItemFullSalad());
-        addNewItem(Items.Burger, () -> new ItemBurger());
-        addNewItem(Items.CheeseBurger, () -> new ItemCheeseBurger());
+        addNewItem(Items.Lettuce, ItemLettuce::new);
+        addNewItem(Items.CutLettuce, ItemCutLettuce::new);
+        addNewItem(Items.Tomato, ItemTomato::new);
+        addNewItem(Items.CutTomato, ItemCutTomato::new);
+        addNewItem(Items.Onion, ItemOnion::new);
+        addNewItem(Items.CutOnion, ItemCutOnion::new);
+        addNewItem(Items.Mince, ItemMince::new);
+        addNewItem(Items.RawPatty, ItemRawPatty::new);
+        addNewItem(Items.CookedPatty, ItemCookedPatty::new);
+        addNewItem(Items.Buns, ItemBuns::new);
+        addNewItem(Items.ToastedBuns, ItemToastedBuns::new);
+        addNewItem(Items.Cheese, ItemCheese::new);
+        addNewItem(Items.LettuceOnionSalad, ItemLetOnSalad::new);
+        addNewItem(Items.LettuceTomatoSalad, ItemLetTomSalad::new);
+        addNewItem(Items.TomatoOnionSalad, ItemTomOnSalad::new);
+        addNewItem(Items.TomatoOnionLettuceSalad, ItemFullSalad::new);
+        addNewItem(Items.Burger, ItemBurger::new);
+        addNewItem(Items.CheeseBurger, ItemCheeseBurger::new);
 
 
     }
