@@ -257,7 +257,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		closeHighscoresIcon.transform.position.z = 415;
 		closeHighscoresIcon.transform.position.y = 7;
 
-		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 400, 380));
+		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 400, 390));
 //		controlsText.negateVisibility();
 		controlsText.transform.position.x = 390;
 		controlsText.transform.position.z = 65;
