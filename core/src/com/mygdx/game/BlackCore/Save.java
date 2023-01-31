@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Save {
 
-    static String filePath = Gdx.files.internal("highscores.json").path();
+    static String filePath = Gdx.files.internal("assets/highscores.json").path();
 
     public static GameData gd;
 

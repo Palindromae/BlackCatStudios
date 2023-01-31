@@ -16,6 +16,7 @@ public class DisplayOrders extends MyGdxGame {
     }
     public HashMap<Integer, List<Items>> orderDict = new HashMap<>();
     public static HashMap<Integer, Boolean> seen = new HashMap<>();
+    public static boolean allSeen = false;
 
 
 

@@ -18,6 +18,7 @@ import com.mygdx.game.BlackScripts.*;
 import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
 import com.mygdx.game.CoreData.Items.Items;
 
+import java.awt.peer.DialogPeer;
 import java.util.List;
 import java.util.Map;
 
@@ -394,6 +395,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		orderPageCloseButton.transform.position.x = -100;
 		orderPageShown = false;
 		orderPageButton.setVisibility(true);
+		DisplayOrders.allSeen = true;
 	}
 	void OpenOrderMenu(){
 		orderPageButton.transform.position.x = 200;
@@ -401,10 +403,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		orderPageCloseButton.transform.position.x = 200;
 		orderPageButton.setVisibility(false);
 		orderPageShown = true;
-		if(OrderAlerts.alertOn){
-			OrderAlerts.changeAlertState();
-			OrderAlerts.alertOn = false;
-		}
+		DisplayOrders.allSeen = true;
 	}
 
 	boolean shouldOpenSettings(){
@@ -412,6 +411,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 	@Override
 	public void render () {
+		if(!orderPageShown && DisplayOrders.allSeen){
+			orderAlert.setVisibility(false);
+		}else if(!orderPageShown && !DisplayOrders.allSeen){
+			orderAlert.setVisibility(true);
+		}else{
+			orderAlert.setVisibility(false);
+		}
 		boolean recentlyPaused = false;
 		if(orderPageButton.isObjectTouched() && !Pause){
 			if(!orderPageShown){
@@ -590,7 +596,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	boolean ShouldCloseGame(){
-		return Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched() || exit.isObjectTouched();
+		return Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched();
 	}
 	boolean ShouldMute(){
 		return pauseMenu.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
