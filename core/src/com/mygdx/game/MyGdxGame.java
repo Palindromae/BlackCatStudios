@@ -269,7 +269,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		orderPageCloseButton = new GameObject((Shape2D) new Rectangle(200,500,30,50), new BTexture("PushIn.png", 25,50));
 		orderPageCloseButton.transform.position.z = Gdx.graphics.getHeight()/2;
-		orderPageCloseButton.transform.position.y = 1;
+		orderPageCloseButton.transform.position.y = 4;
 		orderPageCloseButton.transform.position.x = -100;
 		orderPageButton.InvisPressAllowed = true;
 
