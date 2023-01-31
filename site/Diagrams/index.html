@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-8.5.10" name="generator"/>
-<title>Diagrams - BlackCatStudios - Piazza Panic</title>
+<title>Use Case Diagrams - BlackCatStudios - Piazza Panic</title>
 <link href="../assets/stylesheets/main.472b142f.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.08040f6c.min.css" rel="stylesheet"/>
 <meta content="#546d78" name="theme-color"/>
@@ -53,7 +53,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Diagrams
+              Use Case Diagrams
             
           </span>
 </div>
@@ -106,18 +106,23 @@
     </a>
 </li>
 <li class="md-tabs__item">
+<a class="md-tabs__link" href="../weeklyGantt/">
+      Weekly Gantt Chart Snapshots
+    </a>
+</li>
+<li class="md-tabs__item">
 <a class="md-tabs__link" href="../initialCustomerMeetingQuestions/">
       Initial Customer Meeting Responses
     </a>
 </li>
 <li class="md-tabs__item">
 <a class="md-tabs__link" href="../architecture/">
-      Architecture
+      CRC Cards &amp; Architectural Diagrams
     </a>
 </li>
 <li class="md-tabs__item">
 <a class="md-tabs__link md-tabs__link--active" href="./">
-      Diagrams
+      Use Case Diagrams
     </a>
 </li>
 <li class="md-tabs__item">
@@ -152,19 +157,24 @@
       </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../weeklyGantt/">
+        Weekly Gantt Chart Snapshots
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../initialCustomerMeetingQuestions/">
         Initial Customer Meeting Responses
       </a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../architecture/">
-        Architecture
+        CRC Cards &amp; Architectural Diagrams
       </a>
 </li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
 <a class="md-nav__link md-nav__link--active" href="./">
-        Diagrams
+        Use Case Diagrams
       </a>
 </li>
 <li class="md-nav__item">
@@ -187,15 +197,132 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1>Diagrams used in documentation </h1>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="80%" href="../img/UseCasePlayGame.jpg"><img alt="UseCasePlayGame" src="../img/UseCasePlayGame.jpg"/></a></p>
+<h1>Use Case Diagrams </h1>
+<h2>Use Case: Play Game</h2>
+<ul>
+<li>Primary Actor: User/Player</li>
+<li>Supporting Actors: N/A</li>
+<li>Precondition: Player is ready to play the game and has ran it on the specified system; the system is displaying the main menu</li>
+<li>Trigger: The player presses the start button which triggers the scenario to run and the game to play out</li>
+<li>Main Success Scenario: <ol>
+<li>Player begins the game and is presented with the game’s instructions</li>
+<li>Player plays the game and is displayed with a end screen that presents them with their score and asks whether they want their score to be saved on the leaderboard</li>
+<li>If the player decides to save their score in the leaderboard, the leaderboard will be updated and displayed to the user; otherwise, the player will be displayed the leaderboard compared to their score</li>
+<li>Player is redirected to the main menu of the game</li>
+</ol>
+</li>
+<li>Secondary Scenarios:<ul>
+<li>N/A: Even if the player performs badly/cannot finish the game, they will still be directed through this process; their reputation score will simply be lower, relating to a lower score</li>
+</ul>
+</li>
+<li>The game/system must also be able to run the scenario with no implications/problems. Therefore, there should be no issue in completing the scenario</li>
+<li>Success Postcondition:<ul>
+<li>The player has completed the scenario and receives a score that qualifies for the leaderboard<ul>
+<li>They either decide to integrate their score into the leaderboard, at which point the leaderboard is updated and displayed to the user;</li>
+<li>Or, the user decides not to integrate their score into the leaderboard and their score is displayed alongside the leaderboard</li>
+</ul>
+</li>
+<li>The player is redirected to the main menu</li>
+</ul>
+</li>
+<li>Minimal Postcondition:<ul>
+<li>The player has completed the scenario poorly/averagely and receives a score<ul>
+<li>They either decide to integrate their score into the leaderboard, at which point the leaderboard is updated and displayed to the user;</li>
+<li>Or, the user decides not to integrate their score into the leaderboard and their score is displayed alongside the leaderboard</li>
+</ul>
+</li>
+<li>The player is redirected to the main menu</li>
+</ul>
+</li>
+</ul>
+<figure>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="80%" href="../img/UseCasePlayGame.jpg"><img alt="UsePlayGame" src="../img/UseCasePlayGame.jpg"/></a>
+</p>
+<figcaption>Use case diagram for playing the game (version 1)</figcaption>
+</figure>
+<p>During development, we decided, we decided that highscores would be easier to display from the menu. The diagram below shows this change. 
+Through further evaluation, we decided to display the whole transition diagram in the use case to make development easier later.</p>
+<figure>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="80%" href="../img/UseCasePlayGame_2.png"><img alt="UsePlayGame2" src="../img/UseCasePlayGame_2.png"/></a>
+</p>
+<figcaption>Use case for playing the game (updated version)</figcaption>
+</figure>
+<hr/>
+<h2>Use Case: Mute Sound and Music</h2>
+<ul>
+<li>Primary Actor: User/Player</li>
+<li>Supporting Actors: N/A</li>
+<li>Precondition: Game has started</li>
+<li>Trigger: The user does not want to hear the music or sounds within the game</li>
+<li>Main Success Scenario: <ol>
+<li>During the game, the user easily located the buttons in the top corners of the screen that switch off game music and sounds</li>
+<li>The user points the mouse at the buttons and presses them</li>
+<li>The sounds and music switch off and the display of the button changes to ensure the user knows the buttons have been pressed</li>
+</ol>
+</li>
+<li>Secondary Scenarios:<ul>
+<li>
+<ol>
+<li>The user cannot find the clearly displayed buttons and continues to play the game with music and sounds</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Success Postcondition: The sound and music will stop while the game is playing as to not irritate the user if they have decided to turn them off; the game will continue without any implications</li>
+<li>Minimal Postcondition: The sound and music will continue to play while the user is playing the game, which may irritate the user or entertain them</li>
+</ul>
+<figure>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="80%" href="../img/UseCaseMuteSound.jpg"><img alt="UseMute" src="../img/UseCaseMuteSound.jpg"/></a>
+</p>
+<figcaption>Use case for muting game sound</figcaption>
+</figure>
+<hr/>
+<h2>Use Case: Cook Food</h2>
+<ul>
+<li>Primary Actor: Cook (Player)</li>
+<li>Supporting Actors: Customers (Non-playable character)</li>
+<li>Precondition: Game has started </li>
+<li>Trigger: The cook has received orders from customers</li>
+<li>Main Success Scenario: <ol>
+<li>The cook collects ingredients from the pantry</li>
+<li>The cook brings ingredient to designated workstations</li>
+<li>The cook cooks the food on time at designated workstations</li>
+<li>The cook assembles ingredients before serving food to customers</li>
+<li>The cook serves food to customers </li>
+</ol>
+</li>
+<li>Secondary Scenarios: <ul>
+<li>1.1 The cook does not collect the ingredients before going to workstations</li>
+<li>1.1.1 A reminder alert appears to remind cook to collect ingredients</li>
+<li>1.2 The cook collects the wrong ingredients</li>
+<li>1.2.1 A reminder alert appears telling the cook to collect the right ingredients</li>
+<li>2.1 The cook brings the ingredients to wrong workstations</li>
+<li>2.1.1 An alert appears that tells the cook to bring ingredients to go to the right workstation</li>
+<li>2.2 The cook drops ingredients before reaching workstations</li>
+<li>2.2.1 An alert appears telling the cook to collect ingredients from the pantry</li>
+<li>3.1 The cook takes too long to cook food</li>
+<li>3.1.1 The cook has to redo the process from the start eg: collect ingredients, bring the ingredients to the workstation, etc.</li>
+<li>3.2 The cook takes too little time to cook food</li>
+<li>3.2.1 The cook has to redo the process from the start eg: collect ingredients, bring the ingredients to the workstation, etc.</li>
+<li>4.1 The cook does not assemble the ingredients before serving food to customers</li>
+<li>4.1.1 An alert appears saying food cannot be served to customers and must be assembled before serving.</li>
+</ul>
+</li>
+<li>Success Postcondition: The food served to the customer is the right order and the customer is happy and leaves the restaurant</li>
+<li>Minimal Postcondition: The customer will not be served and will not leave the restaurant until the correct order of food is served</li>
+</ul>
+<figure>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="80%" href="../img/UseCaseCookFood.jpg"><img alt="UseCookFood" src="../img/UseCaseCookFood.jpg"/></a>
+</p>
+<figcaption>Use case for cooking food </figcaption>
+</figure>
 </article>
 </div>
 </div>
 </main>
 <footer class="md-footer">
 <nav aria-label="Footer" class="md-footer__inner md-grid">
-<a aria-label="Previous: Architecture" class="md-footer__link md-footer__link--prev" href="../architecture/" rel="prev">
+<a aria-label="Previous: CRC Cards &amp; Architectural Diagrams" class="md-footer__link md-footer__link--prev" href="../architecture/" rel="prev">
 <div class="md-footer__button md-icon">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
 </div>
@@ -204,7 +331,7 @@
 <span class="md-footer__direction">
                 Previous
               </span>
-              Architecture
+              CRC Cards &amp; Architectural Diagrams
             </div>
 </div>
 </a>

@@ -3,12 +3,12 @@
 
 
 <hr>
-<h2>Week 1 Progress Update</h2>
+<h2>Autumn Week 8 Progress Update</h2>
 <h3>November 16th</h3>
 - Set up github and downloaded intelj
 - Discussed future plans and some rules around github organisation 
 Members Present:
-- Sam Toner (Online)
+- Sam Toner (Online). We encountered the risk (R10 Unable to meet in person) that not all team members were present; we mitigated this by ensuring good communication and having Sam in the meeting on discord. This allowed us to bypass the risk and continue our work; however, we had to push back our analyse documents requirement deadline by one day to check progress.
 - Felix Seanor
 - Jack Vickers 
 - Hubert Solecki 
@@ -30,7 +30,7 @@ All team members present
 
 <hr>
 
-<h2>Week 2 Progress Update </h2>
+<h2>Autumn Week 9 Progress Update </h2>
 <h3>November 23rd</h3>
 - Jack Vickers has improved the website and learnt further about how to add files and updates to the website
 - Everyone has completed the user requirements lectures
@@ -61,7 +61,7 @@ All team members present
 
 <hr>
 
-<h2>Week 3 Progress Update </h2>
+<h2>Autumn Week 10 Progress Update </h2>
 <h3> November 30th </h3>
 - Decide who is assigned to each deliverable and allocate portions of each so that everyone’s mark-goal is reached.
 - User/ System Requirements Group
@@ -84,7 +84,8 @@ All team members present.
 <hr>
 
 <h2>Christmas Break Updates</h2>
-All of these meetings were done over Discord via voice chat.
+All of these meetings were done over Discord via voice chat and screen sharing. This was to mitigate risk R10 (Unable to meet in person).
+We did not update the gantt chart over this time. We recorded progression and updated gantt chart on return. 
 <h3>December 5th</h3>
 - The team discussed the position that we are all in in terms of our delegated tasks, 
 and discussed a plan to develop a document for risks and risks management by the end of the week.
@@ -126,5 +127,35 @@ and adjusted where necessary by adding more information, reducing the size of th
 
 <h3>December 18th</h3>
 - Documentation Team discussed the method selection and planning section and agreed that it would be completed
-after exams when the team returned to York so that members could focus on exam preparation.
+after exams when the team returned to York so that members could focus on exam preparation. The risk of not completing this work was mitigated by assigning more time to work on it in January.
 <hr>
+<h2>Spring Week 1 Progress Update
+<h3>January 17th</h3>
+- The team have come together after the break and exams and are going forward with the rest of the project. 
+- In this meeting we focus on completing another part of the deliverables which is the Method Selection and Planning as well as the Architecture of the project. 
+- We are also uploading the code into the main Dev Branch in GitHub.  
+- Everyone was present
+
+<h3>January 19th</h3>
+- We continued working on the method selection and planning document, specifically the section detailing the software development methodology and development/ collaboration tools that the team has used.
+- Hubert Solecki, Felix Seanor worked on making a gantt chart for the project.
+- Sam Toner,Jack Hinton, Felix Seanor continued working on the development.
+
+<h3>January 20th</h3>
+- Jack Vickers,Azzam Amirul Bahri completed their section of the method selection and planning document.
+- Jack Vickers added some new pages to the team’s website and researched how to format images with mkdocs.
+- Hubert Solecki,Felix Seanor continued to work on the Gantt chart
+- Sam Toner,Jack Hinton,Felix Seanor continued to work on the development and added to the architecture deliverable.
+<hr>
+<h2>Spring Week 2 Progress Update</h2>
+<h3>January 21st</h3>
+- The whole team had a brief meeting over discord to discuss what each person needed to add to the game. The team previously working on documentation will now be focussing on development until their sections are complete.
+
+<h3>January 23rd - January 31st</h3>
+- The team had meetings every weekday and worked on the development of the game in order to finish it in time.
+- Everyone was present for all meetings held
+<hr>
+<h2>Spring Weeks 3 and 4 Progress Update</h2>
+<h3>January 30th and January 31st</h3>
+- The whole team met and finalised deliverables.
+- Website was updated with everything needed for the Assessment 1 hand-in

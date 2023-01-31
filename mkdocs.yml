@@ -10,9 +10,10 @@ theme:
 nav:
     - Home: index.md
     - Weekly Updates: updates.md
+    - Weekly Gantt Chart Snapshots: weeklyGantt.md
     - Initial Customer Meeting Responses: initialCustomerMeetingQuestions.md
-    - Architecture: architecture.md
-    - Diagrams: Diagrams.md
+    - CRC Cards & Architectural Diagrams: architecture.md
+    - Use Case Diagrams: Diagrams.md
     - Attributions: attributions.md
 markdown_extensions:
     - def_list
