@@ -1,5 +1,20 @@
 <h1>Architecture</h1>
 Right-click and open in new tab to zoom in
+<h2>CRC Cards</h2>
+![FelicCRC1](img/felixCRC_1.png)
+![FelixCRC2](img/felixCRC_2.png)
+![AzzamCRC](img/azzamCRC.png)
+![HintonCRC1](img/hintonCRC_1.png)
+![HintonCRC2](img/hintonCRC_2.png)
+![SamCRC1](img/samCRC_1.png)
+![SamCRC2](img/samCRC_2.png)
+<hr>
+<h2>Architecture Diagrams</h2>
+<figure markdown>
+  ![GameSequence](img/gameSequenceDiagram.png)
+  <figurecaption>Sequence diagram for playing through the game (scenario mode)</figcaption>
+ </figure>
+ 
 <figure markdown>
   ![Total UML Diagram](img/TotalUMLDiagram.png)
   <figcaption>Total UML class diagram  </figcaption>

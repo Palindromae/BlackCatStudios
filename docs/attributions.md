@@ -17,3 +17,5 @@
 | [Character: Red Woman](img/RedWoman.png) | [Credit sheet](pdfs&txts/RedWoman.txt) |
 | [Character: Scarf Woman](img/ScarfWoman.png) | [Credit sheet](pdfs&txts/ScarfWoman.txt) |
 | [Character: Strong Man](img/strongman.png) | [Credit sheet](pdfs&txts/Strongman.txt) |	
+| [Item: Tomato](img/Tomato-by-Rones.png) | [Credit](https://freesvg.org/juicy-tomato) |
+| [Item: Onion](img/food-onion.png) | [Credit](https://freesvg.org/onion) |
