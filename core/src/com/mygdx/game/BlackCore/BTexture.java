@@ -1,5 +1,6 @@
 package com.mygdx.game.BlackCore;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,6 +21,18 @@ public class BTexture {
    public Vector3 textureOrigin = Vector3.Zero.setZero();
 
 //Setting width or height to -1 will result in capturing the width or height exactly
+
+
+    public BTexture(String path){
+
+        loadTexture(path,null,null,1,1);
+    }
+    /**
+     * Creates a BTexture, based on LibGDX tex and textureRegions
+     * @param path, path to get texture from
+     * @param width, width that you want, if set to null takes images
+     * @param height height you want, if set to null takes images
+     */
     public BTexture(String path, Integer width, Integer height){
 
         loadTexture(path,width,height,1,1);
@@ -30,17 +43,34 @@ public class BTexture {
         loadTexture(path,width,height, Repeats,Repeats);
     }
 
+    /**
+     * Load in a texture with a width, height and repeat
+     * @param path
+     * @param width
+     * @param height
+     * @param RepeatsU, how many times  you want this to repeat in the X dimension
+     * @param RepeatsV How many times you want this to repeat in the Z dimension
+     */
     public BTexture(String path, Integer width, Integer height, int RepeatsU,int RepeatsV){
 
         loadTexture(path,width,height, RepeatsU,RepeatsV);
     }
+
+    /**
+     * Loads in a specific texture from string
+     * @param path
+     * @param width
+     * @param height
+     * @param RepeatsU
+     * @param RepeatsV
+     */
    public void loadTexture(String path,Integer width, Integer height, int RepeatsU, int RepeatsV){
         if(image != null){
             image.dispose();
 
         }
 
-       image = new Texture(path);
+       image = new Texture(Gdx.files.internal(path));
 
         int RV = 1, RU = 1;
 
@@ -55,6 +85,11 @@ public class BTexture {
        texture = new TextureRegion(image, this.width,this.height);
    }
 
+    /**
+     * Sets wraps
+     * @param U
+     * @param V
+     */
    public void setWrap(Texture.TextureWrap U, Texture.TextureWrap V){
 
        _U = U;

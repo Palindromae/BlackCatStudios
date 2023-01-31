@@ -12,6 +12,7 @@ public class BatchDrawer {
     List<GameObject> ZOrderedObjects;
 
 
+    //Moves objects as if they were moving "up"
     public static float yAxisToZConversionRation = .02f;
 
     public BatchDrawer(){
@@ -26,13 +27,15 @@ public class BatchDrawer {
 
     public void RenderTextures(Matrix4 combinedMatrix){
 
+        //Begin Draw
         batch.setProjectionMatrix(combinedMatrix);
         batch.begin();
         batch.enableBlending();
 
+
         List<GameObject> GameObjectsToRemove = new LinkedList<>();
 
-
+        //Reorder GameObjects so they are smashed on the screen correcly
         Collections.sort(ZOrderedObjects, new Comparator<GameObject>() {
                     @Override
                     public int compare(GameObject o1, GameObject o2) {
@@ -43,6 +46,7 @@ public class BatchDrawer {
 
         for (GameObject object:ZOrderedObjects){
 
+            //Remove objects that are destroyed from render sequence, allows gc to function
             if(object.isDestroyed) {
                 GameObjectsToRemove.add(object);
                 continue;
@@ -52,6 +56,7 @@ public class BatchDrawer {
             if (!object.IsActiveAndVisible) {
                 continue; // Will not draw an object if it is set to be invisible
             }
+            //This applies the sprite to the screen given some data
             //Y axis is transformed to z axis TODO think about adding a drop shadow to objects
             batch.draw(object.texture.texture,
                     object.transform.position.x - object.getMaintainedOffset().x, object.transform.position.z - object.getMaintainedOffset().z + object.transform.position.y * yAxisToZConversionRation,

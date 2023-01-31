@@ -52,6 +52,10 @@ public class MasterChef extends BlackScripts {
     List<BTexture> charSheets = new LinkedList<>();
     List<BTexture> charSheetsSelected = new LinkedList<>();
 
+    /**
+     * Creates a new Ultimate Chef Controlling Class
+     * @param spawns list of spawns
+     */
     public MasterChef(Vector3... spawns){
     this.spawns = spawns;
     }
@@ -64,13 +68,14 @@ public class MasterChef extends BlackScripts {
         BTexture chefFem = new BTexture("Characters/ChefFemTest.png",null,null);
         List<FrameIDs> frameIDsList = new LinkedList<>();
 
-
+        //Create character sheets and selected character sheets
         for (int i = 0; i < CharacterSheets.length; i++) {
             charSheets.add( new BTexture(CharacterSheets[i],null,null));
             charSheetsSelected.add( new BTexture(CharacterSheetsSelected[i],null,null));
 
         }
 
+        //Create each chef
         for (int i = 0; i < numberOfChefs; i++) {
 
 
@@ -97,8 +102,7 @@ public class MasterChef extends BlackScripts {
         SelectChef(0);
         RunInteract.interact.chefs = chefs;
 
-        ((com.badlogic.gdx.math.Rectangle) chefs[1].controller.getGameObject().shape).x = 460;
-        ((com.badlogic.gdx.math.Rectangle) chefs[1].controller.getGameObject().shape).y = 10;
+    //Create a pathfinding config
 
         pathfindingConfig = new PathfindingConfig();
         pathfindingConfig.StepCost = 1;
@@ -116,7 +120,7 @@ public class MasterChef extends BlackScripts {
     public void Update(float dt) {
         super.Update(dt);
 
-
+        //Select a chef on button press
         for (int i = 0; i < numberOfChefs; i++) {
             if(Gdx.input.isKeyPressed(Input.Keys.NUM_1 + i)) // increments to next number for each chef 1,2,3 ect (dont go above 9)
                  {
@@ -129,13 +133,17 @@ public class MasterChef extends BlackScripts {
 
 
 
-
+    //if i am allowed to click a location
     if(AllowTouch)
      TouchAllowedCurrently();
 
     AllowTouch = true;
     }
 
+    /**
+     * Sets the currently selected chef and the right textures
+     * @param i
+     */
     void SelectChef(int i){
         ((CharacterAnimator)chefs[i].controller.getGameObject().blackScripts.get(1)).setTex( charSheetsSelected.get(i));;
         ((CharacterAnimator)chefs[i].controller.getGameObject().blackScripts.get(1)).SwapTextureToNewFrame();
@@ -149,6 +157,10 @@ public class MasterChef extends BlackScripts {
         }
         currentlySelectedChef = i;//Chef to select
     }
+
+    /**
+     * if im allowed to touch update positions and get and give
+     */
     void TouchAllowedCurrently(){
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.B))
@@ -191,6 +203,11 @@ public class MasterChef extends BlackScripts {
     }
 
 
+    /**
+     * Run a get/give command
+     * @param GiveOrGet false -> get true -> give
+     * @return the interface interacted with
+     */
     InteractInterface getInterface(boolean GiveOrGet){
         List<BlackScripts> scripts =  RunInteract.interact.Interact(getCurrentChef().controller.getGameObject(),chefInteractionDistance,GiveOrGet);
         CleanForKitchenObjects(scripts);
@@ -214,6 +231,12 @@ public class MasterChef extends BlackScripts {
 
         return (InteractInterface)scripts.get(ii);
     }
+
+
+    /**
+     * Get an item
+     * @return returns success
+     */
     boolean GetItem(){
         System.out.println("Trying to Get");
         if(!getCurrentChef().controller.canGiveChef())//can give item to chef
@@ -239,6 +262,10 @@ public class MasterChef extends BlackScripts {
         }
     }
 
+    /**
+     * Give an item
+     * @return returns truth value for it
+     */
     boolean GiveItem(){
         System.out.println("Trying to give");
         if(!getCurrentChef().controller.canChefGet())
@@ -288,6 +315,10 @@ public class MasterChef extends BlackScripts {
         }
     }
 
+    /**
+     * Cleans list for kitchen objects
+     * @param scripts
+     */
     void CleanForKitchenObjects(List<BlackScripts> scripts)
     {
         BlackScripts a;
@@ -324,6 +355,11 @@ public class MasterChef extends BlackScripts {
     }
 
 
+    /**
+     * reset chefs to origin + reset
+     * @param c1p
+     * @param c2p
+     */
     public void ResetSequence(Vector3 c1p, Vector3 c2p){
         chefs[0].controller.reset(c1p);
         chefs[1].controller.reset(c2p);

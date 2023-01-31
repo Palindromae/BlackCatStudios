@@ -16,6 +16,17 @@ public class ChefAnimator extends CharacterAnimator
 {
     ChefController chef;
     List<GameObject> obj = new LinkedList<>();
+
+    /**
+     * Creates an animator for a chef, specialsing in its ability to hold objects, inherits all below
+     * @param timeToNextFrame
+     * @param path
+     * @param width
+     * @param height
+     * @param ImagesPerHeight
+     * @param ImagesPerWidth
+     * @param agent
+     */
     public ChefAnimator(float timeToNextFrame, String path, int width, int height, int ImagesPerHeight, int ImagesPerWidth, ChefController agent) {
         super(timeToNextFrame, path, width, height, ImagesPerHeight, ImagesPerWidth, agent);
         chef = agent;
@@ -27,7 +38,9 @@ public class ChefAnimator extends CharacterAnimator
     }
 
 
-
+    /**
+     * Updates the stack images, and updates them dependin on the stack contents
+     */
     public void UpdateStackImages(){
         List<ItemAbs> stack = chef.GetStack();
 
@@ -49,7 +62,9 @@ public class ChefAnimator extends CharacterAnimator
 
     }
 
-
+    /**
+     * Moves the stack images infront of the player
+     */
     public void MoveObjs(){
 
         float width = gameObject.textureWidth;

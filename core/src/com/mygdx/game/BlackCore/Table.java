@@ -15,13 +15,22 @@ public class Table
 
     int takenSeats = 0;
 
+    /**
+     * Create a table given a position and radius
+     * @param position
+     * @param radius
+     * @param offset
+     */
     public Table(Vector3 position, float radius, float offset){
     this.radius = radius;
     this.rOffset = offset;
     this.position = position;
     }
 
-
+    /**
+     * get the next seat
+     * @return
+     */
     public Vector3 GetSeat(){
         return seats.get(takenSeats++);
     }
@@ -30,6 +39,11 @@ public class Table
         takenSeats = 0;
         seats.clear();
     }
+
+    /**
+     * Defines the seating arrangement based on a list
+     * @param seats
+     */
     public void DefineSeatingArrangement(List<Vector3> seats){
         this.seats = seats;
 
@@ -48,6 +62,11 @@ public class Table
 
 
     }
+
+    /**
+     * Defines the seating arrangement based on the number of seats/customers
+     * @param noSeats
+     */
     public void DefineSeatingArrangement(float noSeats){
 
         seats = new LinkedList<>();

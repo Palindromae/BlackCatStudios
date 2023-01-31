@@ -17,6 +17,10 @@ public class PathfindingAgent extends BlackScripts
     private Vector3 PrevPosition = new Vector3(0,0,0);
     private Vector3 NextPosition= new Vector3(0,0,0);
 
+    /**
+     * update the path of the agent to a new one
+     * @param path
+     */
     public void updatePath(List<Vector2> path){
         currentPath = path;
 
@@ -28,6 +32,9 @@ public class PathfindingAgent extends BlackScripts
         PrevPosition.set(p);
     }
 
+    /**
+     * Reached next goal, so push new one onto next moev
+     */
     public void DequeueNext(){
         if(currentPath.size() == 0)
         {
@@ -53,9 +60,14 @@ public class PathfindingAgent extends BlackScripts
             return 0;
         return currentPath.size();
     }
-    //linePnt - point the line passes through
-//lineDir - unit vector in direction of line, either direction works
-//pnt - the point to find nearest on line for
+
+    /**
+     * Gets the nearest position on line from a 3D position
+     * @param linePnt - point the line passes through
+     * @param lineDir - unit vector in direction of line, either direction works
+     * @param pnt - the point to find nearest on line for
+     * @return
+     */
     public static RayPoint NearestPointOnLine(Vector3 linePnt, Vector3 lineDir, Vector3 pnt)
     {
 
@@ -76,6 +88,10 @@ public class PathfindingAgent extends BlackScripts
         move(dt);
     }
 
+    /**
+     * Move the agent to the next position
+     * @param dt
+     */
     void move(float dt)
     {
         if(currentPath == null || (currentPath.size()==0 && PrevPosition.epsilonEquals(NextPosition) ))

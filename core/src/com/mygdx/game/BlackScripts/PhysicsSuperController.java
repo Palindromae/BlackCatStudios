@@ -10,6 +10,7 @@ public class PhysicsSuperController extends BlackScripts {
     @Override
     public void FixedUpdate(float dt){
 
+        //Updates positions
         for(int i = 0; i < CollisionDetection.collisionMaster.dynamicColliders.size(); i++){
             GameObject CheckShape = CollisionDetection.collisionMaster.dynamicColliders.get(i);
             if (CheckShape.shape instanceof Rectangle){
@@ -17,6 +18,7 @@ public class PhysicsSuperController extends BlackScripts {
             }
 
         }
+        //Runs Dynamic collisions check and static
 
         for (int i=0; i< CollisionDetection.collisionMaster.dynamicColliders.size(); i++){
            if (!CollisionDetection.collisionMaster.dynamicColliders.get(i).transform.hasMoved()) continue; //Finds the object that's moved, continues if it hasn't
@@ -28,6 +30,7 @@ public class PhysicsSuperController extends BlackScripts {
             CollisionDetection.collisionMaster.dynamicColliders.get(i).transform.moveToPast();// Moves to past position
         }
 
+        //Updates all past positions
 
         UpdateDynamicPastPositions();
 

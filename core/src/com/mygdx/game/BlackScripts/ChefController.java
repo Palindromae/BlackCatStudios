@@ -58,6 +58,12 @@ public class ChefController extends PathfindingAgent {
     public boolean canChefGet(){
         return ItemStack.size() > 0;
     }
+
+    /**
+     * Give an item to the player
+     * @param item
+     * @return was it able to give?
+     */
     public boolean GiveItem(ItemAbs item){
         if (!canGiveChef())
             return false;
@@ -66,6 +72,10 @@ public class ChefController extends PathfindingAgent {
         return true;
     }
 
+    /**
+     * Get the item on the stack if there is one
+     * @return return an empty Optional if there isnt, otherwise the Item on top
+     */
     public Optional<ItemAbs> GetItem(){
 
         if(!canChefGet())

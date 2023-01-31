@@ -18,6 +18,11 @@ public class ItemFactory extends BlackScripts {
         return ItemDico.get(item).get();
     }
 
+    /**
+     * Add a new item given its constructor to dico
+     * @param name
+     * @param constructor
+     */
     public void addNewItem(Items name, Supplier<ItemAbs> constructor){
         if(ItemDico.containsKey(name))
         {
