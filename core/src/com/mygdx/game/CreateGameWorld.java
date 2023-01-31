@@ -326,6 +326,8 @@ public class CreateGameWorld
         WorkStations.add(ChoppingBoard);
 
 
+        //This sets a region to be unwalkable so chefs cant go between
+        partition.place_static_object_on_grid_from_world(Stove2.transform.position.x,Stove2.transform.position.z,Stove2.getTextureWidth(), Stove1.transform.position.z - Stove2.transform.position.z, occupationID.Blocked);
 
 
     }
