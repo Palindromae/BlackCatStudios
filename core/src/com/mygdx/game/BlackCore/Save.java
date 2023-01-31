@@ -1,7 +1,7 @@
 package com.mygdx.game.BlackCore;
 
 import com.badlogic.gdx.Gdx;
-import jdk.nashorn.internal.parser.*;
+//import jdk.nashorn.internal.parser.*;
 
 import java.io.*;
 import java.util.HashMap;
@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ *  Save class creates a json file that writes the score and the name of the user
+ *  The scores are also loaded into the highscores screen
+ *
+ */
 public class Save {
     static String filePath = Gdx.files.internal("highscores.json").path(); //Gets the path for the highscores file
 
