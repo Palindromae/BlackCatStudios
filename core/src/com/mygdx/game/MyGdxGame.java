@@ -72,6 +72,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject muteMusic;
 	GameObject unmuteMusic;
 	GameObject menuControls;
+	GameObject gameTitle;
 	GameObject pauseButton;
 	GameObject orderPageButton;
 	GameObject orderPageCloseButton;
@@ -150,6 +151,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		pathfindingConfig.maxIterations = 500;
 		pathfindingConfig.DistanceCost = 1;
 
+		gameTitle = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("PiazzaPanic.png", 160, 107));
+		gameTitle.transform.position.x = 100;
+		gameTitle.transform.position.y = 5;
+		gameTitle.transform.position.z = 365;
+
 
 		// Makes a menu game object using the menu.png file as a texture and sets it to position y = 3, which brings it to the front
 		menu = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 480));
@@ -196,22 +202,22 @@ public class MyGdxGame extends ApplicationAdapter {
 		settings = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("gear.png", 300, 64));
 		settings.transform.position.y = 5;
 		settings.transform.position.x = 75;
-		settings.transform.position.z = 170;
+		settings.transform.position.z = 130;
 
 		highscoresButton = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("trophy-for-sports.png", 300, 64));
 		highscoresButton.transform.position.y = 5;
 		highscoresButton.transform.position.x = 75;
-		highscoresButton.transform.position.z = 255;
+		highscoresButton.transform.position.z = 215;
 
 		exit = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("exitIcon.png", 300, 64));
 		exit.transform.position.y = 5;
 		exit.transform.position.x = 75;
-		exit.transform.position.z = 95;
+		exit.transform.position.z = 55;
 
 		start = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("StartGame.png", 300, 64));
 		start.transform.position.y = 5;
 		start.transform.position.x = 75;
-		start.transform.position.z = 340;
+		start.transform.position.z = 300;
 
 
 		menuHighscores = new GameObject(new Rectangle(10, 20, 20, 20), new BTexture("White.png", 800, 480));
@@ -367,6 +373,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	 * Function to change start menu visibility when an action is taken from it
 	 */
 	public void changeMenuVisbility() {
+		gameTitle.negateVisibility();
 		settings.negateVisibility();
 		start.negateVisibility();
 		highscoresButton.negateVisibility();
