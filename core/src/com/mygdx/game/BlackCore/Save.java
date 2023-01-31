@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Save {
-
     static String filePath = Gdx.files.internal("highscores.json").path();
 
     public static GameData gd;

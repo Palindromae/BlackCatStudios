@@ -109,7 +109,7 @@ public class GameOver {
 
         font.draw(sb, q, 220, 250);
         font.draw(sb, x, 220,200);
-        font.draw(sb, "_ _ _",250,195);
+        font.draw(sb, "_ _ _",220,195);
         font.draw(sb, "Use the arrow keys to change the letters", 100, 140);
         font.draw(sb, "Press Enter to submit your score", 150, 120);
         sb.end();
