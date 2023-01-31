@@ -617,7 +617,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	boolean ShouldCloseGame(){
-		return Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched();
+		return Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched() || exit.isObjectTouched();
 	}
 	boolean ShouldMute(){
 		return pauseMenu.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
