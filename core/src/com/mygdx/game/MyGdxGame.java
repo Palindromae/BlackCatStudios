@@ -592,6 +592,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				menuHighscores.negateVisibility();
 
 			}
+			orderAlert.setVisibility(false);
 			gameOver.drawText();
 			gameOver.update(Gdx.graphics.getDeltaTime());
 
