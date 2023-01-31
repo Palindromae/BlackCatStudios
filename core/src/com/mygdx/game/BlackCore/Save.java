@@ -15,6 +15,22 @@ public class Save {
 
     public static GameData gd;
 
+
+    public static void doFileCheck(){
+        File file= new File(filePath);
+
+        try{
+        if(file.createNewFile())
+        {}
+        else
+        {
+
+        }
+
+        } catch (IOException e) {
+e.printStackTrace();
+        }
+    }
     public static void save() {
         HashMap<String, Integer> myMap = new HashMap<String, Integer>();
         try {

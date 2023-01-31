@@ -105,6 +105,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		soundLoader = new LoadSounds();
 		soundLoader.loadAllSounds(soundFrame);
 
+		Save.doFileCheck();
 
 		long id = soundFrame.playSound("Main Screen");
 		soundFrame.setLooping(id, "Main Screen");
