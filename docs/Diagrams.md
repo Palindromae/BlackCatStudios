@@ -1,4 +1,5 @@
 <h1>Use Case Diagrams </h1>
+Right-click images and open in new tab to zoom in
 
 <h2>Use Case: Play Game</h2>
 

@@ -1,35 +1,39 @@
 <h1>Weekly Gantt Chart Snapshots </h1>
+Right-click images and open in new tab to zoom in
+
 **Note: Each section's images run continuously in the actual gantt chart but have been put on a new line to fit them on the page**
 <h2>Final Snapshot Of The Gantt Chart</h2>
 [Download link for final gantt chart](pdfs&txts/BlackCatStudiosGanttChartAssessment1.xlsx)
-<h2>Autumn week 1 snapshot </h2>
+<h2>Autumn week 7 snapshot </h2>
 ![](img/gantt/week1Requirements.png)
 ![](img/gantt/week1Planning.png)
 ![](img/gantt/week1RiskAnalysis.png)
 ![](img/gantt/week1ImplementationBEnd.png)
 ![](img/gantt/week1Website.png)
 <hr>
-<h2>Autumn week 2 snapshot</h2>
+<h2>Autumn week 8 snapshot</h2>
 ![](img/gantt/week2Requirements.png)
 ![](img/gantt/week2Planning.png)
 ![](img/gantt/week2RiskAnalysis.png)
 ![](img/gantt/week2ImplementationBEnd.png)
 ![](img/gantt/week2Website.png)
 <hr>
-<h2>Autumn week 3 snapshot</h2>
+<h2>Autumn week 9 snapshot</h2>
 ![](img/gantt/week3Requirements.png)
 ![](img/gantt/week3Planning.png)
 ![](img/gantt/week3RiskAnalysis.png)
 ![](img/gantt/week3ImplementationBEnd.png)
 ![](img/gantt/week3Website.png)
 <hr>
-<h2>Autumn week 4 snapshot</h2>
+<h2>Autumn week 10 snapshot</h2>
 ![](img/gantt/week4Requirements.png)
 ![](img/gantt/week4Planning.png)
 ![](img/gantt/week4RiskAnalysis.png)
 ![](img/gantt/week4Architecture.png)
 ![](img/gantt/week4ImplementationBEnd.png)
 ![](img/gantt/week4Website.png)
+<hr>
+**As mentioned in weekly updates section, gantt chart was not updated over Christmas Break**
 <hr>
 <h2>Spring week 1 snapshot</h2>
 ![](img/gantt/sprweek1Requirements.png) ![](img/gantt/sprweek1Requirementsb.png)

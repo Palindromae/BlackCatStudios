@@ -9,11 +9,11 @@ theme:
     logo: img/blackCat.png
 nav:
     - Home: index.md
+    - Initial Customer Meeting Responses: initialCustomerMeetingQuestions.md
     - Weekly Updates: updates.md
     - Weekly Gantt Chart Snapshots: weeklyGantt.md
-    - Initial Customer Meeting Responses: initialCustomerMeetingQuestions.md
-    - CRC Cards & Architectural Diagrams: architecture.md
     - Use Case Diagrams: Diagrams.md
+    - CRC Cards & Architectural Diagrams: architecture.md
     - Attributions: attributions.md
 markdown_extensions:
     - def_list

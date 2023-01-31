@@ -1,5 +1,6 @@
 <h1>Architecture</h1>
-Right-click and open in new tab to zoom in
+Right-click images and open in new tab to zoom in
+
 <h2>CRC Cards</h2>
 ![FelicCRC1](img/felixCRC_1.png)
 ![FelixCRC2](img/felixCRC_2.png)

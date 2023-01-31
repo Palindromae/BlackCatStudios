@@ -5,6 +5,11 @@ See updates tab for weekly progress updates
 
 
 <h1>Documents</h1>
-- [Requirements](https://docs.google.com/document/d/1izRZ3wWkZdL_tQ_WeqrUskQ_uOJtTWpQYp3gPSHcLRw/edit#)
-- [Risk Assessment and Mitigation](https://docs.google.com/document/d/11zbCqMJSwWLNGctY3VrOxRfDYr4boOS_GUtpX5gQahQ/edit)
+- [Requirements](pdfs&txts/Req1.pdf)
+- [Architecture](pdfs&txts/Arch1.pdf)
+- [Method Selection & Planning](pdfs&txts/Plan1.pdf)
+- [Risk Assessment and Mitigation](pdfs&txts/Risk1.pdf)
+- [Implementation](pdfs&txts/Impl1.pdf)
+- [Executable JAR](pdfs&txts/PiazzaPanicBCS.jar)
+- [GitHub repository](https://github.com/Palindromae/BlackCatStudios)
 
