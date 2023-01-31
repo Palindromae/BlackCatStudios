@@ -17,7 +17,7 @@ public class Transform {
         position = new Vector3(0,0,0);
         rotation = new Quaternion(0,0,0,1);
         scale    = new Vector3(1,1,1);
-        pastPos = new Vector3(0,0,0);;
+        pastPos = new Vector3(0,0,0);
 
     }
 
@@ -28,7 +28,6 @@ public class Transform {
         String a = "";
         Vector3 b = gridPartition.translateToLocal((int) position.x, (int) position.z);
         a += b.x + " : " + b.z;
-        System.out.println(a);
     }
 
     /**
@@ -65,10 +64,7 @@ public class Transform {
      */
 
     public boolean hasMoved(){
-        //System.out.println(pastPos);
-        //System.out.println(position);
         return position != pastPos;
-        //return true;
     }
 
     /**

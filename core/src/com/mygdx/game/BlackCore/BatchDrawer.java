@@ -65,7 +65,6 @@ public class BatchDrawer {
                     object.transform.scale.x, object.transform.scale.z+ object.transform.scale.y * yAxisToZConversionRation,
                     object.transform.rotation.getYaw());
 
-           // System.out.println(object.tranform.rotation);
 
         }
         batch.disableBlending();

@@ -37,7 +37,6 @@ public class BlackScriptManager {
      * runs update on all scripts
      */
     public void RunUpdate(){
-        //System.out.println("UPDATE!");
         for (BlackScripts script:LooseScripts
              ) {
             script.Update(Gdx.graphics.getDeltaTime());
@@ -55,7 +54,6 @@ public class BlackScriptManager {
      * @param FixedDeltaTime
      */
     public void RunFixedUpdate(float FixedDeltaTime){
-        //System.out.println("Fixed Step!");
         for (BlackScripts script:LooseScripts
         ) {
             script.FixedUpdate(FixedDeltaTime);

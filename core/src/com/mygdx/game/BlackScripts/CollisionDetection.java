@@ -2,27 +2,19 @@ package com.mygdx.game.BlackScripts;
 
 import com.badlogic.gdx.math.*;
 import com.mygdx.game.BlackCore.GameObject;
-
-import java.lang.reflect.Array;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CollisionDetection {
     public static CollisionDetection collisionMaster;
-    List<GameObject> dynamicColliders = new LinkedList<GameObject>();
-    List<GameObject> staticColliders = new LinkedList<GameObject>();
+    List<GameObject> dynamicColliders = new LinkedList<>();
+    List<GameObject> staticColliders = new LinkedList<>();
 
 
     public CollisionDetection(){
         if(collisionMaster == null){
             collisionMaster = this;
         }
-    }
-
-    public void collisionTest(){
-        System.out.println("Hello");
     }
 
 
@@ -72,7 +64,6 @@ public class CollisionDetection {
                 Shape2D mainShape = toCheck.shape;
                 Shape2D secondShape = dynamicObjects.get(i).shape;
                 if (toCheck.getColliderState() == false) continue;
-           //     System.out.println(collider(mainShape, secondShape));
                 if(collider(mainShape, secondShape)){
                     collisions.add(dynamicObjects.get(i));
 

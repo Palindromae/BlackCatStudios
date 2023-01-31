@@ -3,11 +3,9 @@ package com.mygdx.game.BlackScripts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.mygdx.game.BlackCore.*;
 import com.mygdx.game.BlackCore.Pathfinding.DistanceCalculator;
 import com.mygdx.game.BlackCore.Pathfinding.GridPartition;
@@ -30,8 +28,8 @@ public class MasterChef extends BlackScripts {
     public Camera camera;
 
     public BTexture chefTex;
-    private int chefWidth = 20;
-    private int chefHeight = 20;
+    private final int chefWidth = 20;
+    private final int chefHeight = 20;
 
     Vector3[] spawns;
 
@@ -64,8 +62,6 @@ public class MasterChef extends BlackScripts {
         super.Start();
         
         chefs = new Chef[numberOfChefs];
-
-        BTexture chefFem = new BTexture("Characters/ChefFemTest.png",null,null);
         List<FrameIDs> frameIDsList = new LinkedList<>();
 
         //Create character sheets and selected character sheets
@@ -145,7 +141,7 @@ public class MasterChef extends BlackScripts {
      * @param i
      */
     void SelectChef(int i){
-        ((CharacterAnimator)chefs[i].controller.getGameObject().blackScripts.get(1)).setTex( charSheetsSelected.get(i));;
+        ((CharacterAnimator)chefs[i].controller.getGameObject().blackScripts.get(1)).setTex( charSheetsSelected.get(i));
         ((CharacterAnimator)chefs[i].controller.getGameObject().blackScripts.get(1)).SwapTextureToNewFrame();
 
         for (int k = 0; k < numberOfChefs; k++) {
@@ -238,7 +234,6 @@ public class MasterChef extends BlackScripts {
      * @return returns success
      */
     boolean GetItem(){
-        System.out.println("Trying to Get");
         if(!getCurrentChef().controller.canGiveChef())//can give item to chef
             return false;
 
@@ -252,7 +247,6 @@ public class MasterChef extends BlackScripts {
         if(item != null){
             //Interaction succeeded
             getCurrentChef().controller.GiveItem(item); //Put item on top of
-            System.out.println("Succeded on Getting");
             SoundFrame.SoundEngine.playSound("Item Equip");
             return true;
         } else{
@@ -267,7 +261,7 @@ public class MasterChef extends BlackScripts {
      * @return returns truth value for it
      */
     boolean GiveItem(){
-        System.out.println("Trying to give");
+
         if(!getCurrentChef().controller.canChefGet())
             return false;
 
@@ -279,14 +273,13 @@ public class MasterChef extends BlackScripts {
 
         Optional<ItemAbs> item = getCurrentChef().controller.GetItem();
 
-        //If the chef isnt holding anything return false, shouldnt as check already done but just in case
+        //If the chef isnt holding anything return false, shouldn't as check already done but just in case
         if(!item.isPresent())
             return false;
 
         if(inter.GiveItem(item.get())){
             //Interaction succeeded
             //Nothing else needed to be done
-            System.out.println("Succeeded in giving");
             SoundFrame.SoundEngine.playSound("Item Drop");
             return true;
         } else{

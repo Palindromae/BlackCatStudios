@@ -65,8 +65,6 @@ public class GridPartition {
 
         //IMPLEMENT CLOSEST MOVE and ATTEMPT TO MOVE OFFSCREEN
         int tI = transformToLinearSpace(to_X,to_Y);
-        System.out.println(to_X + " : " + to_Y + " : : "+ gridSpaces[tI] + " : " + tI);
-
         HashMap<Integer, FoundPositions> beenLocations = new HashMap<>();
 
         PriorityQueue<FoundPositions> sortedList = new PriorityQueue<>();
@@ -176,8 +174,6 @@ public class GridPartition {
 
             }
         }
-
-        System.out.println(counter);
         List l_steps = new LinkedList<Vector2>();
 
         do{
@@ -234,7 +230,6 @@ public class GridPartition {
 
         for (int ix = 0; ix < width; ix++) {
             for (int iy = 0; iy < height; iy++) {
-                System.out.println(Math.min(xSize-1,x + ix) + " : " + Math.min(zSize-1,iy + y) + " : " + transformToLinearSpace(Math.min(xSize-1,x + ix), Math.min(zSize-1,iy + y)));
                 gridSpaces[transformToLinearSpace(Math.min(xSize-1,x + ix), Math.min(zSize-1,iy + y))] = ID;
             }
         }

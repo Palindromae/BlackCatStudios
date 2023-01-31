@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Gdx;
 
@@ -16,11 +15,6 @@ import com.mygdx.game.BlackCore.Pathfinding.*;
 import com.mygdx.game.BlackScripts.*;
 
 import com.mygdx.game.BlackScripts.CoreData.Inputs.InputsDefaults;
-import com.mygdx.game.CoreData.Items.Items;
-
-import java.awt.peer.DialogPeer;
-import java.util.List;
-import java.util.Map;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -36,10 +30,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	CreateGameWorld GameWorld;
 	RunInteract interact;
 	MasterChef masterChef;
-
-	GameObject obj;
-	GameObject obj2;
-	GameObject obj3;
 	GameObject menu;
 	LoadSounds soundLoader;
 	SoundFrame soundFrame;
@@ -69,10 +59,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameObject closeGameText;
 	GameObject closeGameIcon;
 	GameObject controlsText;
-	GameObject closeMenu;
-	GameObject muteMusic;
-	GameObject unmuteMusic;
-	GameObject menuControls;
 	GameObject gameTitle;
 	GameObject pauseButton;
 	GameObject orderPageButton;
@@ -153,49 +139,49 @@ public class MyGdxGame extends ApplicationAdapter {
 		pathfindingConfig.maxIterations = 500;
 		pathfindingConfig.DistanceCost = 1;
 
-		gameTitle = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("PiazzaPanic.png", 280, 113));
+		gameTitle = new GameObject( new Rectangle(10, 20, 20, 20), new BTexture("PiazzaPanic.png", 280, 113));
 		gameTitle.transform.position.x = 60;
 		gameTitle.transform.position.y = 5;
 		gameTitle.transform.position.z = 355;
 
 
 		// Makes a menu game object using the menu.png file as a texture and sets it to position y = 3, which brings it to the front
-		menu = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 480));
+		menu = new GameObject( new Rectangle(10, 20, 20, 20), new BTexture("menu.png", 800, 480));
 		menu.transform.position.y = 4;
 
 		// Makes a pauseMenu game object using the pauseMenu.png file as a texture
-		pauseMenu = new GameObject((Shape2D) new Rectangle(10,20,20,20),
+		pauseMenu = new GameObject( new Rectangle(10,20,20,20),
 				new BTexture("pauseMenu.png", 800, 480));
 		pauseMenu.negateVisibility(); // makes it invisible initially, so it does not block the screen
 		pauseMenu.transform.position.y = 6;
 
-		pauseButton = new GameObject((Shape2D) new Rectangle(10,20,20,20),
+		pauseButton = new GameObject( new Rectangle(10,20,20,20),
 				new BTexture("pause.png", 64, 46));
 		pauseButton.transform.position.x = 735;
 		pauseButton.transform.position.z = 415;
 		pauseButton.transform.position.y = 3;
 
 		// All the following game objects are used to display the pause menu options
-		playIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("play-button-arrowhead.png", 64, 64));
+		playIcon =  new GameObject( new Rectangle(10,20, 20, 20), new BTexture("play-button-arrowhead.png", 64, 64));
 		playIcon.negateVisibility();
 		playIcon.transform.position.x = 50;
 		playIcon.transform.position.z = 325;
 		playIcon.transform.position.y = 10;
 
 
-		closePauseMenuText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("Resume.png", 180, 85));
+		closePauseMenuText = new GameObject( new Rectangle(10,20, 20, 20), new BTexture("Resume.png", 180, 85));
 		closePauseMenuText.negateVisibility();
 		closePauseMenuText.transform.position.x = 140;
 		closePauseMenuText.transform.position.z = 315;
 		closePauseMenuText.transform.position.y = 10;
 
-		muteMusicIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("volume.png", 64, 64));
+		muteMusicIcon =  new GameObject( new Rectangle(10,20, 20, 20), new BTexture("volume.png", 64, 64));
 		muteMusicIcon.negateVisibility();
 		muteMusicIcon.transform.position.x = 50;
 		muteMusicIcon.transform.position.z = 205;
 		muteMusicIcon.transform.position.y = 10;
 
-		muteMusicText =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("muteSound.png", 190, 85));
+		muteMusicText =  new GameObject( new Rectangle(10,20, 20, 20), new BTexture("muteSound.png", 190, 85));
 		muteMusicText.negateVisibility();
 		muteMusicText.transform.position.x = 140;
 		muteMusicText.transform.position.z = 195;
@@ -227,47 +213,47 @@ public class MyGdxGame extends ApplicationAdapter {
 		menuHighscores.transform.position.y = 6;
 
 
-		unmuteMusicIcon =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
+		unmuteMusicIcon =  new GameObject( new Rectangle(10,20, 20, 20), new BTexture("mute-speaker.png", 64, 64));
 		unmuteMusicIcon.negateVisibility();
 		unmuteMusicIcon.transform.position.x = 50;
 		unmuteMusicIcon.transform.position.z = 205;
 		unmuteMusicIcon.transform.position.y = 10;
 
-		unmuteMusicText =  new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("unMuteSound.png", 230, 85));
+		unmuteMusicText =  new GameObject( new Rectangle(10,20, 20, 20), new BTexture("unMuteSound.png", 230, 85));
 		unmuteMusicText.negateVisibility();
 		unmuteMusicText.transform.position.x = 140;
 		unmuteMusicText.transform.position.z = 195;
 		unmuteMusicText.transform.position.y = 10;
 
-		closeGameText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("closeGame.png", 190, 85));
+		closeGameText = new GameObject( new Rectangle(10,20, 20, 20), new BTexture("closeGame.png", 190, 85));
 		closeGameText.negateVisibility();
 		closeGameText.transform.position.x = 140;
 		closeGameText.transform.position.z = 85;
 		closeGameText.transform.position.y = 10;
 
-		closeGameIcon = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("cancel-button.png", 64, 64));
+		closeGameIcon = new GameObject( new Rectangle(10,20, 20, 20), new BTexture("cancel-button.png", 64, 64));
 		closeGameIcon.negateVisibility();
 		closeGameIcon.transform.position.x = 50;
 		closeGameIcon.transform.position.z = 85;
 		closeGameIcon.transform.position.y = 10;
 
-		closeHighscoresIcon = new GameObject((Shape2D) new Rectangle(10, 20, 20, 20), new BTexture("cancel-button.png", 64, 64));
+		closeHighscoresIcon = new GameObject( new Rectangle(10, 20, 20, 20), new BTexture("cancel-button.png", 64, 64));
 		closeHighscoresIcon.negateVisibility();
 		closeHighscoresIcon.transform.position.x = 700;
 		closeHighscoresIcon.transform.position.z = 415;
 		closeHighscoresIcon.transform.position.y = 7;
 
-		controlsText = new GameObject((Shape2D) new Rectangle(10,20, 20, 20), new BTexture("controls.png", 400, 390));
+		controlsText = new GameObject( new Rectangle(10,20, 20, 20), new BTexture("controls.png", 400, 390));
 //		controlsText.negateVisibility();
 		controlsText.transform.position.x = 390;
 		controlsText.transform.position.z = 65;
 		controlsText.transform.position.y = 10;
 
-		orderPageButton = new GameObject((Shape2D) new Rectangle(0, 500, 30, 50), new BTexture("PullOut.png", 25, 50));
+		orderPageButton = new GameObject(new Rectangle(0, 500, 30, 50), new BTexture("PullOut.png", 25, 50));
 		orderPageButton.transform.position.z = Gdx.graphics.getHeight()/2;
 		orderPageButton.transform.position.y = 1;
 
-		orderPageCloseButton = new GameObject((Shape2D) new Rectangle(200,500,30,50), new BTexture("PushIn.png", 25,50));
+		orderPageCloseButton = new GameObject( new Rectangle(200,500,30,50), new BTexture("PushIn.png", 25,50));
 		orderPageCloseButton.transform.position.z = Gdx.graphics.getHeight()/2;
 		orderPageCloseButton.transform.position.y = 4;
 		orderPageCloseButton.transform.position.x = -100;
@@ -275,11 +261,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-		orderPage = new GameObject((Shape2D) new Rectangle(0, 0, 200, 400), new BTexture("OrderPage.png", 200, 400));
+		orderPage = new GameObject( new Rectangle(0, 0, 200, 400), new BTexture("OrderPage.png", 200, 400));
 		orderPage.transform.position.x = -200;
 		orderPage.transform.position.y = 100;
 
-		orderAlert = new GameObject((Shape2D) new Rectangle(0,0,10,10), new BTexture("NewOrderBig.png", 25, 25));
+		orderAlert = new GameObject( new Rectangle(0,0,10,10), new BTexture("NewOrderBig.png", 25, 25));
 		orderAlert.transform.position.x = 5;
 		orderAlert.transform.position.z = Gdx.graphics.getHeight()/2 + 40;
 		orderAlert.transform.position.y = 3;
@@ -320,15 +306,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		ItemFactory.factory.implementItems();
-
-		//System.out.println(factory.produceItem(Items.Lettuce).name);
-
-		//	List<Vector2> a = gPart.pathfindFrom(0,0,3,3,config);
-		//	System.out.println(a.size());
-		//	for (Vector2 v2: a
-		//		 ) {
-		///		System.out.print(a);
-		//}
 
 		masterChef = new MasterChef(GameWorld.SpawnPointChef1,GameWorld.SpawnPointChef2);
 		masterChef.camera = camera;
@@ -600,7 +577,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if(gameEnded){
 
-			if(menuHighscores.getVisibility() == false){
+			if(!menuHighscores.getVisibility()){
 				menuHighscores.negateVisibility();
 
 			}
@@ -663,7 +640,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (orderPage.getVisibility()){
 			this.CloseOrderMenu();
 		}
-		System.out.println("Ended the game with score: " + p_s.score + ", " + p_s.timing +" seconds elapsed");
 		Save.gd.setTentativeScore((long) p_s.score);
 		Save.gd.setTiming(p_s.timing);
 		gameEnded = true;

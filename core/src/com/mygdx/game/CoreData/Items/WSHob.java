@@ -107,8 +107,6 @@ public class WSHob extends WorkStation{
             }
 
             i++;
-            System.out.println("Changed step: "+ currentRecipe.RecipeSteps.get(Math.min(i,currentRecipe.RecipeSteps.size()-1)));
-
             SoundFrame.SoundEngine.playSound("Step Achieved");
             if(i==currentRecipe.RecipeSteps.size()){
                 changeItem(ItemFactory.factory.produceItem(currentRecipe.endItem));

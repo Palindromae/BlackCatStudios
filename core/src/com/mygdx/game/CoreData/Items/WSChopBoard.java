@@ -106,7 +106,6 @@ public class WSChopBoard extends WorkStation{
 
         if(ready && currentRecipe.endItem != Item.name){
             changeItem(ItemFactory.factory.produceItem(currentRecipe.endItem));
-            System.out.println("Finished cutting");
             SoundFrame.SoundEngine.playSound("Step Achieved");
             checkItem();
 

@@ -1,8 +1,6 @@
 package com.mygdx.game.BlackCore;
 
 public class BlackScriptTest extends BlackScripts {
-
-    int TestValue = 0;
     String name;
     String lastName;
     //this is demonstrating how to use these functions and implement scripts
@@ -24,9 +22,6 @@ public class BlackScriptTest extends BlackScripts {
     @Override
     public void Update(float dt) {
         super.Update(dt);
-
- //       System.out.println(name + " " + lastName);
-   //     System.out.println(TestValue++);
     }
 
 
