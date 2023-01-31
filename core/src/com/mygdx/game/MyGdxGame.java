@@ -426,6 +426,18 @@ public class MyGdxGame extends ApplicationAdapter {
 		}else{
 			orderAlert.setVisibility(false);
 		}
+
+		boolean noOrders = false;
+		for(Integer key: DisplayOrders.displayOrders.orderDict.keySet()){
+			if(!DisplayOrders.displayOrders.orderDict.get(key).isEmpty()){
+				noOrders = true;
+				break;
+			}
+		}
+		if(!noOrders){
+			orderAlert.setVisibility(false);
+		}
+
 		boolean recentlyPaused = false;
 		if(orderPageButton.isObjectTouched() && !Pause){
 			if(!orderPageShown){
