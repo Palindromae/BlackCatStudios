@@ -11,7 +11,7 @@ public enum Items {
     LettuceTomatoSalad,
     LettuceOnionSalad,
     TomatoOnionSalad,
-        TomatoOnionLettuceSalad,
+    TomatoOnionLettuceSalad,
     Mince,
     RawPatty,
     CookedPatty,
