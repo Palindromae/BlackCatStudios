@@ -269,7 +269,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		orderPageCloseButton = new GameObject((Shape2D) new Rectangle(200,500,30,50), new BTexture("PushIn.png", 25,50));
 		orderPageCloseButton.transform.position.z = Gdx.graphics.getHeight()/2;
-		orderPageCloseButton.transform.position.y = 1;
+		orderPageCloseButton.transform.position.y = 4;
 		orderPageCloseButton.transform.position.x = -100;
 		orderPageButton.InvisPressAllowed = true;
 
@@ -592,6 +592,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				menuHighscores.negateVisibility();
 
 			}
+			orderAlert.setVisibility(false);
 			gameOver.drawText();
 			gameOver.update(Gdx.graphics.getDeltaTime());
 
@@ -604,7 +605,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	boolean ShouldCloseGame(){
-		return Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched();
+		return Gdx.input.isKeyJustPressed(InputsDefaults.exit) || closeGameText.isObjectTouched() || closeGameIcon.isObjectTouched() || exit.isObjectTouched();
 	}
 	boolean ShouldMute(){
 		return pauseMenu.getVisibility() && Gdx.input.isKeyJustPressed(InputsDefaults.mute) || muteMusicIcon.isObjectTouched() || unmuteMusicIcon.isObjectTouched()
