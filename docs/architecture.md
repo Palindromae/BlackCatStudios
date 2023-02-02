@@ -13,7 +13,7 @@ Right-click images and open in new tab to zoom in
 <h2>Architecture Diagrams</h2>
 <figure markdown>
   ![GameSequence](img/gameSequenceDiagram.png)
-  <figurecaption>Sequence diagram for playing through the game (scenario mode)</figcaption>
+  <figcaption>Sequence diagram for playing through the game (scenario mode)</figcaption>
  </figure>
  
 <figure markdown>
