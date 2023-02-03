@@ -8,16 +8,29 @@ public class WSServingCounter extends WorkStation{
 
 
     @Override
-    public boolean giveItem(ItemAbs Item){
+    public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
+            interact();
             return true;
         }
+        interact();
+
         return false;
     }
 
     @Override
-    public ItemAbs takeItem(){
+    public boolean TestGetItem() {
+        return true;
+    }
+
+    @Override
+    public boolean TestGiveItem() {
+        return true;
+    }
+
+    @Override
+    public ItemAbs GetItem(){
         returnItem = Item;
         deleteItem();
         return returnItem;
@@ -32,6 +45,13 @@ public class WSServingCounter extends WorkStation{
         return answer;
     }
 
+
+    @Override
+    public void Reset(){
+        super.Reset();
+
+        answer = false;
+    }
 
     @Override
     public void FixedUpdate(float dt){

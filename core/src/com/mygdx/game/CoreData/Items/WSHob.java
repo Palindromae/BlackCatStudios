@@ -1,5 +1,7 @@
 package com.mygdx.game.CoreData.Items;
 import com.mygdx.game.BlackCore.ItemAbs;
+import com.mygdx.game.BlackScripts.ItemFactory;
+import com.mygdx.game.SoundFrame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,10 +17,16 @@ public class WSHob extends WorkStation{
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
             Arrays.asList(Items.RawPatty, Items.Buns));
 
+    long burnerSoundID;
+    long fryingSoundID;
+    float progress;
+    Boolean playingBurner = false, playingFrying = false;
+
+
     @Override
-    public boolean giveItem(ItemAbs Item){
+    public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
             checkItem();
             return true;
         }
@@ -26,11 +34,28 @@ public class WSHob extends WorkStation{
     }
 
     @Override
-    public ItemAbs takeItem(){
-        returnItem = Item;
-        deleteItem();
-        currentRecipe = null;
-        return returnItem;
+    public boolean TestGetItem() {
+        return true;
+    }
+
+    @Override
+    public boolean TestGiveItem() {
+        return true;
+    }
+
+    @Override
+    public ItemAbs GetItem(){
+
+        if(Item!=null && canTakeItem()) {
+
+            returnItem = Item;
+            deleteItem();
+            currentRecipe = null;
+            return returnItem;
+        }
+        interact();
+        return null;
+
     }
 
     // Checks if the given item is in the whitelist, if yes the item's recipe is stored in currentRecipe
@@ -38,6 +63,8 @@ public class WSHob extends WorkStation{
         if(ItemWhitelist.contains(Item.name)){
             currentRecipe = Recipes.RecipeMap.get(Item.name);
         }
+        else
+            currentRecipe = null;
     }
 
     // Checks if currentRecipe is null if not interacted is set to true and returns true, else false is returned
@@ -47,19 +74,46 @@ public class WSHob extends WorkStation{
         return Interacted = true;
     }
 
+
+    public boolean isItemReady(float dt){
+        return currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+    }
+
+    public boolean canTakeItem(){
+        return currentRecipe == null || Item.name == currentRecipe.endItem;
+    }
     /**
      * Calls current step in recipe and stores returned boolean in ready, if ready is true and the item's
      * cookingProgress is equal to 0, the counter will increment to select the next step, if it has
      * reached the end of the list the new item will be produced.
      * @param dt Time constant
      */
+
     public void Cook(float dt){
-        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
-        if(ready & Item.cookingProgress==0){
+        ready = isItemReady(dt);
+
+        if(!playingBurner){
+           burnerSoundID =  SoundFrame.SoundEngine.playSound("Cooker");
+           SoundFrame.SoundEngine.setLooping(burnerSoundID,"Cooker");
+           playingBurner = true;
+        }
+
+        if(ready ){
+
+            if(!playingFrying){
+                fryingSoundID =  SoundFrame.SoundEngine.playSound("Fryer");
+                SoundFrame.SoundEngine.setLooping(fryingSoundID,"Fryer");
+                playingFrying = true;
+            }
+
             i++;
+            System.out.println("Changed step: "+ currentRecipe.RecipeSteps.get(Math.min(i,currentRecipe.RecipeSteps.size()-1)));
+
+            SoundFrame.SoundEngine.playSound("Step Achieved");
             if(i==currentRecipe.RecipeSteps.size()){
-                Item = factory.produceItem(currentRecipe.endItem);
+                changeItem(ItemFactory.factory.produceItem(currentRecipe.endItem));
                 i = 0;
+
                 checkItem();
             }
             return;
@@ -72,11 +126,44 @@ public class WSHob extends WorkStation{
         // }
     }
 
+    public void ProgressBar(){
+        progress = Item.cookingProgress/ Item.MaxProgress;
+
+
+        ProgressMeter.IsActiveAndVisible = Item.cookingProgress != 0;
+
+        ProgressMeter.transform.scale.x=progress*width;
+    }
+
+    @Override
+    public void Reset(){
+        super.Reset();
+
+        Interacted = false;
+        playingBurner = false;
+        playingFrying = false;
+        fryingSoundID = 0;
+        burnerSoundID = 0;
+        ready = false;
+    }
     // public void burn(){}
     @Override
     public void FixedUpdate(float dt){
-        if(currentRecipe != null)
+        if(currentRecipe != null) {
             Cook(dt);
+            ProgressBar();
+        }
+        else {
+            if(playingBurner){
+                SoundFrame.SoundEngine.stopSound("Cooker",burnerSoundID);
+                playingBurner = false;
+            }
+            if(playingFrying)
+            {
+                SoundFrame.SoundEngine.stopSound("Fryer",fryingSoundID);
+                playingFrying = false;
+            }
+        }
 
         Interacted = false;
     }

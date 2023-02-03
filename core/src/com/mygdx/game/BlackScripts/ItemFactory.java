@@ -35,6 +35,11 @@ public class ItemFactory extends BlackScripts {
         return ItemDico.get(item).get();
     }
 
+    /**
+     * Add a new item given its constructor to dico
+     * @param name
+     * @param constructor
+     */
     public void addNewItem(Items name, Supplier<ItemAbs> constructor){
         if(ItemDico.containsKey(name))
         {
@@ -58,9 +63,10 @@ public class ItemFactory extends BlackScripts {
         addNewItem(Items.Buns, () -> new ItemBuns());
         addNewItem(Items.ToastedBuns, () -> new ItemToastedBuns());
         addNewItem(Items.Cheese, () -> new ItemCheese());
-        addNewItem(Items.LetOnSalad, () -> new ItemLetOnSalad());
-        addNewItem(Items.LetTomSalad, () -> new ItemLetTomSalad());
-        addNewItem(Items.TomOnSalad, () -> new ItemTomOnSalad());
+        addNewItem(Items.LettuceOnionSalad, () -> new ItemLetOnSalad());
+        addNewItem(Items.LettuceTomatoSalad, () -> new ItemLetTomSalad());
+        addNewItem(Items.TomatoOnionSalad, () -> new ItemTomOnSalad());
+        addNewItem(Items.TomatoOnionLettuceSalad, () -> new ItemFullSalad());
         addNewItem(Items.Burger, () -> new ItemBurger());
         addNewItem(Items.CheeseBurger, () -> new ItemCheeseBurger());
 

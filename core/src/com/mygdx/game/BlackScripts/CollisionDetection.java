@@ -38,6 +38,12 @@ public class CollisionDetection {
         staticColliders.add(object);
     }
 
+    /**
+     * Sees if there is sa static collision with the current gameobject
+     * @param MovedObject
+     * @param staticObjects
+     * @return
+     */
     List<GameObject> staticCollision(GameObject MovedObject, List<GameObject> staticObjects){
         List<GameObject> collisions = new LinkedList<GameObject>();
             Shape2D dynamicShape = MovedObject.shape;
@@ -52,6 +58,13 @@ public class CollisionDetection {
         return collisions;
     }
 
+    /**
+     * Sees if there is a collision with a dyniamic object
+     * @param dynamicObjects
+     * @param toCheck
+     * @return list of collided GameObjects
+     */
+
     List<GameObject> dynamicCollision(List<GameObject> dynamicObjects, GameObject toCheck) {
         List<GameObject> collisions = new LinkedList<>();
         for (int i = 0; i < dynamicObjects.size(); i++) {
@@ -59,7 +72,7 @@ public class CollisionDetection {
                 Shape2D mainShape = toCheck.shape;
                 Shape2D secondShape = dynamicObjects.get(i).shape;
                 if (toCheck.getColliderState() == false) continue;
-                System.out.println(collider(mainShape, secondShape));
+           //     System.out.println(collider(mainShape, secondShape));
                 if(collider(mainShape, secondShape)){
                     collisions.add(dynamicObjects.get(i));
 
@@ -69,7 +82,14 @@ public class CollisionDetection {
         return collisions;
     }
 
-    public boolean collider(Shape2D obj1,Shape2D obj2){
+    /**
+     * Runs the collisions allowing for 2d Circle 2d Rectangle
+     * @param obj1
+     * @param obj2
+     * @return
+     */
+
+    public static boolean collider(Shape2D obj1,Shape2D obj2){
         if (obj1 instanceof Rectangle && obj2 instanceof Rectangle) return Intersector.overlaps((Rectangle) obj1, (Rectangle)obj2);
         if (obj1 instanceof Rectangle && obj2 instanceof Circle) return Intersector.overlaps((Circle)obj2, (Rectangle) obj1);
         if (obj1 instanceof Circle && obj2 instanceof Rectangle) return Intersector.overlaps((Circle) obj1, (Rectangle)obj2);

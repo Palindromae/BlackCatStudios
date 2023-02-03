@@ -20,6 +20,11 @@ public class GameObjectHandler {
       GameObjectsHeld = new HashMap<>();
       random  = new Random();
    }
+
+   /**
+    * gets a random UID that hasnt been picked
+    * @return
+    */
    private int pickUID(){
       int n = 0;
 
@@ -28,6 +33,11 @@ public class GameObjectHandler {
       }
       return n;
    }
+
+   /**
+    * Instatniate the gameObject
+    * @param object
+    */
    public void Instantiate(GameObject object){
       object.SetUID(pickUID());
      GameObjectsHeld.put(object.getUID(),object);
@@ -35,6 +45,9 @@ public class GameObjectHandler {
 
    }
 
+   /**
+    * Get rid of all GameObjects
+    */
    public void dispose(){
       for (GameObject obj: GameObjectsHeld.values()) {
 

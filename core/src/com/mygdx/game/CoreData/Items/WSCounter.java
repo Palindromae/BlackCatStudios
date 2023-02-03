@@ -1,5 +1,6 @@
 package com.mygdx.game.CoreData.Items;
 import com.mygdx.game.BlackCore.ItemAbs;
+import com.mygdx.game.BlackScripts.ItemFactory;
 
 /**
  * The WSCounter is an object that the player can both give and take items from. It also
@@ -9,16 +10,30 @@ public class WSCounter extends WorkStation{
     Items temp;
     int value;
     @Override
-    public boolean giveItem(ItemAbs Item){
+    public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
             return true;
         }
         return combine(Item);
     }
 
+    public WSCounter(){
+        ItemSize = 20;
+        offset = 7.5f;
+    }
     @Override
-    public ItemAbs takeItem(){
+    public boolean TestGetItem() {
+        return true;
+    }
+
+    @Override
+    public boolean TestGiveItem() {
+        return true;
+    }
+
+    @Override
+    public ItemAbs GetItem(){
         returnItem = Item;
         deleteItem();
         return returnItem;
@@ -43,13 +58,21 @@ public class WSCounter extends WorkStation{
             temp = combinations.CombinationMap.get(Item.name.name()+NewItem.name.name());
         if(temp == null)
             return false;
-        Item = factory.produceItem(temp);
+        changeItem(ItemFactory.factory.produceItem(temp));
         return true;
     }
 
     @Override
     public void FixedUpdate(float dt){
 
+    }
+
+    @Override
+    public void Reset(){
+        super.Reset();
+
+        temp = null;
+        value = 0;
     }
 
 }

@@ -1,47 +1,43 @@
 package com.mygdx.game.BlackScripts;
 
-import com.badlogic.gdx.graphics.glutils.VertexData;
+import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.BlackCore.BlackScripts;
+import com.mygdx.game.BlackCore.ItemAbs;
 import com.mygdx.game.BlackCore.RayPoint;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Stack;
 
-public class ChefController extends BlackScripts {
-
-    private List<Vector2> currentPath;
-
-    private Vector3 PrevPosition = new Vector3(0,0,0);
-    private Vector3 NextPosition= new Vector3(0,0,0);
-
-    private float Speed = 1;
-
-    public void updatePath(List<Vector2> path){
-        currentPath = path;
-
-        DequeueNext();
+public class ChefController extends PathfindingAgent {
 
 
-        PrevPosition.set(gameObject.transform.position);
+
+    private Stack<ItemAbs> ItemStack = new Stack<>();
+    private int maxStackSize = 3;
+
+
+    public void reset(Vector3 p)
+    {
+        gameObject.transform.UpdatePosition(p);
+        ItemStack.clear();
     }
 
-    public void DequeueNext(){
-        if(currentPath.size() == 0)
-        {
-            PrevPosition.set(NextPosition);
-            return;
-        }
-
-
-        PrevPosition = NextPosition;
-        Vector2 v2 = currentPath.get(0);
-        NextPosition = new Vector3(v2.x,0,v2.y);
-        currentPath.remove(0);
+    public ChefController(){
+        UpdateMap = true;
     }
+
+    public List<ItemAbs> GetStack(){
+        return new LinkedList<>(ItemStack);
+    }
+
+
     @Override
     public void Update(float dt) {
-        super.Update(dt);
+
     }
 
 
@@ -51,50 +47,56 @@ public class ChefController extends BlackScripts {
 
     }
 
-
-
-    //linePnt - point the line passes through
-//lineDir - unit vector in direction of line, either direction works
-//pnt - the point to find nearest on line for
-    public static RayPoint NearestPointOnLine(Vector3 linePnt, Vector3 lineDir, Vector3 pnt)
-    {
-
-        lineDir = lineDir.nor();//this needs to be a unit vector
-
-        Vector3 v = new Vector3(0,0,0);
-        v.add(pnt).sub(linePnt);
-        float d = v.dot(lineDir);
-        RayPoint rayPoint = new RayPoint();
-        rayPoint.pos = new Vector3(0,0,0);
-        rayPoint.pos.set(linePnt).mulAdd(lineDir,d);
-        rayPoint.t = d;
-        return rayPoint;
+    public int GetMaxStackSize(){
+        return maxStackSize;
     }
 
-    void move(float dt)
-    {
-        if(currentPath == null || (currentPath.size()==0 && PrevPosition == NextPosition))
-        {
-            return;
+    public boolean canGiveChef(){
+        return ItemStack.size()< maxStackSize;
+    }
+
+    public boolean canChefGet(){
+        return ItemStack.size() > 0;
+    }
+
+    /**
+     * Give an item to the player
+     * @param item
+     * @return was it able to give?
+     */
+    public boolean GiveItem(ItemAbs item){
+        if (!canGiveChef())
+            return false;
+
+        ItemStack.push(item);
+        return true;
+    }
+
+    /**
+     * Get the item on the stack if there is one
+     * @return return an empty Optional if there isnt, otherwise the Item on top
+     */
+    public Optional<ItemAbs> GetItem(){
+
+        if(!canChefGet())
+            return null;
+
+        return Optional.ofNullable(ItemStack.pop());
+    }
+
+    /**
+     * Disposes the item last put into the chef's hand
+     * @return the item that was disposed
+     */
+    public Optional<ItemAbs> DisposeItem(){
+        if (canGiveChef()){
+            return Optional.ofNullable(ItemStack.pop());
+        }else{
+            return null;
         }
-
-        Vector3 rDir = new Vector3(NextPosition);
-        rDir.sub(PrevPosition);
-        RayPoint rp = NearestPointOnLine(PrevPosition, rDir,gameObject.transform.position);
-    float nt = PrevPosition.dst(NextPosition);
-        if(rp.t >= nt )
-            DequeueNext();
-
-        float dst = NextPosition.dst(gameObject.transform.position);
-
-        dst = Math.min(dst,Speed);
-        Vector3 dir = new Vector3(0,0,0);
-        dir.set(NextPosition).sub(gameObject.transform.position).nor();
-
-        Vector3 p = new Vector3(0,0,0);
-        p.set(gameObject.transform.position);
-        p.mulAdd(dir,dst);
-        gameObject.transform.UpdatePosition(p);
-
     }
+
+
+
+
 }

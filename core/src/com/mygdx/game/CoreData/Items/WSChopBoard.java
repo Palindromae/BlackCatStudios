@@ -1,5 +1,8 @@
 package com.mygdx.game.CoreData.Items;
 import com.mygdx.game.BlackCore.ItemAbs;
+import com.mygdx.game.BlackCore.RunInteract;
+import com.mygdx.game.BlackScripts.ItemFactory;
+import com.mygdx.game.SoundFrame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,11 +18,18 @@ public class WSChopBoard extends WorkStation{
     boolean ready;
     public static ArrayList<Items> ItemWhitelist = new ArrayList<>(
             Arrays.asList(Items.Lettuce, Items.Tomato, Items.Onion, Items.Mince));
+    public float progress;
+    Boolean playingChopSound = false;
+    long soundID ;
+
+    float speed = 1.2f;
+
+
 
     @Override
-    public boolean giveItem(ItemAbs Item){
+    public boolean GiveItem(ItemAbs Item){
         if(this.Item == null){
-            this.Item = Item;
+            changeItem(Item);
             checkItem();
             return true;
         }
@@ -27,11 +37,37 @@ public class WSChopBoard extends WorkStation{
     }
 
     @Override
-    public ItemAbs takeItem(){
-        returnItem = Item;
-        deleteItem();
-        currentRecipe = null;
-        return returnItem;
+    public ItemAbs GetItem(){
+
+        if(Item!=null && canTakeItem()) {
+
+            returnItem = Item;
+            deleteItem();
+            currentRecipe = null;
+            return returnItem;
+        }
+        interact();
+        return null;
+
+    }
+
+    public boolean isItemReady(float dt){
+        return currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
+    }
+
+    public boolean canTakeItem(){
+        return currentRecipe == null || Item.name == currentRecipe.endItem;
+    }
+
+
+    @Override
+    public boolean TestGetItem() {
+        return true;
+    }
+
+    @Override
+    public boolean TestGiveItem(){
+        return true;
     }
 
     // Checks if the given item is in the whitelist, if yes the item's recipe is stored in currentRecipe
@@ -39,6 +75,8 @@ public class WSChopBoard extends WorkStation{
         if(ItemWhitelist.contains(Item.name)){
             currentRecipe = Recipes.RecipeMap.get(Item.name);
         }
+        else
+            currentRecipe = null;
     }
 
     // Checks if currentRecipe is null if not interacted is set to true and returns true, else false is returned
@@ -50,17 +88,56 @@ public class WSChopBoard extends WorkStation{
 
     // Calls the current step and stores returned bool variable in ready, if true a new item is produced
     public void Cut(float dt){
-        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt, Interacted);
-        if(ready){
-            Item = factory.produceItem(currentRecipe.endItem);
+        ready = currentRecipe.RecipeSteps.get(i).timeStep(Item, dt*speed, Interacted);
+
+    if(!canTakeItem()){
+        if(!ready && ! playingChopSound)
+        {
+            soundID = SoundFrame.SoundEngine.playSound("Knife Chop");
+            SoundFrame.SoundEngine.setLooping(soundID,"Knife Chop");
+            playingChopSound = true;
+
+        }
+
+    } else {
+        playingChopSound = false;
+        SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);
+    }
+
+        if(ready && currentRecipe.endItem != Item.name){
+            changeItem(ItemFactory.factory.produceItem(currentRecipe.endItem));
+            System.out.println("Finished cutting");
+            SoundFrame.SoundEngine.playSound("Step Achieved");
+            checkItem();
+
         }
     }
 
+    public void ProgressBar(){
+        progress = Item.cookingProgress/ Item.MaxProgress;
+        ProgressMeter.transform.scale.x=progress*width;
+    }
+
+    @Override
+    public void Reset(){
+        super.Reset();
+
+        Interacted = false;
+        playingChopSound = false;
+        soundID = 0;
+        ready = false;
+    }
     @Override
     public void FixedUpdate(float dt){
-        if(Interacted & currentRecipe!=null){
+        if(RunInteract.interact.isChefClose(gameObject,HowCloseDoesChefNeedToBe) & currentRecipe!=null){
             Cut(dt);
+            ProgressBar();
+        } else if (playingChopSound){
+            playingChopSound = false;
+            SoundFrame.SoundEngine.stopSound("Knife Chop", soundID);
+
         }
+
         Interacted = false;
-    }
+        }
 }

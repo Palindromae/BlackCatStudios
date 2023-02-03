@@ -19,6 +19,10 @@ public class FixedTimeController {
         accumulator = 0;
     }
 
+    /**
+     * this does a time set
+     * @return whether a fixed update should occour this frame
+     */
     Boolean doTimeStep(){
 
         double newTime = System.currentTimeMillis();
