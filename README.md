@@ -4,6 +4,8 @@
 
 # - Debugging code is in the Dev branch
 # - Clean code is in the main branch
+# - Website development is in the SiteDevelopment branch
+# - Website deployed from gh-pages branch
 # <h3>Group Members</h3>
 #  <h4> - Hubert Solecki     - HS1944</h4>
 #  <h4>- Felix Seanor       - ES1917</h4>
