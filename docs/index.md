@@ -13,6 +13,11 @@ See updates tab for weekly progress updates
 - [Executable JAR](pdfs&txts/PiazzaPanicBCS.jar)
 - [GitHub repository](https://github.com/Palindromae/BlackCatStudios)
 <hr>
+<h1>Javadocs</h1>
+Open the following link in a new tab:
+
+[Javadocs](BlackCatStudios_Javadoc/index.html)
+<hr>
 <h1>Email addresses</h1>
 - HS1944
 - ES1917

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.mygdx.game"},{"l":"com.mygdx.game.BlackCore"},{"l":"com.mygdx.game.BlackCore.Pathfinding"},{"l":"com.mygdx.game.BlackScripts"},{"l":"com.mygdx.game.BlackScripts.CoreData.Inputs"},{"l":"com.mygdx.game.CoreData.Items"},{"l":"com.mygdx.game.CoreData.Items.Classes"}]
